@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Login;
 use Illuminate\Http\Request;
+use App\Models\User;
 
-class LoginController extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,10 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('user.home');
+        $users = User::all();
+        return view('booking.home')->with([
+            'users'=>$users
+        ]);
     }
 
     /**
@@ -26,8 +29,6 @@ class LoginController extends Controller
     {
         //
     }
-
-    
 
     /**
      * Store a newly created resource in storage.
@@ -43,10 +44,10 @@ class LoginController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Login  $login
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Login $login)
+    public function show($id)
     {
         //
     }
@@ -54,10 +55,10 @@ class LoginController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Login  $login
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Login $login)
+    public function edit($id)
     {
         //
     }
@@ -66,10 +67,10 @@ class LoginController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Login  $login
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Login $login)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -77,10 +78,10 @@ class LoginController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Login  $login
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Login $login)
+    public function destroy($id)
     {
         //
     }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Auth;
 
 class UserController extends Controller
 {
@@ -16,18 +19,19 @@ class UserController extends Controller
         try {
 
             $google_user = Socialite::driver('google')->user();
-            $user = User::where('google_id', $user->getId())->first();
+            $user = User::where('google_id', $google_user->getId())->first();
 
-            dd($user);
+            // dd($user);
             if(!$user){
                 $user = User::create([
                     'email'=>$google_user->getEmail(),
                     'name'=>$google_user->getName(),
-                    'google_id'=>$google_user->getId()
+                    'google_id'=>$google_user->getId(),
+                    'password'=>Hash::make('password')
                 ]);
             }
             Auth::login($user, true);
-            return redirect('welcome');
+            return redirect()->route('booking.home');
 
         } catch (Exception $e) {
             dd($e->getMessage());
