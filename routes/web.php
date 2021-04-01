@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// Route::get('/login', [LoginController::class, 'index'])->name('user.login');
+
+// Route::get('auth/google', [UserController::class, 'redirectToGoogle'])->name('google.login');
+// Route::get('auth/google/callback', [UserController::class, 'handleGoogleCallback'])->name('google.handleCallback');
+
+// Route::get('login/google', function () {
+//     return Socialite::driver('google')->redirect();
+// });
+
+Route::get('login/google', [UserController::class, 'redirectToGoogle']);
+Route::get('login/google/callback', [UserController::class, 'handleGoogleCallback']);
+
+
