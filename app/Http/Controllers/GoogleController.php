@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Auth;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Illuminate\Http\Request;
 
-class UserController extends Controller
+class GoogleController extends Controller
 {
     public function redirectToGoogle()
     {
@@ -18,16 +19,15 @@ class UserController extends Controller
     {
         try {
 
-            $google_user = Socialite::driver('google')->user();
+            $google_user = Socialite::driver('google')->stateless()->user();
             $user = User::where('google_id', $google_user->getId())->first();
 
-            // dd($user);
-            if(!$user){
+            // dd($google_user);
+            if (!$user) {
                 $user = User::create([
-                    'email'=>$google_user->getEmail(),
-                    'name'=>$google_user->getName(),
-                    'google_id'=>$google_user->getId(),
-                    'password'=>Hash::make('password')
+                    'email' => $google_user->getEmail(),
+                    'name' => $google_user->getName(),
+                    'google_id' => $google_user->getId(),
                 ]);
             }
             Auth::login($user, true);
@@ -36,5 +36,12 @@ class UserController extends Controller
         } catch (Exception $e) {
             dd($e->getMessage());
         }
+    }
+
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return redirect('/');
     }
 }

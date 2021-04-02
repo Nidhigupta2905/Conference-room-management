@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ConferenceRoom;
 use Illuminate\Http\Request;
-use App\Models\User;
 
-class HomeController extends Controller
+class ConferenceRoomController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        
+        $conferenceRooms = ConferenceRoom::CR_ROOMS;
+
+        $cr_rooms = array_keys($conferenceRooms);
+
+        // dd(array_keys($conferenceRooms));
+        return view('booking.home')->with([
+            'conferenceRooms'=>$cr_rooms
+        ]);
     }
 
     /**
@@ -24,7 +31,7 @@ class HomeController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -35,7 +42,7 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -69,7 +76,7 @@ class HomeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
