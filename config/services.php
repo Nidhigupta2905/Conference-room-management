@@ -31,7 +31,7 @@ return [
     ],
 
     'google' => [
-        'redirect' => 'http://localhost:8000/login/google/callback',
+        'redirect' => 'http://localhost:8000/auth/login/google/callback',
         'client_id' =>'746278974174-glqpb24rdnv4npup981bs231gvq0md4s.apps.googleusercontent.com',
         'client_secret' =>'FJk9pn63qVsLvtQz93U3aWhh',
     ],

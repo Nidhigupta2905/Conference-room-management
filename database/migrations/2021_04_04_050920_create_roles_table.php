@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConferenceRoomsTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateConferenceRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::create('conference_rooms', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('conference_room_id');
-            $table->string('from_time');
-            $table->string('to_time');
+            $table->string('role');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateConferenceRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conference_rooms');
+        Schema::dropIfExists('roles');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnsToConferenceRoomsTable extends Migration
+class AddRoleIdToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class AddColumnsToConferenceRoomsTable extends Migration
      */
     public function up()
     {
-        Schema::table('conference_rooms', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedBigInteger('role_id');
+            $table->foreign('role_id')
+            ->references('id')
+            ->on('users');
         });
     }
 
@@ -26,7 +28,7 @@ class AddColumnsToConferenceRoomsTable extends Migration
      */
     public function down()
     {
-        Schema::table('conference_rooms', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }

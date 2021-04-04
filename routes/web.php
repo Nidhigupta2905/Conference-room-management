@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-
-use App\Http\Controllers\GoogleController;
-use App\Http\Controllers\ConferenceRoomController;
+use App\Http\Controllers\AdminModule\AdminController;
+use App\Http\Controllers\AdminModule\ConferenceRoomController;
+use App\Http\Controllers\EmployeeModule\EmployeeController;
+use App\Http\Controllers\GoogleModule\GoogleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,16 +17,32 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(["middleware" => "guest"], function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    //employee Authentication
+    Route::group(["prefix" => "auth", "as" => "auth."], function () {
+        Route::get('login/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+        Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
+    });
+
 });
 
-Route::get('/home', [ConferenceRoomController::class, 'index'])->name('booking.home');
+//admin Authentication
+Auth::routes(['register' => false]);
 
-Route::get('login/google', [GoogleController::class, 'redirectToGoogle']);
-Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback']);
-Route::post('logout', [GoogleController::class, 'logout'])->name('googleUser.logout');
+//admin route
+Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "admin."], function () {
+    Route::get('/home', [AdminController::class, 'index'])->name('home');
+    Route::resource('conference_room', ConferenceRoomController::class);
+});
+
+//employee
+Route::group(["middleware" => ["auth", "employee"], "prefix" => "employee", "as" => "employee."], function () {
+    Route::get('/home', [EmployeeController::class, 'index'])->name('home');
+});
 
 
-Route::get('book/conference', [ConferenceRoomController::class, 'create'])->name('booking.book-conference');
 

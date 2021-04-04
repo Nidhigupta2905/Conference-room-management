@@ -20,7 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'google_id'
+        'google_id',
+        'role_id'
     ];
 
     /**
@@ -40,5 +41,11 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+    ];
+
+
+    const ROLES = [
+        'ADMIN' => 1,
+        'EMPLOYEE' => 2
     ];
 }
