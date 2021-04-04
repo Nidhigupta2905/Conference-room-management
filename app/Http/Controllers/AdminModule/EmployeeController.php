@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class EmployeeController extends Controller
 {
@@ -14,7 +15,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('admin.employee.index');
+        return view('admin.employee.index')->with([
+            'page' => 'employees'
+        ]);
     }
 
     /**
@@ -35,7 +38,16 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        //validation
+
+        $employees = new User();
+        
+        $employees->name = $request->employee_name;
+        $employees->email = $request->employee_email;
+        $employee->role_id = User::ROLES['EMPLOYEE'];
+        dd($employees);
+
     }
 
     /**

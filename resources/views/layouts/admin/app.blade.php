@@ -28,20 +28,20 @@
                 </a></div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item  @if(isset($page) && $page == 'dashboard') active @endif ">
-                        <a class="nav-link" href="{{ route('admin.home') }}">
-                            <i class="material-icons">dashboard</i>
-                            <p>Dashboard</p>
+                    <li class="nav-item  @if (isset($page) && $page=='dashboard' ) active @endif ">
+                        <a class=" nav-link" href="{{ route('admin.home') }}">
+                        <i class="material-icons">dashboard</i>
+                        <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link @if(isset($page) && $page == 'cr_room') active @endif" href="">
+                    <li class="nav-item @if (isset($page) && $page=='employees' ) active @endif ">
+                        <a class="nav-link" href="{{ route('admin.employee.index') }}">
                             <i class="material-icons">person</i>
                             <p>Employees</p>
                         </a>
                     </li>
 
-                    <li class="nav-item @if(isset($page) && $page == 'cr_room') active @endif">
+                    <li class="nav-item @if (isset($page) && $page=='cr_room' ) active @endif">
                         <a class="nav-link " href="{{ route('admin.conference_room.index') }}">
                             <i class="material-icons">person</i>
                             <p>Conference Rooms</p>
