@@ -23,6 +23,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- Material Kit CSS -->
     <link href="{{ asset('css/material-dashboard.min.css') }}" rel="stylesheet" />
+
+
 </head>
 
 <body>
@@ -43,12 +45,33 @@
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item active  ">
-                        <a class="nav-link" href="#0">
+                    <li class="nav-item   ">
+                        <a class="nav-link" href="">
                             <i class="material-icons">dashboard</i>
                             <p>Dashboard</p>
                         </a>
                     </li>
+
+                    <li class="nav-item @if (isset($page) && $page == 'cr_room') active
+
+                    @endif">
+                        <a class="nav-link" href="{{ route('admin.conference_room.index') }}">
+                            <i class="material-icons">
+                                meeting_room
+                            </i>
+                            <p>Conference Rooms</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{ route('admin.employee.index') }}">
+                            <i class="material-icons">
+                                badge
+                            </i>
+                            <p>Employee Name</p>
+                        </a>
+                    </li>
+
                     <!-- your sidebar here -->
                 </ul>
             </div>
@@ -127,6 +150,17 @@
             </footer>
         </div>
     </div>
+
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-material-design.min.js') }}"></script>
+    <script src="{{ asset('js/perfect-scrollbar.jquery.min.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
+    <script src="{{ asset('js/material-dashboard.min.js') }}"></script>
+
 </body>
 
 </html>

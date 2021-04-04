@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminModule\AdminController;
+use App\Http\Controllers\AdminModule\EmployeeController;
 use App\Http\Controllers\AdminModule\ConferenceRoomController;
-use App\Http\Controllers\EmployeeModule\EmployeeController;
+use App\Http\Controllers\EmployeeModule\EmployeeController as Employee_EmployeeController;
 use App\Http\Controllers\GoogleModule\GoogleController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,11 +38,12 @@ Auth::routes(['register' => false]);
 Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "admin."], function () {
     Route::get('/home', [AdminController::class, 'index'])->name('home');
     Route::resource('conference_room', ConferenceRoomController::class);
+    Route::resource('employee', EmployeeController::class);
 });
 
 //employee
 Route::group(["middleware" => ["auth", "employee"], "prefix" => "employee", "as" => "employee."], function () {
-    Route::get('/home', [EmployeeController::class, 'index'])->name('home');
+    Route::get('/home', [Employee_EmployeeController::class, 'index'])->name('home');
 });
 
 

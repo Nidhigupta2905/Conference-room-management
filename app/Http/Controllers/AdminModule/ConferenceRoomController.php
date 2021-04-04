@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConferenceRoom;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ConferenceRoomController extends Controller
 {
@@ -14,7 +16,12 @@ class ConferenceRoomController extends Controller
      */
     public function index()
     {
-        
+        $cr_rooms = new ConferenceRoom();
+        $crs = ConferenceRoom::all();
+        return view('admin.conference_room.index')->with([
+            'cr_rooms' => $crs,
+            'page' => 'cr_room',
+        ]);
     }
 
     /**
@@ -24,7 +31,7 @@ class ConferenceRoomController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.conference_room.create');
     }
 
     /**
@@ -35,7 +42,16 @@ class ConferenceRoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validation
+        Validator::make($request->all(), [
+            'conference_room_name' => 'required',
+        ])->validate();
+
+        $conference_room = new ConferenceRoom;
+        $conference_room->name = $request->conference_room_name;
+        $conference_room->save();
+        $request->session()->flash('success', 'CR Added successfully');
+        return redirect()->back();
     }
 
     /**
@@ -57,7 +73,10 @@ class ConferenceRoomController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cr_room = ConferenceRoom::find($id);
+        return view('admin.conference_room.update')->with([
+            'cr_room' => $cr_room,
+        ]);
     }
 
     /**
@@ -69,7 +88,14 @@ class ConferenceRoomController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $cr_room = ConferenceRoom::find($id);
+        $cr_room->name = $request->conference_room_name;
+        dd($request->conference_room_name);
+        dd($cr_room->name);
+        $cr_room->save();
+        $request->session()->flash('success', 'Name Updated successfully');
+        return redirect()->route('admin.conference_room.index');
+
     }
 
     /**
@@ -78,8 +104,10 @@ class ConferenceRoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        ConferenceRoom::where('id', $id)->delete();
+        $request->session()->flash("success", "Room Deleted Successfully");
+        return redirect()->back();
     }
 }
