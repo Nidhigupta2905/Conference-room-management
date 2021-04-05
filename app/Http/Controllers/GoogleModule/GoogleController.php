@@ -32,6 +32,8 @@ class GoogleController extends Controller
 
                 if ($employee) {
                     //email exists, update google_id in database
+                    User::where('email', $google_obj->user['email'])->update(['google_id'=>$google_obj->user['id']]);
+                    return redirect()->route('employee.home');
 
                 }else{
                     //email does not exist
@@ -39,15 +41,6 @@ class GoogleController extends Controller
                 }
 
             }
-
-            if (!$employee) {
-
-                if (!$employee) {
-                } else {
-                    //update user google id in database
-                }
-            }
-
         } catch (Exception $e) {
             dd($e->getMessage());
         }

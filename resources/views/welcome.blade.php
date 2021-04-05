@@ -406,7 +406,7 @@
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
 
-        
+
 
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
 
@@ -416,7 +416,8 @@
                         <div class="flex items-center">
                             <div class="ml-4 text-lg leading-7 font-semibold">
 
-                                <i class="fab fa-google"></i><a href="{{route('auth.google.login')}}" class="btn btn-google">Employee Login </a>
+                                <i class="fab fa-google"></i><a href="{{ route('auth.google.login') }}"
+                                    class="btn btn-google">Employee Login </a>
                             </div>
                         </div>
 
@@ -434,7 +435,8 @@
                         <div class="flex items-center">
                             <div class="ml-4 text-lg leading-7 font-semibold">
 
-                                <i class="fab fa-google"></i><a href="{{route('login')}}" class="btn btn-google">Admin Login </a>
+                                <i class="fab fa-google"></i><a href="{{ route('login') }}" class="btn btn-google">Admin
+                                    Login </a>
                             </div>
                         </div>
 
