@@ -29,32 +29,27 @@ class GoogleController extends Controller
             } else {
 
                 //new user
-                // $employee = User::where('email', $google_obj->user['email'])->first();
+                $employee = User::where('email', $google_obj->user['email'])->first();
 
-                // if ($employee) {
-                //     //email exists, update google_id in database
-                //     User::where('email', $google_obj->user['email'])->update(['google_id' => $google_obj->user['id']]);
-                //     return redirect()->route('employee.home');
+                if ($employee) {
+                    //email exists, update google_id in database
+                    User::where('email', $google_obj->user['email'])->update(['google_id' => $google_obj->user['id']]);
+                    return redirect()->route('employee.emp.create');
 
-                // } else {
-                //     //email does not exist
-                //     return redirect('/');
-                // }
+                } else {
+                    //email does not exist
+                    return redirect('/');
+                }
 
-                // Validator::make([
-                //     'name' => 'required|max:255',
+                // $new_employee = User::create([
+                //     'name' => $google_obj->user['name'],
+                //     'email' => $google_obj->user['email'],
+                //     'google_id' => $google_obj->user['id'],
+                //     'role_id' => User::ROLES['EMPLOYEE'],
+                // ]);
 
-                // ])->validate();
-
-                $new_employee = User::create([
-                    'name' => $google_obj->user['name'],
-                    'email' => $google_obj->user['email'],
-                    'google_id' => $google_obj->user['id'],
-                    'role_id' => User::ROLES['EMPLOYEE'],
-                ]);
-
-                Auth::login($new_employee, true);
-                return redirect()->route('employee.emp.index');
+                // Auth::login($new_employee, true);
+                // return redirect()->route('employee.emp.index');
 
             }
         } catch (Exception $e) {

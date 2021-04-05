@@ -22,7 +22,7 @@ class IsEmployee
         if (Auth::check() && Auth::user()->role_id == User::ROLES['EMPLOYEE']) {
             return $next($request);
         } else {
-            return redirect()->route('login');
+            return redirect()->route('/');
         }
     }
 }
