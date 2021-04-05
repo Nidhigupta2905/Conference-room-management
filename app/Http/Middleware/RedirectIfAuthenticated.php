@@ -28,7 +28,7 @@ class RedirectIfAuthenticated
                 if(Auth::user()->role_id == User::ROLES['ADMIN']){
                     return redirect()->route('admin.home');
                 }else if(Auth::user()->role_id == User::ROLES['EMPLOYEE']){
-                    return redirect()->route('employee.emp.index');
+                    return redirect()->route('employee.dashboard');
                 }
             }
         }

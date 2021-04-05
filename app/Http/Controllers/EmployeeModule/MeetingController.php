@@ -7,7 +7,7 @@ use App\Models\ConferenceRoom;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class MeetingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('employee.home')->with([
-            'page' => 'home',
+        return view('employee.meeting.index')->with([
+            'page' => 'meeting',
         ]);
     }
 
@@ -29,9 +29,9 @@ class EmployeeController extends Controller
     public function create()
     {
         $cr_rooms = ConferenceRoom::all();
-        return view('employee.booking-form')->with([
+        return view('employee.meeting.create')->with([
             'cr_rooms' => $cr_rooms,
-            'page' => 'book',
+            'page' => 'meeting',
         ]);
     }
 

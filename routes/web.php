@@ -3,8 +3,15 @@
 use App\Http\Controllers\AdminModule\AdminController;
 use App\Http\Controllers\AdminModule\EmployeeController;
 use App\Http\Controllers\AdminModule\ConferenceRoomController;
-use App\Http\Controllers\EmployeeModule\EmployeeController as EmployeeModule_EmployeeController;
+
+
+use App\Http\Controllers\EmployeeModule\MeetingController;
+use App\Http\Controllers\EmployeeModule\DashboardController;
+
+
 use App\Http\Controllers\GoogleModule\GoogleController;
+
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,9 +50,9 @@ Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "a
 
 //employee
 Route::group(["middleware" => ["auth", "employee"], "prefix" => "employee", "as" => "employee."], function () {
-    // Route::get('/home', [EmployeeModule_EmployeeController::class, 'index'])->name('home');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::resource('emp', EmployeeModule_EmployeeController::class);
+    Route::resource('meeting', MeetingController::class);
 });
 
 

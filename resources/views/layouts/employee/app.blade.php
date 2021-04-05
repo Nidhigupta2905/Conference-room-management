@@ -46,15 +46,15 @@
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item @if (isset($page) && $page=='home') active @endif">
-                        <a class="nav-link " href="{{ route('employee.emp.index') }}">
+                    <li class="nav-item @if (isset($page) && $page=='dashboard') active @endif">
+                        <a class="nav-link " href="">
                             <i class="material-icons">dashboard</i>
                             <p>Dashboard</p>
                         </a>
                     </li>
 
-                    <li class="nav-item @if (isset($page) && $page=='book') active @endif">
-                        <a class="nav-link" href="{{ route('employee.emp.create') }}">
+                    <li class="nav-item @if (isset($page) && $page=='meeting') active @endif">
+                        <a class="nav-link" href="{{ route('employee.meeting.index') }}">
                             <i class="material-icons">meeting_room</i>
                             <p>Book CR</p>
                         </a>
