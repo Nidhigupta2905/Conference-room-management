@@ -43,7 +43,9 @@ Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "a
 
 //employee
 Route::group(["middleware" => ["auth", "employee"], "prefix" => "employee", "as" => "employee."], function () {
-    Route::get('/home', [EmployeeModule_EmployeeController::class, 'index'])->name('home');
+    // Route::get('/home', [EmployeeModule_EmployeeController::class, 'index'])->name('home');
+
+    Route::resource('emp', EmployeeModule_EmployeeController::class);
 });
 
 

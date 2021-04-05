@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Hello, world!</title>
+    <title>CR Management </title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -12,8 +12,11 @@
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 
-    <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -43,10 +46,17 @@
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item active  ">
-                        <a class="nav-link" href="#0">
+                    <li class="nav-item @if (isset($page) && $page=='home') active @endif">
+                        <a class="nav-link " href="{{ route('employee.emp.index') }}">
                             <i class="material-icons">dashboard</i>
                             <p>Dashboard</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item @if (isset($page) && $page=='book') active @endif">
+                        <a class="nav-link" href="{{ route('employee.emp.create') }}">
+                            <i class="material-icons">meeting_room</i>
+                            <p>Book CR</p>
                         </a>
                     </li>
                     <!-- your sidebar here -->
@@ -127,6 +137,11 @@
             </footer>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    @yield('js')
 </body>
 
 </html>

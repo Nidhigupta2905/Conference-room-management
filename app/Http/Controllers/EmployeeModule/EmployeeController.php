@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\EmployeeModule;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConferenceRoom;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return view('employee.home');
+        return view('employee.home')->with([
+            'page' => 'home',
+        ]);
     }
 
     /**
@@ -25,7 +28,11 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        $cr_rooms = ConferenceRoom::all();
+        return view('employee.booking-form')->with([
+            'cr_rooms' => $cr_rooms,
+            'page' => 'book',
+        ]);
     }
 
     /**

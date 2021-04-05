@@ -95,10 +95,5 @@
             $('#to_time').timepicker();
         });
 
-
-        function getValue(id, name) {
-            document.getElementById('cr_name').value = name;
-        }
-
     </script>
 @endsection
