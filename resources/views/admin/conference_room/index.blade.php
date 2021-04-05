@@ -4,7 +4,7 @@
 
     <div class="content">
         <div class="container-fluid">
-            
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -55,7 +55,7 @@
                                                             create
                                                         </i></a>
 
-                                                    <a class="btn btn-light" href=""><i class="material-icons">
+                                                    <a href="{{route('admin.conference_room.show', $cr_room->id)}}" class="btn btn-light" href=""><i class="material-icons">
                                                             visibility
                                                         </i></a>
                                                 </td>

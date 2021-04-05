@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -15,8 +16,10 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+        $employees = User::all();
         return view('admin.employee.index')->with([
-            'page' => 'employees'
+            'employees' => $employees,
+            'page' => 'employees',
         ]);
     }
 
@@ -27,7 +30,9 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('admin.employee.create');
+        return view('admin.employee.create')->with([
+            'page' => 'employees',
+        ]);
     }
 
     /**
@@ -40,13 +45,20 @@ class EmployeeController extends Controller
     {
 
         //validation
+        Validator::make($request->all(), [
+            'employee_name' => 'required|max:255',
+            'employee_email' => 'required|unique:users,email',
+        ])->validate();
 
         $employees = new User();
-        
+
         $employees->name = $request->employee_name;
         $employees->email = $request->employee_email;
-        $employee->role_id = User::ROLES['EMPLOYEE'];
-        dd($employees);
+        $employees->role_id = User::ROLES['EMPLOYEE'];
+        $employees->save();
+
+        $request->session()->flash('success', 'Employee added successfully');
+        return redirect()->back();
 
     }
 
@@ -58,7 +70,11 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $employee = User::find($id);
+        return view('admin.employee.show')->with([
+            'employee' => $employee,
+            'page' => 'employees',
+        ]);
     }
 
     /**
@@ -69,7 +85,11 @@ class EmployeeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $employee = User::find($id);
+        return view('admin.employee.update')->with([
+            'employee' => $employee,
+            'page' => 'employees',
+        ]);
     }
 
     /**
@@ -81,7 +101,15 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Validator::make($request->all(), [
+            'employee_email' => 'required|unique:users,email',
+        ])->validate();
+        $employee = User::find($id);
+        $employee->email = $request->employee_email;
+        $employee->save();
+
+        $request->session()->flash('success', 'Employee Updated Successfully');
+        return redirect()->back();
     }
 
     /**
@@ -90,8 +118,10 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        User::where('id', $id)->delete();
+        $request->session()->flash('success', 'Employee Deleted Successfully');
+        return redirect()->back();
     }
 }

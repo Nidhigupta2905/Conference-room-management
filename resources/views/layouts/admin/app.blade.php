@@ -35,15 +35,17 @@
                         </a>
                     </li>
                     <li class="nav-item @if (isset($page) && $page=='employees' ) active @endif ">
-                        <a class="nav-link" href="{{ route('admin.employee.index') }}">
-                            <i class="material-icons">person</i>
-                            <p>Employees</p>
+                        <a class=" nav-link" href="{{ route('admin.employee.index') }}">
+                        <i class="material-icons">person</i>
+                        <p>Employees</p>
                         </a>
                     </li>
 
                     <li class="nav-item @if (isset($page) && $page=='cr_room' ) active @endif">
                         <a class="nav-link " href="{{ route('admin.conference_room.index') }}">
-                            <i class="material-icons">person</i>
+                            <i class="material-icons">
+                                meeting_room
+                            </i>
                             <p>Conference Rooms</p>
                         </a>
                     </li>

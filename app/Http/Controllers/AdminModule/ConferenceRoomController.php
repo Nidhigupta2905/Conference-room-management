@@ -31,7 +31,9 @@ class ConferenceRoomController extends Controller
      */
     public function create()
     {
-        return view('admin.conference_room.create');
+        return view('admin.conference_room.create')->with([
+            'page' => 'cr_room',
+        ]);
     }
 
     /**
@@ -44,7 +46,7 @@ class ConferenceRoomController extends Controller
     {
         //validation
         Validator::make($request->all(), [
-            'conference_room_name' => 'required',
+            'conference_room_name' => 'required|unique:conference_rooms,name',
         ])->validate();
 
         $conference_room = new ConferenceRoom;
@@ -62,7 +64,11 @@ class ConferenceRoomController extends Controller
      */
     public function show($id)
     {
-        //
+        $cr_room = ConferenceRoom::find($id);
+        return view('admin.conference_room.show')->with([
+            'cr_room'=>$cr_room,
+            'page' => 'cr_room',
+        ]);
     }
 
     /**
@@ -76,6 +82,7 @@ class ConferenceRoomController extends Controller
         $cr_room = ConferenceRoom::find($id);
         return view('admin.conference_room.update')->with([
             'cr_room' => $cr_room,
+            'page' => 'cr_room',
         ]);
     }
 
@@ -88,10 +95,13 @@ class ConferenceRoomController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        Validator::make($request->all(), [
+            'conference_room_name' => 'required|unique:conference_rooms,name',
+        ])->validate();
+
         $cr_room = ConferenceRoom::find($id);
         $cr_room->name = $request->conference_room_name;
-        dd($request->conference_room_name);
-        dd($cr_room->name);
         $cr_room->save();
         $request->session()->flash('success', 'Name Updated successfully');
         return redirect()->route('admin.conference_room.index');

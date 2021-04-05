@@ -12,7 +12,7 @@
                             <a class="btn btn-info pull-right" href="{{ route('admin.employee.create') }}"><i
                                     class="material-icons">
                                     add_circle_outline</i>Add</a>
-                            <h4 class="card-title ">Simple Table</h4>
+                            <h4 class="card-title ">Employees</h4>
                             <p class="card-category"> Here is a subtitle for this table</p>
                         </div>
                         <div class="card-body">
@@ -26,33 +26,45 @@
                                         <th>
                                             Name
                                         </th>
+                                        <th>Email</th>
                                         <th>
                                             Actions
                                         </th>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                1
-                                            </td>
-                                            <td>
-                                                Dakota Rice
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-danger">
-                                                    <i class="material-icons">
-                                                        delete
-                                                    </i>
-                                                </button>
-                                                <button class="btn btn-info"><i class="material-icons">
-                                                        create
-                                                    </i></button>
-                                                <button class="btn btn-light"><i class="material-icons">
-                                                        visibility
-                                                    </i></button>
-                                            </td>
-                                        </tr>
-
+                                        @php
+                                            $i = 0;
+                                        @endphp
+                                        @foreach ($employees as $employee)
+                                            <tr>
+                                                <td>
+                                                    {{ ++$i }}
+                                                </td>
+                                                <td>
+                                                    {{ $employee->name }}
+                                                </td>
+                                                <td>{{ $employee->email }}</td>
+                                                <td>
+                                                    <form action="{{ route('admin.employee.destroy', $employee->id) }}"
+                                                        method="post" class="d-inline">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button class="btn btn-danger">
+                                                            <i class="material-icons">
+                                                                delete
+                                                            </i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="{{ route('admin.employee.edit', $employee->id) }}" class="btn btn-info"><i
+                                                            class="material-icons">
+                                                            create
+                                                        </i></a>
+                                                    <a href="{{route('admin.employee.show', $employee->id)}}" class="btn btn-light"><i class="material-icons">
+                                                            visibility
+                                                        </i></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
