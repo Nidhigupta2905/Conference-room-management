@@ -16,10 +16,10 @@ class CreateMeetingsTable extends Migration
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
 
-            $table->date('date')->nullable();
+            $table->timestamp('meeting_date');
 
-            $table->time('from')->nullable();
-            $table->time('to')->nullable();
+            $table->time('from_time')->nullable();
+            $table->time('to_time')->nullable();
 
             $table->unsignedBigInteger('conference_room_id');
             $table->foreign('conference_room_id')->references('id')->on('conference_rooms');

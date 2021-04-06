@@ -5,7 +5,11 @@ namespace App\Http\Controllers\EmployeeModule;
 use App\Http\Controllers\Controller;
 use App\Models\ConferenceRoom;
 use App\Models\Employee;
+use App\Models\Meeting;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class MeetingController extends Controller
 {
@@ -43,7 +47,19 @@ class MeetingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $meeting = new Meeting();
+        $meeting->conference_room_id = $request->cr_name;
+
+        //removing backslashes from date
+        // $replace_backslashes_from_date = preg_replace('/[\W\s\/]+/', '-', $request->meeting_date);
+
+        $meeting->meeting_date = $request->meeting_date;
+        $meeting->from_time = $request->from_time;
+        $meeting->to_time = $request->to_time;
+        $meeting->user_id = Auth::user()->id;
+        $meeting->save();
+        $request->session()->flash('success', 'Meeting Booked Successfully');
+        return redirect()->back();
     }
 
     /**

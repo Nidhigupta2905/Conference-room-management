@@ -25,7 +25,7 @@
 
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="">
+                    <form method="POST" action="{{ route('employee.meeting.store') }}">
                         @csrf
                         <div class="row">
                             <div class="col-12">
@@ -33,7 +33,7 @@
                                     {{-- <label class="bmd-label-floating">CR Name</label>
                                     <input type="text" class="form-control" name="employee_name" id="employee_name"> --}}
 
-                                    <select name="" id="" class="custom-select">
+                                    <select name="cr_name" id="cr_name" class="custom-select">
                                         <option value="">Select CR</option>
                                         @foreach ($cr_rooms as $cr_room)
                                             <option value="{{ $cr_room->id }}">{{ $cr_room->name }}</option>
@@ -43,17 +43,17 @@
 
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Date</label>
-                                    <input type="text" class="form-control" name="booking_date" id="booking_date">
+                                    <input type="text" class="form-control" name="meeting_date" id="meeting_date" autocomplete="off">
                                 </div>
 
                                 <div class="row">
                                     <div class="col">
                                         <label for="from_time">From Time</label>
-                                        <input type="text" name="from_time" id="from_time" class="form-control">
+                                        <input type="text" name="from_time" id="from_time" class="form-control" autocomplete="off">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
-                                        <input type="text" name="to_time" id="to_time" class="form-control">
+                                        <input type="text" name="to_time" id="to_time" class="form-control" autocomplete="off">
                                     </div>
                                 </div>
                             </div>
@@ -73,16 +73,23 @@
 
     <script type="text/javascript">
         $(function() {
-            console.log("date")
-            $("#booking_date").datepicker();
+            $("#meeting_date").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
         });
 
         $(document).ready(function() {
-            $('#from_time').timepicker({});
+            $('#from_time').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 15
+            });
         });
 
         $(document).ready(function() {
-            $('#to_time').timepicker({});
+            $('#to_time').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 15
+            });
         });
 
     </script>

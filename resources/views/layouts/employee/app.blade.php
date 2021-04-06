@@ -47,7 +47,7 @@
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="nav-item @if (isset($page) && $page=='dashboard') active @endif">
-                        <a class="nav-link " href="">
+                        <a class="nav-link " href="{{route('employee.dashboard')}}">
                             <i class="material-icons">dashboard</i>
                             <p>Dashboard</p>
                         </a>
