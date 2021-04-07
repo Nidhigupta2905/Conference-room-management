@@ -50,17 +50,20 @@
 
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Date</label>
-                                    <input type="text" class="form-control" name="meeting_date" id="meeting_date" autocomplete="off">
+                                    <input type="text" class="form-control" name="meeting_date" id="meeting_date"
+                                        autocomplete="off" value="{{ old('meeting_date') }}">
                                 </div>
 
                                 <div class="row">
                                     <div class="col">
                                         <label for="from_time">From Time</label>
-                                        <input type="text" name="from_time" id="from_time" class="form-control" autocomplete="off">
+                                        <input type="text" name="from_time" id="from_time" class="form-control"
+                                            autocomplete="off" value="{{ old('meeting_date') }}">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
-                                        <input type="text" name="to_time" id="to_time" class="form-control" autocomplete="off">
+                                        <input type="text" name="to_time" id="to_time" class="form-control"
+                                            autocomplete="off" value="{{ old('meeting_date') }}">
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +84,9 @@
     <script type="text/javascript">
         $(function() {
             $("#meeting_date").datepicker({
-                dateFormat: 'yy-mm-dd'
+                dateFormat: 'yy-mm-dd',
+                minDate: 0,
+                maxDate: 0
             });
         });
 

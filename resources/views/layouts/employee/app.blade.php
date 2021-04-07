@@ -46,14 +46,14 @@
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item @if (isset($page) && $page=='dashboard') active @endif">
-                        <a class="nav-link " href="{{route('employee.dashboard')}}">
+                    <li class="nav-item @if (isset($page) && $page=='dashboard' ) active @endif">
+                        <a class="nav-link " href="{{ route('employee.dashboard') }}">
                             <i class="material-icons">dashboard</i>
                             <p>Dashboard</p>
                         </a>
                     </li>
 
-                    <li class="nav-item @if (isset($page) && $page=='meeting') active @endif">
+                    <li class="nav-item @if (isset($page) && $page=='meeting' ) active @endif">
                         <a class="nav-link" href="{{ route('employee.meeting.index') }}">
                             <i class="material-icons">meeting_room</i>
                             <p>Book CR</p>
@@ -90,6 +90,7 @@
                                     </p>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                                    <a class="dropdown-item font-weight-bold" href="#">{{ Auth::user()->name }}</a>
                                     <a class="dropdown-item" href="#">Profile</a>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <div class="dropdown-divider"></div>
