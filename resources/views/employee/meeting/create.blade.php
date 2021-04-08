@@ -40,7 +40,7 @@
                                     {{-- <label class="bmd-label-floating">CR Name</label>
                                     <input type="text" class="form-control" name="employee_name" id="employee_name"> --}}
 
-                                    <select name="cr_name" id="cr_name" class="custom-select">
+                                    <select name="cr_id" id="cr_id" class="custom-select">
                                         <option value="">Select CR</option>
                                         @foreach ($cr_rooms as $cr_room)
                                             <option value="{{ $cr_room->id }}">{{ $cr_room->name }}</option>
@@ -58,12 +58,12 @@
                                     <div class="col">
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
-                                            autocomplete="off" value="{{ old('meeting_date') }}">
+                                            autocomplete="off" value="{{ old('from_time') }}">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
                                         <input type="text" name="to_time" id="to_time" class="form-control"
-                                            autocomplete="off" value="{{ old('meeting_date') }}">
+                                            autocomplete="off" value="{{ old('to_time') }}">
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@
 @endsection
 
 
-@section('js')
+@push('js')
 
     <script type="text/javascript">
         $(function() {
@@ -92,17 +92,21 @@
 
         $(document).ready(function() {
             $('#from_time').timepicker({
-                timeFormat: 'HH:mm',
-                interval: 15
-            });
-        });
+                timeFormat: 'H:i',
+                step: 15,
+                disableTimeRanges: [
 
-        $(document).ready(function() {
+                ]
+            });
+
             $('#to_time').timepicker({
-                timeFormat: 'HH:mm',
-                interval: 15
+                timeFormat: 'H:i',
+                step: 15,
+                disableTimeRanges: [
+                
+                ]
             });
         });
 
     </script>
-@endsection
+@endpush

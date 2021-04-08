@@ -21,7 +21,7 @@ class MeetingController extends Controller
     {
         $meeting = Meeting::all();
         return view('employee.meeting.index')->with([
-            
+            'meetings' => $meeting,
             'page' => 'meeting',
         ]);
     }
@@ -55,8 +55,8 @@ class MeetingController extends Controller
         // $meeting_data = Meeting::all();
 
         $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
-            ->where('meeting_date', $request->meeting_date)
-            ->where('conference_room_id', $request->cr_name)
+            ->whereDate('meeting_date', $request->meeting_date)
+            ->where('conference_room_id', $request->cr_id)
             ->first(); // TODO: fix
 
         // $check_end_time_conflict = Meeting::where('to_date', '<', $request->to_date)->first();
@@ -66,38 +66,46 @@ class MeetingController extends Controller
 
         $input_date = Carbon::parse($request->meeting_date)->startOfDay();
 
-        $check_start_time_conflict = Meeting::where('from_time', $request->from_time)
-            ->where('to_time', $request->to_time)
-            ->where('conference_room_id', $request->cr_name)
-            ->where('meeting_date', $request->meeting_date)
-            ->where('user_id', $meeting->user_id)
-            ->first();
+        $from_time = $request->from_time;
+        $to_time = $request->to_time;
+
+        // DB::enableQueryLog();
+
+        $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
+            ->where('conference_room_id', $request->cr_id)
+            ->where(function ($query) use ($from_time, $to_time) {
+                $query->orWhere('from_time', $from_time)
+                    ->orWhere(function ($query) use ($from_time, $to_time) {
+                        $query->where('from_time', '<', $from_time)
+                            ->where('to_time', '>', $from_time);
+                    })
+                    ->orWhere('to_time', $to_time)
+                    ->orWhere(function ($query) use ($from_time, $to_time) {
+                        $query->where('from_time', '<', $to_time)
+                            ->where('to_time', '>', $to_time);
+                    })
+                    ->orWhere(function ($query) use ($from_time, $to_time) {
+                        $query->where('from_time', '>', $from_time)
+                            ->where('to_time', '<', $to_time);
+                    });
+            })->exists();
+
+// dd(DB::getQueryLog($check_start_time_conflict));
 
         if ($check_meeting_start_time) {
             $request->session()->flash('error', 'Booked Already for the time. Choose another CR');
             return back()->withInput();
         }
 
-        //checking time conflicts
+        // checking time conflicts
         else if ($check_start_time_conflict) {
             $request->session()->flash('error', 'Choose a different meeting start time');
-            return redirect()->back();
-        }
-        // else if ($request->to_time < $meeting->to_time) {
-        //     $request->session()->flash('error', '');
-        //     return redirect()->back();
-        // } else if ($request->from_time == $meeting->to_time) {
-        //     $request->session()->flash('error', 'Choose a different meeting end time');
-        //     return redirect()->back();
-        // } else if ($request->from_time == $meeting->from_time) {
-        //     $request->session()->flash('error', '');
-        //     return redirect()->back();
-        // }
-        else if ($input_date != $today) {
+            return redirect()->back()->withInput();
+        } else if ($input_date != $today) {
             $request->session()->flash('error', 'Cannot Book for the next day');
             return redirect()->back()->withInput();
         } else {
-            $meeting->conference_room_id = $request->cr_name;
+            $meeting->conference_room_id = $request->cr_id;
             $meeting->meeting_date = $request->meeting_date;
             $meeting->from_time = $request->from_time;
             $meeting->to_time = $request->to_time;
