@@ -7,6 +7,29 @@
 
             <div class="row">
                 <div class="col-md-12">
+
+                    @if (session('success'))
+                        <div class="alert alert-success ">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{{ session('success') }}</strong>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger ">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{{ session('error') }}</strong>
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div class="alert alert-danger alert-block">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <strong>{{ $error }}</strong>
+                            </div>
+                        @endforeach
+                    @endif
                     <div class="card">
 
                         <div class="card-header card-header-primary">
@@ -20,7 +43,7 @@
                         <div class="card-body">
 
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table" id="meeting_list_table">
                                     <thead class=" text-primary">
                                         <th>
                                             ID
@@ -51,17 +74,24 @@
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $user_meeting->user->name }}</td>
                                                 <td>{{ date('d-m-y', strtotime($user_meeting->meeting_date)) }}</td>
-                                                {{-- <td>{{$user_meeting->from_time}}</td> --}}
                                                 <td>{{ Carbon\Carbon::parse($user_meeting->from_time)->format('h:i a') }}
                                                 </td>
                                                 <td>{{ Carbon\Carbon::parse($user_meeting->to_time)->format('h:i a') }}
                                                 </td>
                                                 <td>
-                                                    <button type="submit" class="btn btn-danger"><i class="material-icons">
-                                                            delete
-                                                        </i></button>
 
-                                                    <a href="" class="btn btn-warning"><i class="material-icons">
+                                                    <form
+                                                        action="{{ route('employee.meeting.destroy', $user_meeting->id) }}"
+                                                        method="post" class="d-inline">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger" id="delete_button"><i
+                                                                class="material-icons">
+                                                                delete
+                                                            </i></button>
+                                                    </form>
+
+                                                    <a href="" class="btn btn-warning" id="edit_button"><i class="material-icons">
                                                             create
                                                         </i></a>
                                                 </td>
@@ -78,3 +108,19 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = dd + '-' + mm + '-' + yyyy;
+
+
+
+
+
+    </script>
+@endpush

@@ -159,8 +159,10 @@ class MeetingController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy(Request $request, $id)
     {
-        //
+            Meeting::where('id', $id)->delete();
+            $request->session()->flash('success', 'Meeting Deleted Successfully');
+            return redirect()->back();
     }
 }
