@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ConferenceRoom;
 use App\Models\Employee;
 use App\Models\Meeting;
+use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,10 +20,12 @@ class MeetingController extends Controller
      */
     public function index()
     {
-        $meeting = Meeting::all();
+        $user = Auth::user();
+
+        $meeting = $user->meetings()->orderBy('from_time', 'ASC')->get();
         return view('employee.meeting.index')->with([
-            'meetings' => $meeting,
             'page' => 'meeting',
+            'meeting' => $meeting,
         ]);
     }
 
