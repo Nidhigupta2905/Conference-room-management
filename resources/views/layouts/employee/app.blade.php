@@ -60,6 +60,15 @@
                             <p>Book CR</p>
                         </a>
                     </li>
+
+                    <li class="nav-item @if (isset($page) && $page=='meeting-history' ) active @endif">
+                        <a class="nav-link" href="{{ route('employee.meeting-history') }}">
+                            <i class="material-icons-outlined">
+                                history
+                            </i>
+                            <p>Meeting History</p>
+                        </a>
+                    </li>
                     <!-- your sidebar here -->
                 </ul>
             </div>

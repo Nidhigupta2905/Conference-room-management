@@ -169,4 +169,17 @@ class MeetingController extends Controller
         $request->session()->flash('success', 'Meeting Deleted Successfully');
         return redirect()->back();
     }
+
+    public function meetingHistory()
+    {
+        $user = Auth::user();
+        $meeting = $user->meetings()->with([
+            'conferenceRoom',
+        ])->orderBy('from_time', 'ASC')->get();
+
+        return view('employee.meeting.meeting-history')->with([
+            'page' => 'meeting-history',
+            'meeting'=>$meeting
+        ]);
+    }
 }

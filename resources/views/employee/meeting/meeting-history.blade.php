@@ -1,7 +1,6 @@
 @extends('layouts.employee.app')
 
 @section('content')
-
     <div class="content">
         <div class="container-fluid">
 
@@ -59,10 +58,6 @@
                                             From Time
                                         </th>
                                         <th>To Time</th>
-
-                                        <th>
-                                            Actions
-                                        </th>
                                     </thead>
 
                                     <tbody>
@@ -81,19 +76,7 @@
                                                 </td>
                                                 <td>{{ Carbon\Carbon::parse($user_meeting->to_time)->format('h:i a') }}
                                                 </td>
-                                                <td>
 
-                                                    <form
-                                                        action="{{ route('employee.meeting.destroy', $user_meeting->id) }}"
-                                                        method="post" class="d-inline">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger" id="delete_button"><i
-                                                                class="material-icons">
-                                                                delete
-                                                            </i></button>
-                                                    </form>
-                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -107,27 +90,3 @@
         </div>
     </div>
 @endsection
-
-@push('js')
-    <script>
-        // var dd = String(today.getDate()).padStart(2, '0');
-        // var mm = String(today.getMonth() + 1).padStart(2, '0');
-        // var yyyy = today.getFullYear();
-
-        // today = dd + '-' + mm + '-' + yyyy;
-
-        // console.log(today.getTime());
-
-        $(document).ready(function() {
-            $('#meeting_list_table').find('#hightlight_tr').each(function() {
-                var time = new Date($(this).find('.start_date').text());
-                var date = new Date();
-                if(date >= time){
-                    $(this).addClass('highlight');
-                }
-            })
-
-        });
-
-    </script>
-@endpush
