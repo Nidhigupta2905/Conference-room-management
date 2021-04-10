@@ -22,7 +22,11 @@ class MeetingController extends Controller
     {
         $user = Auth::user();
 
-        $meeting = $user->meetings()->orderBy('from_time', 'ASC')->get();
+        $today = Carbon::now()->startOfDay();
+
+        $meeting = $user->meetings()->with([
+            'conferenceRoom',
+        ])->orderBy('from_time', 'ASC')->where('meeting_date', $today)->get();
         return view('employee.meeting.index')->with([
             'page' => 'meeting',
             'meeting' => $meeting,
@@ -161,8 +165,8 @@ class MeetingController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-            Meeting::where('id', $id)->delete();
-            $request->session()->flash('success', 'Meeting Deleted Successfully');
-            return redirect()->back();
+        Meeting::where('id', $id)->delete();
+        $request->session()->flash('success', 'Meeting Deleted Successfully');
+        return redirect()->back();
     }
 }

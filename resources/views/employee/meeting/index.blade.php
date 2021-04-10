@@ -51,6 +51,7 @@
                                         <th>
                                             User Name
                                         </th>
+                                        <td>CR Name</td>
 
                                         <th>Meeting Date</th>
 
@@ -73,6 +74,7 @@
                                             <tr>
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $user_meeting->user->name }}</td>
+                                                <td>{{$user_meeting->conferenceRoom->name}}</td>
                                                 <td>{{ date('d-m-y', strtotime($user_meeting->meeting_date)) }}</td>
                                                 <td>{{ Carbon\Carbon::parse($user_meeting->from_time)->format('h:i a') }}
                                                 </td>

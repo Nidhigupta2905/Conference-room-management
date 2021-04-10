@@ -25,7 +25,7 @@ class Meeting extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function conferenceRoom(): BelongsTo
+    public function conferenceRoom()
     {
         return $this->belongsTo(ConferenceRoom::class);
     }
