@@ -20,7 +20,7 @@
                         <div class="card-body">
 
                             <div class="table-responsive">
-                                <table class="table">
+                                <table class="table" id="table">
                                     <thead class=" text-primary">
                                         <th>
                                             ID
@@ -42,8 +42,8 @@
                                                 <td>{{ $cr_room->name }}</td>
                                                 <td>
                                                     <form
-                                                        action="{{ route('admin.conference_room.destroy', $cr_room->id) }}" class="d-inline"
-                                                        method="POST">
+                                                        action="{{ route('admin.conference_room.destroy', $cr_room->id) }}"
+                                                        class="d-inline" method="POST">
                                                         @method('DELETE')
                                                         @csrf
                                                         <button class="btn btn-danger"><i class="material-icons">
@@ -51,11 +51,13 @@
                                                             </i></button>
                                                     </form>
 
-                                                    <a href="{{ route('admin.conference_room.edit', $cr_room->id) }}" class="btn btn-info"><i class="material-icons">
+                                                    <a href="{{ route('admin.conference_room.edit', $cr_room->id) }}"
+                                                        class="btn btn-info"><i class="material-icons">
                                                             create
                                                         </i></a>
 
-                                                    <a href="{{route('admin.conference_room.show', $cr_room->id)}}" class="btn btn-light" href=""><i class="material-icons">
+                                                    <a href="{{ route('admin.conference_room.show', $cr_room->id) }}"
+                                                        class="btn btn-light" href=""><i class="material-icons">
                                                             visibility
                                                         </i></a>
                                                 </td>
@@ -71,4 +73,15 @@
             </div>
         </div>
     </div>
-@endsection
+
+
+    @endsection
+    @push('js')
+
+        <script>
+            $(document).ready(function() {
+                $('#table').DataTable();
+            });
+
+        </script>
+    @endpush

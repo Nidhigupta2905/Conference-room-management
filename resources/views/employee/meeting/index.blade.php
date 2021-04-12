@@ -118,16 +118,6 @@
 
         // console.log(today.getTime());
 
-        $(document).ready(function() {
-            $('#meeting_list_table').find('#hightlight_tr').each(function() {
-                var time = new Date($(this).find('.start_date').text());
-                var date = new Date();
-                if(date >= time){
-                    $(this).addClass('highlight');
-                }
-            })
-
-        });
 
     </script>
 @endpush
