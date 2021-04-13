@@ -63,9 +63,7 @@
 
                     <li class="nav-item @if (isset($page) && $page=='meeting-history' ) active @endif">
                         <a class="nav-link" href="{{ route('employee.meeting-history') }}">
-                            <i class="material-icons-outlined">
-                                history
-                            </i>
+                            <i class="material-icons">history</i>
                             <p>Meeting History</p>
                         </a>
                     </li>
@@ -155,6 +153,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @stack('js')
 </body>
 

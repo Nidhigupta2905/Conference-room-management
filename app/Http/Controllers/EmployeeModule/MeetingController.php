@@ -10,6 +10,8 @@ use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Response;
 
 class MeetingController extends Controller
 {
@@ -57,17 +59,26 @@ class MeetingController extends Controller
     {
 
         // TODO: validation
-        $meeting = new Meeting();
 
-        // $meeting_data = Meeting::all();
+        $validator = Validator::make($request->all(), [
+            'cr_id' => 'required',
+            'meeting_date' => 'required|date_format:Y-m-d',
+            'from_time' => 'required|date_format:H:i',
+            'to_time' => 'required|date_format:H:i|after:from_time',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json(array(
+                'success' => false,
+                'errors' => $validator->errors()->all(),
+            ), 422);
+        }
+        $meeting = new Meeting();
 
         $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
             ->whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
             ->first(); // TODO: fix
-
-        // $check_end_time_conflict = Meeting::where('to_date', '<', $request->to_date)->first();
-
         //check today's date
         $today = Carbon::now()->startOfDay();
 
@@ -100,17 +111,23 @@ class MeetingController extends Controller
 // dd(DB::getQueryLog($check_start_time_conflict));
 
         if ($check_meeting_start_time) {
-            $request->session()->flash('error', 'Booked Already for the time. Choose another CR');
-            return back()->withInput();
+            return Response::json(array(
+                'success' => false,
+                'errors' => ["Booked Already for the time. Choose another CR"],
+            ), 422);
         }
 
         // checking time conflicts
         else if ($check_start_time_conflict) {
-            $request->session()->flash('error', 'Choose a different meeting start time');
-            return redirect()->back()->withInput();
+            return Response::json(array(
+                'success' => false,
+                'errors' => ["Choose a different meeting start time"],
+            ), 422);
         } else if ($input_date != $today) {
-            $request->session()->flash('error', 'Cannot Book for the next day');
-            return redirect()->back()->withInput();
+            return Response::json(array(
+                'success' => false,
+                'errors' => ["Cannot Book for the next day"],
+            ), 422);
         } else {
             $meeting->conference_room_id = $request->cr_id;
             $meeting->meeting_date = $request->meeting_date;
@@ -118,8 +135,9 @@ class MeetingController extends Controller
             $meeting->to_time = $request->to_time;
             $meeting->user_id = Auth::user()->id;
             $meeting->save();
-            $request->session()->flash('success', 'Meeting Booked Successfully');
-            return redirect()->back();
+            return Response::json(array(
+                'success' => true,
+            ), 200);
         }
     }
 
@@ -179,7 +197,7 @@ class MeetingController extends Controller
 
         return view('employee.meeting.meeting-history')->with([
             'page' => 'meeting-history',
-            'meeting'=>$meeting
+            'meeting' => $meeting,
         ]);
     }
 }

@@ -32,13 +32,11 @@
 
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('employee.meeting.store') }}">
+                    <form method="POST" action="{{ route('employee.meeting.store') }}" id="meeting_form">
                         @csrf
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    {{-- <label class="bmd-label-floating">CR Name</label>
-                                    <input type="text" class="form-control" name="employee_name" id="employee_name"> --}}
 
                                     <select name="cr_id" id="cr_id" class="custom-select">
                                         <option value="">Select CR</option>
@@ -64,6 +62,7 @@
                                         <label for="to_time">To Time</label>
                                         <input type="text" name="to_time" id="to_time" class="form-control"
                                             autocomplete="off" value="{{ old('to_time') }}">
+
                                     </div>
                                 </div>
                             </div>
@@ -91,6 +90,12 @@
         });
 
         $(document).ready(function() {
+
+            // $.ajaxSetup({
+            //     headers: {
+            //         'X - CSRF - TOKEN': $('meta[name = "csrf-token"]').attr('content')
+            //     }
+            // });
             $('#from_time').timepicker({
                 timeFormat: 'H:i',
                 step: 15,
@@ -103,9 +108,49 @@
                 timeFormat: 'H:i',
                 step: 15,
                 disableTimeRanges: [
-                
+
                 ]
             });
+
+            //submitting meetings
+            $('#meeting_form').submit(function(e) {
+                e.preventDefault();
+
+                var _token = $('input[name=_token]').val();
+                var cr_id = $('#cr_id').val();
+                var meeting_date = $('#meeting_date').val();
+                var from_time = $('#from_time').val();
+                var to_time = $('#to_time').val();
+
+                const data = {
+                    _token: _token,
+                    cr_id: cr_id,
+                    meeting_date: meeting_date,
+                    from_time: from_time,
+                    to_time: to_time
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('employee.meeting.store') }}",
+                    data: data,
+
+                    success: function(response) {
+                        console.log(response);
+                        swal("Done", "Successfully Booked", "success");
+                        $('#meeting_form').trigger('reset');
+                    },
+                    error: function(response) {
+                        var error = response.responseJSON.errors.join("\n");
+                        swal("Cancelled", error, "error");
+
+                    }
+
+
+                });
+
+            });
+
         });
 
     </script>
