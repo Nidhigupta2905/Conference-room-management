@@ -87,6 +87,8 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-end">
 
+                        <img src="{{ Auth::user()->image }}" alt="image" height="30px" width="30px" class="rounded-circle">
+
                         <ul class="navbar-nav">
 
                             <li class="nav-item dropdown">

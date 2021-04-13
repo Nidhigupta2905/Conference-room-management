@@ -18,9 +18,7 @@ class GoogleController extends Controller
     public function handleGoogleCallback()
     {
         try {
-
             $google_obj = Socialite::driver('google')->stateless()->user();
-
             $existing_employee = User::where('google_id', $google_obj->user['id'])->first();
 
             if ($existing_employee) {
@@ -30,21 +28,11 @@ class GoogleController extends Controller
 
                 //new user
                 $new_employee = User::where('email', $google_obj->user['email'])->first();
-
-                // if ($employee) {
-                //     //email exists, update google_id in database
-                //     User::where('email', $google_obj->user['email'])->update(['google_id' => $google_obj->user['id']]);
-                //     return redirect()->route('employee.emp.create');
-
-                // } else {
-                //     //email does not exist
-                //     return redirect('/');
-                // }
-
                 $new_employee = User::create([
                     'name' => $google_obj->user['name'],
                     'email' => $google_obj->user['email'],
                     'google_id' => $google_obj->user['id'],
+                    'image' => $google_obj->user['picture'],
                     'role_id' => User::ROLES['EMPLOYEE'],
                 ]);
 

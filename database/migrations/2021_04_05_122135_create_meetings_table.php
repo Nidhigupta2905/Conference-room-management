@@ -22,10 +22,16 @@ class CreateMeetingsTable extends Migration
             $table->time('to_time')->nullable();
 
             $table->unsignedBigInteger('conference_room_id');
-            $table->foreign('conference_room_id')->references('id')->on('conference_rooms');
+            $table->foreign('conference_room_id')
+                ->references('id')
+                ->on('conference_rooms')
+                ->onDelete('cascade');
 
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });
