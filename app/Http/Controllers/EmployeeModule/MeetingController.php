@@ -183,9 +183,14 @@ class MeetingController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        Meeting::where('id', $id)->delete();
-        $request->session()->flash('success', 'Meeting Deleted Successfully');
-        return redirect()->back();
+        // Meeting::where('id', $id)->delete();
+
+        Meeting::destroy($id);
+        return Response::json(array(
+            'success' => true,
+            'message' => "deleted",
+            "data" => $id
+        ), 200);
     }
 
     public function meetingHistory()

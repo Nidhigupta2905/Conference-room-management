@@ -71,11 +71,12 @@
                                         @endphp
                                         @foreach ($meeting as $user_meeting)
 
-                                            <tr class="highlight_tr">
+                                            <tr id="meeting_data_{{$user_meeting->id}}">
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $user_meeting->user->name }}</td>
                                                 <td>{{ $user_meeting->conferenceRoom->name }}</td>
-                                                <td class="start_date">{{ date('d-m-y', strtotime($user_meeting->meeting_date)) }}</td>
+                                                <td class="start_date">
+                                                    {{ date('d-m-y', strtotime($user_meeting->meeting_date)) }}</td>
                                                 <td class="start_time">
                                                     {{ Carbon\Carbon::parse($user_meeting->from_time)->format('h:i a') }}
                                                 </td>
@@ -84,12 +85,11 @@
                                                 <td>
 
                                                     <form
-                                                        action="{{ route('employee.meeting.destroy', $user_meeting->id) }}"
-                                                        method="post" class="d-inline">
+                                                        action="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
+                                                        method="post" class="d-inline" id="delete_meeting_form">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button type="submit" class="btn btn-danger" id="delete_button"><i
-                                                                class="material-icons">
+                                                        <button type="submit" class="btn btn-danger" id="delete_button"><i class="material-icons">
                                                                 delete
                                                             </i></button>
                                                     </form>
@@ -118,6 +118,30 @@
 
         // console.log(today.getTime());
 
+
+        $(document).ready(function() {
+            $('#delete_meeting_form').submit(function(e) {
+                e.preventDefault();
+                var _token = $('input[name=_token]').val();
+
+                const data = {
+                    "_token": _token,
+                    "_method": "DELETE",
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: $(this).attr('action'),
+                    data: data,
+                    success: function (response) {
+                        console.log(response);
+                        const id = "#meeting_data_" + response.data;
+                        $(id).remove();
+                    }
+                });
+
+            });
+        });
 
     </script>
 @endpush
