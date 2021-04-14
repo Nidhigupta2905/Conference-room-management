@@ -7,13 +7,12 @@ use App\Models\ConferenceRoom;
 use App\Models\Employee;
 use App\Models\Meeting;
 use App\Models\User;
-use Mail;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
-use App\Mail\MeetingBookingMail;
+use Spatie\GoogleCalendar\Event;
 
 class MeetingController extends Controller
 {
@@ -141,10 +140,17 @@ class MeetingController extends Controller
             //mail
             $meetingDetails = [
                 'title' => Auth::user()->name . ' booked a meeting',
-                'body' => 'Testing Mail'
+                'body' => 'Testing Mail',
             ];
 
             // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+            $event = new Event();
+            Event::create([
+                'name' => 'A new event',
+                'startDateTime' => $request->from_time,
+                'endDateTime' => $request->to_time,
+             ]);
+
             return Response::json(array(
                 'success' => true,
             ), 200);
@@ -199,7 +205,7 @@ class MeetingController extends Controller
         return Response::json(array(
             'success' => true,
             'message' => "deleted",
-            "data" => $id
+            "data" => $id,
         ), 200);
     }
 
