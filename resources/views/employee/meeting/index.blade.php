@@ -6,7 +6,7 @@
         <div class="container-fluid">
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 mx-auto">
 
                     @if (session('success'))
                         <div class="alert alert-success ">
@@ -56,9 +56,9 @@
                                         <th>Meeting Date</th>
 
                                         <th>
-                                            From Time
+                                            Start Time
                                         </th>
-                                        <th>To Time</th>
+                                        <th>End Time</th>
 
                                         <th>
                                             Actions
@@ -71,7 +71,7 @@
                                         @endphp
                                         @foreach ($meeting as $user_meeting)
 
-                                            <tr id="meeting_data_{{$user_meeting->id}}">
+                                            <tr id="meeting_data_{{ $user_meeting->id }}">
                                                 <td>{{ ++$i }}</td>
                                                 <td>{{ $user_meeting->user->name }}</td>
                                                 <td>{{ $user_meeting->conferenceRoom->name }}</td>
@@ -84,15 +84,17 @@
                                                 </td>
                                                 <td>
 
-                                                    <form
+                                                    {{-- <form
                                                         action="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
                                                         method="post" class="d-inline" id="delete_meeting_form">
                                                         @method('DELETE')
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger" id="delete_button"><i class="material-icons">
-                                                                delete
-                                                            </i></button>
-                                                    </form>
+                                                        @csrf --}}
+                                                    <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
+                                                        type="submit" class="btn btn-danger" id="delete_button"
+                                                        data-id="{{ $user_meeting->id }}"><i class="material-icons">
+                                                            delete
+                                                        </i></a>
+                                                    {{-- </form> --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -109,39 +111,11 @@
 @endsection
 
 @push('js')
-    <script>
-        // var dd = String(today.getDate()).padStart(2, '0');
-        // var mm = String(today.getMonth() + 1).padStart(2, '0');
-        // var yyyy = today.getFullYear();
+    <script src="{{ asset('js/employee/meeting.js') }}"></script>
 
-        // today = dd + '-' + mm + '-' + yyyy;
-
-        // console.log(today.getTime());
-
-
-        $(document).ready(function() {
-            $('#delete_meeting_form').submit(function(e) {
-                e.preventDefault();
-                var _token = $('input[name=_token]').val();
-
-                const data = {
-                    "_token": _token,
-                    "_method": "DELETE",
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: $(this).attr('action'),
-                    data: data,
-                    success: function (response) {
-                        console.log(response);
-                        const id = "#meeting_data_" + response.data;
-                        $(id).remove();
-                    }
-                });
-
-            });
+    {{-- <script>
+        $(document).ready(function () {
+            $('#meeting_list_table').DataTable();
         });
-
-    </script>
+    </script> --}}
 @endpush

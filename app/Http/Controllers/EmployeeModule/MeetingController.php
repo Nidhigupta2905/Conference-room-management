@@ -144,7 +144,7 @@ class MeetingController extends Controller
                 'body' => 'Testing Mail'
             ];
 
-            \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+            // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
             return Response::json(array(
                 'success' => true,
             ), 200);
