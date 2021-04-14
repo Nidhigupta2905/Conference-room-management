@@ -7,11 +7,13 @@ use App\Models\ConferenceRoom;
 use App\Models\Employee;
 use App\Models\Meeting;
 use App\Models\User;
+use Mail;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
+use App\Mail\MeetingBookingMail;
 
 class MeetingController extends Controller
 {
@@ -135,6 +137,14 @@ class MeetingController extends Controller
             $meeting->to_time = $request->to_time;
             $meeting->user_id = Auth::user()->id;
             $meeting->save();
+
+            //mail
+            $meetingDetails = [
+                'title' => Auth::user()->name . ' booked a meeting',
+                'body' => 'Testing Mail'
+            ];
+
+            \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
             return Response::json(array(
                 'success' => true,
             ), 200);
