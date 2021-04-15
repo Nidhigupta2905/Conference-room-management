@@ -97,7 +97,7 @@
             //     }
             // });
             $('#from_time').timepicker({
-                timeFormat: 'h:i:s A',
+                timeFormat: 'H:i',
                 step: 15,
                 disableTimeRanges: [
 
@@ -105,7 +105,7 @@
             });
 
             $('#to_time').timepicker({
-                timeFormat: 'h:i:s A',
+                timeFormat: 'H:i',
                 step: 15,
                 disableTimeRanges: [
 

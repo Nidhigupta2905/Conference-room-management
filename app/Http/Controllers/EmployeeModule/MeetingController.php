@@ -110,8 +110,6 @@ class MeetingController extends Controller
                     });
             })->exists();
 
-// dd(DB::getQueryLog($check_start_time_conflict));
-
         if ($check_meeting_start_time) {
             return Response::json(array(
                 'success' => false,
