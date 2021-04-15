@@ -18,8 +18,8 @@ class CreateMeetingsTable extends Migration
 
             $table->timestamp('meeting_date');
 
-            $table->time('from_time')->nullable();
-            $table->time('to_time')->nullable();
+            $table->dateTime('from_time')->nullable();
+            $table->dateTime('to_time')->nullable();
 
             $table->unsignedBigInteger('conference_room_id');
             $table->foreign('conference_room_id')

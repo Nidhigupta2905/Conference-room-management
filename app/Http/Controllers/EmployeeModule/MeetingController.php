@@ -76,6 +76,7 @@ class MeetingController extends Controller
         }
         $meeting = new Meeting();
 
+
         $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
             ->whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
@@ -145,11 +146,15 @@ class MeetingController extends Controller
 
             // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
             $event = new Event();
+
             Event::create([
-                'name' => 'A new event',
-                'startDateTime' => $request->from_time,
-                'endDateTime' => $request->to_time,
-             ]);
+                'name' => Auth::user()->name . ' booked a meeting.',
+                'startDateTime' => Carbon::now(),
+                'endDateTime' => Carbon::now()->addHour(),
+            ]);
+
+// get all future events on a calendar
+            $events = Event::get();
 
             return Response::json(array(
                 'success' => true,
