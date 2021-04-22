@@ -59,24 +59,16 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
 
-        // $carbonDate = Carbon::parse($request->meeting_date)->format('Y-m-d');
-        // $carbonStartTime = Carbon::parse($request->from_time)->format("g:i:s");
-        // $carbonEndTime = Carbon::parse($request->to_time)->format("g:i:s ");
-
-        // $date = Carbon::parse($carbonDate)->format('Y-m-d, H:i:s');
-        // // var_dump($date);
-        // $dt = Carbon::createFromFormat('Y-m-d H:i:s', $date);
-        // var_dump($dt->toDate());
-
-        // $date_time = $request->meeting_date . ' ' . $request->from_time;
-        // $date = strtotime($date_time);
-        // var_dump(date('Y-m-d h:i:s', $date));
-
-        // var_dump($carbonDate.' '. $carbonStartTime);
-        Carbon::setToStringFormat('jS \o\f F, Y g:i:s a');
-
-        // dd(Carbon::createFromFormat('Y-m-d H:i', $carbonDate, $request->from_time)->format('Y-m-d, h:i:s'));
+        // $carbon = Carbon::setToStringFormat('jS \o\f F, Y g:i:s a');
         // TODO: validation
+
+        // $carbon = new Carbon();
+
+        // dd($carbon);
+        // \dd(Carbon::now());
+        // \dd(Carbon::createFromFormat('Y-m-d H:i:s', $carbonDate .' '.$carbonStartTime)->format('d-m-Y'));
+
+        // dd(Carbon::createFromFormat('Y-m-d g:i:s', $carbonDate .' '. $carbonStartTime)->format('Y-m-d H:i:s'));
 
         $validator = Validator::make($request->all(), [
             'cr_id' => 'required',
@@ -92,6 +84,9 @@ class MeetingController extends Controller
             ), 422);
         }
         $meeting = new Meeting();
+
+        $carbonDate = Carbon::parse($request->meeting_date)->format('Y-m-d');
+        $carbonStartTime = Carbon::parse($request->from_time)->format("g:i:s A");
 
         $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
             ->whereDate('meeting_date', $request->meeting_date)
@@ -160,23 +155,25 @@ class MeetingController extends Controller
 
             // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
+            $event = new Event();
+
+            // $time_stamp = Carbon::createFromFormat('Y-m-d H:i:s', $request->meeting_date . $request->from_time, 'Asia/Kolkata')->format('Y-m-d H:i:s');
+
             $carbonDate = Carbon::parse($request->meeting_date)->format('Y-m-d');
 
             $carbonStartTime = Carbon::parse($request->from_time)->format("g:i:s");
             $carbonEndTime = Carbon::parse($request->to_time)->format("g:i:s");
-            $event = new Event();
 
-            $start_date_time = $request->meeting_date . ' ' . $request->from_time;
-            $date = strtotime($start_date_time);
-            // var_dump(date('Y-m-d h:i:s', $date));
+            $start_time_stamp = Carbon::createFromFormat('Y-m-d g:i:s', $carbonDate . ' ' . $carbonStartTime)->format('Y-m-d H:i:s');
 
-            $end_date_time = $request->meeting_date . ' ' . $request->to_time;
-            $end_date = strtotime($end_date_time);
+            // var_dump($start_time_stamp);
+
+            // $start_time_stamp = Carbon::createFromTimestamp(Carbon::ISO8601, $carbonDate . ' '.$carbonStartTime);
 
             Event::create([
                 'name' => Auth::user()->name . ' booked a meeting.',
-                'startDateTime' => date('Y-m-d h:i:s', $date),
-                'endDateTime' => date('Y-m-d h:i:s', $end_date),
+                'startDateTime' => $start_time_stamp,
+                'endDateTime' => $start_time_stamp,
             ]);
 
 // get all future events on a calendar

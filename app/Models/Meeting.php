@@ -10,6 +10,10 @@ class Meeting extends Model
 {
     use HasFactory;
 
+    protected $dates = [
+        'meeting_date'
+    ];
+
     /**
      * Get the user that owns the Meeting
      *

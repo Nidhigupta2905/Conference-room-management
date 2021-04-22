@@ -45,15 +45,26 @@ class ConferenceRoomController extends Controller
     public function store(Request $request)
     {
         //validation
-        Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'conference_room_name' => 'required|unique:conference_rooms,name',
-        ])->validate();
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()->all(),
+                'message' => 'validation error',
+            ], 422);
+        }
 
         $conference_room = new ConferenceRoom;
         $conference_room->name = $request->conference_room_name;
         $conference_room->save();
-        $request->session()->flash('success', 'CR Added successfully');
-        return redirect()->back();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'CR Name uploaded successfully',
+        ], 200);
     }
 
     /**
@@ -66,7 +77,7 @@ class ConferenceRoomController extends Controller
     {
         $cr_room = ConferenceRoom::find($id);
         return view('admin.conference_room.show')->with([
-            'cr_room'=>$cr_room,
+            'cr_room' => $cr_room,
             'page' => 'cr_room',
         ]);
     }
@@ -96,15 +107,25 @@ class ConferenceRoomController extends Controller
     public function update(Request $request, $id)
     {
 
-        Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'conference_room_name' => 'required|unique:conference_rooms,name',
-        ])->validate();
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'success'=>false,
+                'errors'=>$validator->errors()->all(),
+                'message'=>'validation error'
+            ], 422);
+        }
 
         $cr_room = ConferenceRoom::find($id);
         $cr_room->name = $request->conference_room_name;
         $cr_room->save();
-        $request->session()->flash('success', 'Name Updated successfully');
-        return redirect()->route('admin.conference_room.index');
+        return response()->json([
+            'success'=>true,
+            'message'=>"CR Name Updated Successfully"
+        ], 200);
 
     }
 
