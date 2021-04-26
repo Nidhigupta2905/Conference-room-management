@@ -58,18 +58,13 @@ class MeetingController extends Controller
      */
     public function store(Request $request)
     {
-
-        // $carbon = Carbon::setToStringFormat('jS \o\f F, Y g:i:s a');
         // TODO: validation
 
-        // $carbon = new Carbon();
+        // $carbonDate = Carbon::parse($request->meeting_date);
+        // $carbonStartTime = Carbon::parse($request->from_time);
+        // $carbonEndTime = Carbon::parse($request->to_time);
 
-        // dd($carbon);
-        // \dd(Carbon::now());
-        // \dd(Carbon::createFromFormat('Y-m-d H:i:s', $carbonDate .' '.$carbonStartTime)->format('d-m-Y'));
-
-        // dd(Carbon::createFromFormat('Y-m-d g:i:s', $carbonDate .' '. $carbonStartTime)->format('Y-m-d H:i:s'));
-
+        // dd($carbonStartTime);
         $validator = Validator::make($request->all(), [
             'cr_id' => 'required',
             'meeting_date' => 'required|date_format:Y-m-d',
@@ -155,28 +150,19 @@ class MeetingController extends Controller
 
             // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
+            //google calendar events
             $event = new Event();
 
-            // $time_stamp = Carbon::createFromFormat('Y-m-d H:i:s', $request->meeting_date . $request->from_time, 'Asia/Kolkata')->format('Y-m-d H:i:s');
-
-            $carbonDate = Carbon::parse($request->meeting_date)->format('Y-m-d');
-
-            $carbonStartTime = Carbon::parse($request->from_time)->format("g:i:s");
-            $carbonEndTime = Carbon::parse($request->to_time)->format("g:i:s");
-
-            $start_time_stamp = Carbon::createFromFormat('Y-m-d g:i:s', $carbonDate . ' ' . $carbonStartTime)->format('Y-m-d H:i:s');
-
-            // var_dump($start_time_stamp);
-
-            // $start_time_stamp = Carbon::createFromTimestamp(Carbon::ISO8601, $carbonDate . ' '.$carbonStartTime);
+            $carbonStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
+            $carbonEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
             Event::create([
-                'name' => Auth::user()->name . ' booked a meeting.',
-                'startDateTime' => $start_time_stamp,
-                'endDateTime' => $start_time_stamp,
+                'name' => Auth::user()->name ." booked a meeting in ",
+                'startDateTime' => $carbonStartTime,
+                'endDateTime' => $carbonEndTime,
             ]);
 
-// get all future events on a calendar
+            // get all future events on a calendar
             $events = Event::get();
 
             return Response::json(array(
@@ -237,6 +223,7 @@ class MeetingController extends Controller
         ), 200);
     }
 
+    //user's meeting history
     public function meetingHistory()
     {
         $user = Auth::user();

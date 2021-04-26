@@ -93,6 +93,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right"
                                  aria-labelledby="navbarDropdownProfile">
+                                 <a class="dropdown-item" href="#">{{Auth::user()->name}}</a>
                                 <a class="dropdown-item" href="#">Profile</a>
                                 <a class="dropdown-item" href="#">Settings</a>
                                 <div class="dropdown-divider"></div>

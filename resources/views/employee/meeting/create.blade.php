@@ -113,43 +113,43 @@
             });
 
             //submitting meetings
-            // $('#meeting_form').submit(function(e) {
-            //     e.preventDefault();
+            $('#meeting_form').submit(function(e) {
+                e.preventDefault();
 
-            //     var _token = $('input[name=_token]').val();
-            //     var cr_id = $('#cr_id').val();
-            //     var meeting_date = $('#meeting_date').val();
-            //     var from_time = $('#from_time').val();
-            //     var to_time = $('#to_time').val();
+                var _token = $('input[name=_token]').val();
+                var cr_id = $('#cr_id').val();
+                var meeting_date = $('#meeting_date').val();
+                var from_time = $('#from_time').val();
+                var to_time = $('#to_time').val();
 
-            //     const data = {
-            //         _token: _token,
-            //         cr_id: cr_id,
-            //         meeting_date: meeting_date,
-            //         from_time: from_time,
-            //         to_time: to_time
-            //     }
+                const data = {
+                    _token: _token,
+                    cr_id: cr_id,
+                    meeting_date: meeting_date,
+                    from_time: from_time,
+                    to_time: to_time
+                }
 
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "{{ route('employee.meeting.store') }}",
-            //         data: data,
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('employee.meeting.store') }}",
+                    data: data,
 
-            //         success: function(response) {
-            //             console.log(response);
-            //             swal("Done", "Successfully Booked", "success");
-            //             $('#meeting_form').trigger('reset');
-            //         },
-            //         error: function(response) {
-            //             var error = response.responseJSON.errors.join("\n");
-            //             swal("Cancelled", error, "error");
+                    success: function(response) {
+                        console.log(response);
+                        swal("Done", "Successfully Booked", "success");
+                        $('#meeting_form').trigger('reset');
+                    },
+                    error: function(response) {
+                        var error = response.responseJSON.errors.join("\n");
+                        swal("Cancelled", error, "error");
 
-            //         }
+                    }
 
 
-            //     });
+                });
 
-            // });
+            });
 
         });
 
