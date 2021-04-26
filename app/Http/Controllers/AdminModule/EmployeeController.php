@@ -4,8 +4,10 @@ namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Meeting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class EmployeeController extends Controller
 {
@@ -38,7 +40,7 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -65,7 +67,7 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -80,7 +82,7 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -95,8 +97,8 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -115,7 +117,7 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
@@ -123,5 +125,15 @@ class EmployeeController extends Controller
         User::where('id', $id)->delete();
         $request->session()->flash('success', 'Employee Deleted Successfully');
         return redirect()->back();
+    }
+
+    public function meetingHistory()
+    {
+        $meetings = Meeting::all();
+
+        return view('admin.employee.meeting-history')->with([
+            'page' => 'meetingHistory',
+            'meetings' => $meetings,
+        ]);
     }
 }

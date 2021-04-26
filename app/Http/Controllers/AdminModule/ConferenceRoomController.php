@@ -141,4 +141,6 @@ class ConferenceRoomController extends Controller
         $request->session()->flash("success", "Room Deleted Successfully");
         return redirect()->back();
     }
+
+
 }

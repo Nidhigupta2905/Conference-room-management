@@ -44,6 +44,9 @@ Auth::routes(['register' => false]);
 //admin route
 Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "admin."], function () {
     Route::get('/home', [AdminController::class, 'index'])->name('home');
+
+    Route::get('meeting-history', [EmployeeController::class, 'meetingHistory'])->name('meeting-history');
+
     Route::resource('conference_room', ConferenceRoomController::class);
     Route::resource('employee', EmployeeController::class);
 });
