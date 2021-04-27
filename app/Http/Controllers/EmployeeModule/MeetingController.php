@@ -59,12 +59,6 @@ class MeetingController extends Controller
     public function store(Request $request)
     {
         // TODO: validation
-
-        // $carbonDate = Carbon::parse($request->meeting_date);
-        // $carbonStartTime = Carbon::parse($request->from_time);
-        // $carbonEndTime = Carbon::parse($request->to_time);
-
-        // dd($carbonStartTime);
         $validator = Validator::make($request->all(), [
             'cr_id' => 'required',
             'meeting_date' => 'required|date_format:Y-m-d',
@@ -78,10 +72,8 @@ class MeetingController extends Controller
                 'errors' => $validator->errors()->all(),
             ), 422);
         }
-        $meeting = new Meeting();
 
-        $carbonDate = Carbon::parse($request->meeting_date)->format('Y-m-d');
-        $carbonStartTime = Carbon::parse($request->from_time)->format("g:i:s A");
+        $meeting = new Meeting();
 
         $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
             ->whereDate('meeting_date', $request->meeting_date)
@@ -94,8 +86,6 @@ class MeetingController extends Controller
 
         $from_time = $request->from_time;
         $to_time = $request->to_time;
-
-        // DB::enableQueryLog();
 
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
@@ -141,10 +131,12 @@ class MeetingController extends Controller
             $meeting->to_time = $request->to_time;
             $meeting->user_id = Auth::user()->id;
             $meeting->save();
+            
+            $cr = $meeting->conferenceRoom()->first();
 
             //mail
             $meetingDetails = [
-                'title' => Auth::user()->name . ' booked a meeting',
+                'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
                 'body' => 'Testing Mail',
             ];
 
@@ -153,13 +145,13 @@ class MeetingController extends Controller
             //google calendar events
             $event = new Event();
 
-            $carbonStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
-            $carbonEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
+            $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
+            $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
             Event::create([
-                'name' => Auth::user()->name ." booked a meeting in ",
-                'startDateTime' => $carbonStartTime,
-                'endDateTime' => $carbonEndTime,
+                'name' => Auth::user()->name . " booked a meeting in " . $cr->name . " CR",
+                'startDateTime' => $meetingStartTime,
+                'endDateTime' => $meetingEndTime,
             ]);
 
             // get all future events on a calendar
@@ -229,7 +221,7 @@ class MeetingController extends Controller
         $user = Auth::user();
         $meeting = $user->meetings()->with([
             'conferenceRoom',
-        ])->orderBy('from_time', 'ASC')->get();
+        ])->orderBy('meeting_date', 'DESC')->get();
 
         return view('employee.meeting.meeting-history')->with([
             'page' => 'meeting-history',
