@@ -58,6 +58,7 @@
                                         <th>
                                             End Name
                                         </th>
+                                        <th>Action</th>
                                     </thead>
 
                                     <tbody class="font-weight-bold">
@@ -76,17 +77,21 @@
 
                                                 <td>
 
-                                                    {{-- <form
-                                                        action="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
-                                                        method="post" class="d-inline" id="delete_meeting_form">
+                                                    <form
+                                                        action="{{ route('admin.events.destroy', ['event' => $google_events->id]) }}"
+                                                        method="post" class="d-inline" id="delete_event_form">
                                                         @method('DELETE')
-                                                        @csrf --}}
+                                                        @csrf
+
+                                                        <button class="btn btn-danger"><i class="material-icons">
+                                                            delete
+                                                        </i></button>
                                                     {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
                                                         type="submit" class="btn btn-danger" id="delete_button"
                                                         data-id="{{ $user_meeting->id }}"><i class="material-icons">
                                                             delete
                                                         </i></a> --}}
-                                                    {{-- </form> --}}
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
