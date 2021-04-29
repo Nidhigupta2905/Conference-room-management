@@ -131,7 +131,7 @@ class MeetingController extends Controller
             $meeting->to_time = $request->to_time;
             $meeting->user_id = Auth::user()->id;
             $meeting->save();
-            
+
             $cr = $meeting->conferenceRoom()->first();
 
             //mail
@@ -148,14 +148,23 @@ class MeetingController extends Controller
             $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
             $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
-            Event::create([
-                'name' => Auth::user()->name . " booked a meeting in " . $cr->name . " CR",
-                'startDateTime' => $meetingStartTime,
-                'endDateTime' => $meetingEndTime,
-            ]);
+            $event->name = Auth::user()->name . " booked a meeting in " . $cr->name . " CR";
+            $event->startDateTime = $meetingStartTime;
+            $event->endDateTime = $meetingEndTime;
+
+            $event->save();
+
+
+            // Event::create([
+            //     'name' => Auth::user()->name . " booked a meeting in " . $cr->name . " CR",
+            //     'startDateTime' => $meetingStartTime,
+            //     'endDateTime' => $meetingEndTime,
+            // ]);
 
             // get all future events on a calendar
             $events = Event::get();
+
+            dd($events);
 
             return Response::json(array(
                 'success' => true,

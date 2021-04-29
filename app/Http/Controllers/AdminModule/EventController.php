@@ -4,8 +4,9 @@ namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Spatie\GoogleCalendar\Event;
 
-class AdminController extends Controller
+class EventController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,10 @@ class AdminController extends Controller
      */
     public function index()
     {
-
-        return view('admin.home')->with([
-            'page' => 'dashboard',
+        $events  = Event::get();
+        return view('admin.event.index')->with([
+            'events' => $events,
+            'page' => 'events'
         ]);
     }
 
@@ -85,5 +87,4 @@ class AdminController extends Controller
     {
         //
     }
-
 }

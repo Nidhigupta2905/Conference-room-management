@@ -7,10 +7,9 @@ use App\Http\Controllers\AdminModule\ConferenceRoomController;
 
 use App\Http\Controllers\EmployeeModule\MeetingController;
 use App\Http\Controllers\EmployeeModule\DashboardController;
-
+use App\Http\Controllers\AdminModule\EventController;
 
 use App\Http\Controllers\GoogleModule\GoogleController;
-
 
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +48,8 @@ Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "a
 
     Route::resource('conference_room', ConferenceRoomController::class);
     Route::resource('employee', EmployeeController::class);
+
+    Route::resource('events', EventController::class);
 });
 
 //employee

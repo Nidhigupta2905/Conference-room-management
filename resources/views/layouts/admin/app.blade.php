@@ -63,6 +63,15 @@
                     </a>
                 </li>
 
+                <li class="nav-item @if (isset($page) && $page=='events' ) active @endif">
+                    <a class="nav-link " href="{{ route('admin.events.index') }}">
+                            <i class="material-icons">
+                                history
+                            </i>
+                        <p>Events</p>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>
