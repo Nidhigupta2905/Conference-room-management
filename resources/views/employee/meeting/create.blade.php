@@ -32,6 +32,8 @@
 
                 </div>
                 <div class="card-body">
+
+                    <div id="loader"></div>
                     <form method="POST" action="{{ route('employee.meeting.store') }}" id="meeting_form">
                         @csrf
                         <div class="row">

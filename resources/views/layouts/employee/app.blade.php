@@ -88,7 +88,8 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-end">
 
-                        <img src="{{ Auth::user()->image }}" alt="image" height="30px" width="30px" class="rounded-circle">
+                        <img src="{{ Auth::user()->image }}" alt="image" height="30px" width="30px"
+                            class="rounded-circle">
 
                         <ul class="navbar-nav">
 
@@ -154,10 +155,19 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script> --}}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    {{-- <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-material-design.min.js') }}"></script>
+    <script src="{{asset('js/plugins/perfect-scrollbar.jquery.min.js')}}"></script> --}}
+
+    <!-- Plugin for the momentJs  -->
+    <script src="{{ asset('js/plugins/moment.min.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
+
+    {{-- <script src="{{ asset('js/material-dashboard.min.js') }}" type="text/javascript"></script> --}}
+
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    {{-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script> --}}
     @stack('js')
 </body>
 
