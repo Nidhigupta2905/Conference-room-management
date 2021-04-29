@@ -1,4 +1,4 @@
-@extends('layouts.employee.app')
+@extends('layouts.admin.app')
 
 @section('content')
 
@@ -34,10 +34,8 @@
 
                         <div class="card-header card-header-primary">
 
-                            <a class="btn btn-info pull-right" href="{{ route('employee.meeting.create') }}"><i
-                                    class="material-icons">
-                                    add_circle_outline</i>Add</a>
-                            <h4 class="card-title ">Meeting List</h4>
+                            <a class="btn btn-info pull-right" href="{{route('admin.meeting-history')}}">See all Meetings</a>
+                            <h4 class="card-title ">Today's Meeting List</h4>
                             <p class="card-category"> Here is a subtitle for this table</p>
                         </div>
                         <div class="card-body">
@@ -56,44 +54,46 @@
                                         <th>Meeting Date</th>
 
                                         <th>
-                                            Start Time
+                                            From Time
                                         </th>
-                                        <th>End Time</th>
-
-                                        <th>
-                                            Actions
-                                        </th>
+                                        <th>To Time</th>
+                                        <th>Actions</th>
                                     </thead>
 
-                                    <tbody>
+                                    <tbody class="font-weight-bold">
                                         @php
                                             $i = 0;
                                         @endphp
-                                        @foreach ($meeting as $user_meeting)
+                                        @foreach ($meetings as $meeting)
 
-                                            <tr id="meeting_data_{{ $user_meeting->id }}">
+                                            <tr id="meeting_data_{{ $meeting->id }}">
                                                 <td>{{ ++$i }}</td>
-                                                <td>{{ $user_meeting->user->name }}</td>
-                                                <td>{{ $user_meeting->conferenceRoom->name }}</td>
-                                                <td class="start_date">
-                                                    {{ date('d-m-y', strtotime($user_meeting->meeting_date)) }}</td>
+                                                <td>{{ $meeting->user->name }}</td>
+
+                                                <td>{{ $meeting->conferenceRoom->name }}</td>
+                                                <td class="start_date">{{ date('d-m-y', strtotime($meeting->meeting_date)) }}</td>
                                                 <td class="start_time">
-                                                    {{ Carbon\Carbon::parse($user_meeting->from_time)->format('h:i a') }}
+                                                    {{ Carbon\Carbon::parse($meeting->from_time)->format('h:i a') }}
                                                 </td>
-                                                <td>{{ Carbon\Carbon::parse($user_meeting->to_time)->format('h:i a') }}
+                                                <td>{{ Carbon\Carbon::parse($meeting->to_time)->format('h:i a') }}
                                                 </td>
+
                                                 <td>
 
                                                     {{-- <form
-                                                        action="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
-                                                        method="post" class="d-inline" id="delete_meeting_form">
+                                                        action="{{ route('admin.events.destroy', ['event' => $google_events->id]) }}"
+                                                        method="post" class="d-inline" id="delete_event_form">
                                                         @method('DELETE')
                                                         @csrf --}}
-                                                    <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
+
+                                                        <button class="btn btn-danger"><i class="material-icons">
+                                                            delete
+                                                        </i></button>
+                                                    {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
                                                         type="submit" class="btn btn-danger" id="delete_button"
                                                         data-id="{{ $user_meeting->id }}"><i class="material-icons">
                                                             delete
-                                                        </i></a>
+                                                        </i></a> --}}
                                                     {{-- </form> --}}
                                                 </td>
                                             </tr>
@@ -109,13 +109,3 @@
         </div>
     </div>
 @endsection
-
-@push('js')
-    <script src="{{ asset('js/employee/meeting.js') }}"></script>
-
-    {{-- <script>
-        $(document).ready(function () {
-            $('#meeting_list_table').DataTable();
-        });
-    </script> --}}
-@endpush

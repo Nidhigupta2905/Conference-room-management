@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use App\Models\Meeting;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Auth;
+use Carbon\Carbon;
+
 
 class EmployeeController extends Controller
 {
@@ -127,6 +128,7 @@ class EmployeeController extends Controller
         return redirect()->back();
     }
 
+    //employee meeting history
     public function meetingHistory()
     {
         $meetings = Meeting::all();
@@ -135,5 +137,21 @@ class EmployeeController extends Controller
             'page' => 'meetingHistory',
             'meetings' => $meetings,
         ]);
+    }
+
+    //employee's today's meeting history
+    public function todayMeetings()
+    {
+        $today = Carbon::now()->startOfDay();
+
+        $meetings = Meeting::where('meeting_date', $today)
+            ->orderBy('meeting_date', 'ASC')
+            ->get();
+
+        return view('admin.employee.today-meetings')->with([
+            'page' => 'meetingHistory',
+            'meetings'=>$meetings
+        ]);
+
     }
 }

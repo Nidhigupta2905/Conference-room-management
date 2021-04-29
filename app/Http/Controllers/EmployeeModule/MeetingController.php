@@ -26,6 +26,7 @@ class MeetingController extends Controller
         $user = Auth::user();
 
         $today = Carbon::now()->startOfDay();
+        $events = Event::get();
 
         $meeting = $user->meetings()->with([
             'conferenceRoom',
@@ -33,6 +34,7 @@ class MeetingController extends Controller
         return view('employee.meeting.index')->with([
             'page' => 'meeting',
             'meeting' => $meeting,
+            'events'=>$events
         ]);
     }
 
@@ -145,26 +147,21 @@ class MeetingController extends Controller
             //google calendar events
             $event = new Event();
 
+            // dd($event->id);
             $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
             $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
             $event->name = Auth::user()->name . " booked a meeting in " . $cr->name . " CR";
             $event->startDateTime = $meetingStartTime;
             $event->endDateTime = $meetingEndTime;
-
+            
+            $meeting->event_id = $event->id;
+            $meeting->save();
             $event->save();
+            // dd($event);
 
-
-            // Event::create([
-            //     'name' => Auth::user()->name . " booked a meeting in " . $cr->name . " CR",
-            //     'startDateTime' => $meetingStartTime,
-            //     'endDateTime' => $meetingEndTime,
-            // ]);
-
-            // get all future events on a calendar
             $events = Event::get();
 
-            dd($events);
 
             return Response::json(array(
                 'success' => true,

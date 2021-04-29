@@ -33,9 +33,7 @@
 
                         <div class="card-header card-header-primary">
 
-                            <a class="btn btn-info pull-right" href="{{ route('employee.meeting.create') }}"><i
-                                    class="material-icons">
-                                    add_circle_outline</i>Add</a>
+                            <a class="btn btn-info pull-right" href="{{ route('admin.today-meetings') }}">See Today's Meetings</a>
                             <h4 class="card-title ">Meeting List</h4>
                             <p class="card-category"> Here is a subtitle for this table</p>
                         </div>
@@ -50,7 +48,7 @@
                                         <th>
                                             User Name
                                         </th>
-                                        <td>CR Name</td>
+                                        <th>CR Name</th>
 
                                         <th>Meeting Date</th>
 
