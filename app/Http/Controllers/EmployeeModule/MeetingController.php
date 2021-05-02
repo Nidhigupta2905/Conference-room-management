@@ -34,7 +34,7 @@ class MeetingController extends Controller
         return view('employee.meeting.index')->with([
             'page' => 'meeting',
             'meeting' => $meeting,
-            'events'=>$events
+            'events' => $events,
         ]);
     }
 
@@ -147,20 +147,17 @@ class MeetingController extends Controller
             //google calendar events
             $event = new Event();
 
-            // dd($event->id);
             $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
             $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
-            $event->name = Auth::user()->name . " booked a meeting in " . $cr->name . " CR";
-            $event->startDateTime = $meetingStartTime;
-            $event->endDateTime = $meetingEndTime;
-            
-            $meeting->event_id = $event->id;
-            $meeting->save();
-            $event->save();
-            // dd($event);
+            $events = Event::create([
+                'name' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+                'startDateTime' => $meetingStartTime,
+                'endDateTime' => $meetingEndTime,
+            ]);
 
-            $events = Event::get();
+            $meeting->event_id = $events->id;
+            $meeting->save();
 
 
             return Response::json(array(
@@ -209,18 +206,36 @@ class MeetingController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
-    {
-        // Meeting::where('id', $id)->delete();
+    // public function destroy(Request $request, $id, $event_id)
+    // {
+    //     Meeting::where('id', $id)->delete();
 
-        Meeting::destroy($id);
+    //     // Meeting::destroy($id);
+    //     $event = Event::find($event_id);
+    //     $event->delete();
+
+    //     return Response::json(array(
+    //         'success' => true,
+    //         'message' => "deleted",
+    //         "data" => $id,
+    //     ), 200);
+    // }
+
+
+    public function delete(Request $request, $id, $event_id)
+    {
+        Meeting::where('id', $id)->delete();
+
+        // Meeting::destroy($id);
+        $event = Event::find($event_id);
+        $event->delete();
+
         return Response::json(array(
             'success' => true,
             'message' => "deleted",
             "data" => $id,
         ), 200);
     }
-
     //user's meeting history
     public function meetingHistory()
     {

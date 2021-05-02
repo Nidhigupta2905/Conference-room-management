@@ -89,6 +89,5 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->back();
-
     }
 }

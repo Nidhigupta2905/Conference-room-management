@@ -84,17 +84,22 @@
                                                 </td>
                                                 <td>
 
-                                                    {{-- <form
-                                                        action="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
+                                                    <form
+                                                        action="{{ route('employee.meeting.delete', ['meeting' => $user_meeting->id, 'event_id' => $user_meeting->event_id]) }}"
                                                         method="post" class="d-inline" id="delete_meeting_form">
-                                                        @method('DELETE')
-                                                        @csrf --}}
-                                                    <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
+                                                        {{-- @method('DELETE') --}}
+                                                        @csrf
+
+                                                        <button class="btn btn-danger"><i class="material-icons">
+                                                            delete
+                                                        </i></button>
+                                                    {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id, 'event' => $user_meeting->event_id]) }}"
                                                         type="submit" class="btn btn-danger" id="delete_button"
                                                         data-id="{{ $user_meeting->id }}"><i class="material-icons">
                                                             delete
-                                                        </i></a>
-                                                    {{-- </form> --}}
+                                                        </i></a> --}}
+
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -111,7 +116,7 @@
 @endsection
 
 @push('js')
-    <script src="{{ asset('js/employee/meeting.js') }}"></script>
+    {{-- <script src="{{ asset('js/employee/meeting.js') }}"></script> --}}
 
     {{-- <script>
         $(document).ready(function () {

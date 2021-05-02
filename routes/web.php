@@ -59,6 +59,8 @@ Route::group(["middleware" => ["auth", "employee"], "prefix" => "employee", "as"
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/meeting-history', [MeetingController::class, 'meetingHistory'])->name('meeting-history');
+
+    Route::delete('meeting/{id}/{event_id}', [MeetingController::class, 'delete'])->name('meeting.delete');
     Route::resource('meeting', MeetingController::class);
 });
 
