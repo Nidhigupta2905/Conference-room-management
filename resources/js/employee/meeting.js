@@ -16,7 +16,7 @@ $('body').on('click', '#delete_button', function (e) {
 
     $.ajax({
         type: "POST",
-        url: $(this).attr('href'),
+        url: $(this).attr('action'),
         data: data,
         success: function (response) {
             console.log(response);

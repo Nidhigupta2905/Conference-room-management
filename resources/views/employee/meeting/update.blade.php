@@ -1,6 +1,7 @@
 @extends('layouts.employee.app')
 
 @section('content')
+
     <div class="row">
         <div class="col-md-8 offset-2">
 
@@ -34,14 +35,15 @@
                 <div class="card-body">
 
                     <div id="loader"></div>
-                    <form method="POST" action="{{ route('employee.meeting.store') }}" id="meeting_form">
+                    <form method="POST" action="{{ route('employee.meeting.update', $meeting->id) }}" id="update_meeting_form">
+                        @method('PUT')
                         @csrf
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
 
                                     <select name="cr_id" id="cr_id" class="custom-select">
-                                        <option value="">Select CR</option>
+                                        <option value="{{$meeting->conferenceRoom->id}}">{{$meeting->conferenceRoom->name}}</option>
                                         @foreach ($cr_rooms as $cr_room)
                                             <option value="{{ $cr_room->id }}">{{ $cr_room->name }}</option>
                                         @endforeach
@@ -51,19 +53,19 @@
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Date</label>
                                     <input type="text" class="form-control" name="meeting_date" id="meeting_date"
-                                        autocomplete="off" value="{{ old('meeting_date') }}">
+                                        autocomplete="off" value="{{  date('Y-m-d', strtotime($meeting->meeting_date)) }}">
                                 </div>
 
                                 <div class="row">
                                     <div class="col">
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
-                                            autocomplete="off" value="{{ old('from_time') }}">
+                                            autocomplete="off" value="{{ $meeting->from_time }}">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
                                         <input type="text" name="to_time" id="to_time" class="form-control"
-                                            autocomplete="off" value="{{ old('to_time') }}">
+                                            autocomplete="off" value="{{ $meeting->to_time }}">
 
                                     </div>
                                 </div>
@@ -77,8 +79,8 @@
             </div>
         </div>
     </div>
-@endsection
 
+@endsection
 
 @push('js')
 
@@ -114,46 +116,8 @@
                 ]
             });
 
-            //submitting meetings
-            $('#meeting_form').submit(function(e) {
-                e.preventDefault();
-
-                var _token = $('input[name=_token]').val();
-                var cr_id = $('#cr_id').val();
-                var meeting_date = $('#meeting_date').val();
-                var from_time = $('#from_time').val();
-                var to_time = $('#to_time').val();
-
-                const data = {
-                    _token: _token,
-                    cr_id: cr_id,
-                    meeting_date: meeting_date,
-                    from_time: from_time,
-                    to_time: to_time
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('employee.meeting.store') }}",
-                    data: data,
-
-                    success: function(response) {
-                        console.log(response);
-                        swal("Done", "Successfully Booked", "success");
-                        $('#meeting_form').trigger('reset');
-                    },
-                    error: function(response) {
-                        var error = response.responseJSON.errors.join("\n");
-                        swal("Cancelled", error, "error");
-
-                    }
-
-
-                });
-
-            });
-
         });
 
     </script>
 @endpush
+

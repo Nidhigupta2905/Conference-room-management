@@ -84,22 +84,28 @@
                                                 </td>
                                                 <td>
 
-                                                    <form
-                                                        action="{{ route('employee.meeting.delete', ['meeting' => $user_meeting->id, 'event_id' => $user_meeting->event_id]) }}"
+                                                    {{-- <form
+                                                        action="{{ route('employee.meeting.delete', ['id' => $user_meeting->id, 'event_id' => $user_meeting->event_id]) }}"
                                                         method="post" class="d-inline" id="delete_meeting_form">
-                                                        {{-- @method('DELETE') --}}
+
                                                         @csrf
 
                                                         <button class="btn btn-danger"><i class="material-icons">
                                                             delete
-                                                        </i></button>
-                                                    {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id, 'event' => $user_meeting->event_id]) }}"
+                                                        </i></button> --}}
+                                                    <a href="{{ route('employee.meeting.delete', ['id' => $user_meeting->id, 'event_id' => $user_meeting->event_id]) }}"
                                                         type="submit" class="btn btn-danger" id="delete_button"
                                                         data-id="{{ $user_meeting->id }}"><i class="material-icons">
                                                             delete
-                                                        </i></a> --}}
+                                                        </i></a>
 
-                                                    </form>
+                                                    <a href="{{route('employee.meeting.edit', $user_meeting->id)}}"
+                                                        type="submit" class="btn btn-info" id="edit_button"><i class="material-icons">
+                                                            edit
+                                                        </i></a>
+
+
+                                                    {{-- </form> --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -116,7 +122,7 @@
 @endsection
 
 @push('js')
-    {{-- <script src="{{ asset('js/employee/meeting.js') }}"></script> --}}
+    <script src="{{ asset('js/employee/meeting.js') }}"></script>
 
     {{-- <script>
         $(document).ready(function () {

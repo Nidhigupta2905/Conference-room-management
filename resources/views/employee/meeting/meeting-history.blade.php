@@ -50,7 +50,7 @@
                                         <th>
                                             User Name
                                         </th>
-                                        <td>CR Name</td>
+                                        <th>CR Name</th>
 
                                         <th>Meeting Date</th>
 
