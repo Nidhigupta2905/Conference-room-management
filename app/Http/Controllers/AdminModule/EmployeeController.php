@@ -128,30 +128,4 @@ class EmployeeController extends Controller
         return redirect()->back();
     }
 
-    //employee meeting history
-    public function meetingHistory()
-    {
-        $meetings = Meeting::all();
-
-        return view('admin.employee.meeting-history')->with([
-            'page' => 'meetingHistory',
-            'meetings' => $meetings,
-        ]);
-    }
-
-    //employee's today's meeting history
-    public function todayMeetings()
-    {
-        $today = Carbon::now()->startOfDay();
-
-        $meetings = Meeting::where('meeting_date', $today)
-            ->orderBy('meeting_date', 'ASC')
-            ->get();
-
-        return view('admin.employee.today-meetings')->with([
-            'page' => 'meetingHistory',
-            'meetings'=>$meetings
-        ]);
-
-    }
 }

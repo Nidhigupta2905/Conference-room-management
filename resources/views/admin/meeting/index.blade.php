@@ -34,10 +34,10 @@
 
                         <div class="card-header card-header-primary">
 
-                            <a class="btn btn-info pull-right" href="{{ route('employee.meeting.create') }}"><i
-                                    class="material-icons">
-                                    add_circle_outline</i>Add</a>
-                            <h4 class="card-title ">Meeting List</h4>
+                            <a class="btn btn-info pull-right" href="{{ route('admin.employee.meeting-history') }}">See
+                                all
+                                Meetings</a>
+                            <h4 class="card-title ">Today's Meeting List</h4>
                             <p class="card-category"> Here is a subtitle for this table</p>
                         </div>
                         <div class="card-body">
@@ -49,49 +49,63 @@
                                             ID
                                         </th>
                                         <th>
-                                            Event Name
+                                            User Name
                                         </th>
+                                        <th>CR Name</th>
+
+                                        <th>Meeting Date</th>
 
                                         <th>
-                                            Start Time
+                                            From Time
                                         </th>
-                                        <th>
-                                            End Name
-                                        </th>
-                                        <th>Action</th>
+                                        <th>To Time</th>
+                                        <th>Actions</th>
                                     </thead>
 
                                     <tbody class="font-weight-bold">
                                         @php
                                             $i = 0;
                                         @endphp
-                                        @foreach ($events as $google_events)
+                                        @foreach ($meetings as $meeting)
 
-                                            <tr id="meeting_data_{{ $google_events->id }}">
+                                            <tr id="meeting_data_{{ $meeting->id }}">
                                                 <td>{{ ++$i }}</td>
-                                                <td>{{ $google_events->summary }}</td>
+                                                <td>{{ $meeting->user->name }}</td>
 
-                                                <td> {{ Carbon\Carbon::parse($google_events->start->dateTime, 'Asia/Kolkata')->format('h:i a') }}</td>
-
-                                                <td> {{ Carbon\Carbon::parse($google_events->end->dateTime, 'Asia/Kolkata')->format('h:i a') }}</td>
+                                                <td>{{ $meeting->conferenceRoom->name }}</td>
+                                                <td class="start_date">
+                                                    {{ date('d-m-y', strtotime($meeting->meeting_date)) }}</td>
+                                                <td class="start_time">
+                                                    {{ Carbon\Carbon::parse($meeting->from_time)->format('h:i a') }}
+                                                </td>
+                                                <td>{{ Carbon\Carbon::parse($meeting->to_time)->format('h:i a') }}
+                                                </td>
 
                                                 <td>
 
-                                                    <form
+                                                    {{-- <form
                                                         action="{{ route('admin.events.destroy', ['event' => $google_events->id]) }}"
                                                         method="post" class="d-inline" id="delete_event_form">
                                                         @method('DELETE')
-                                                        @csrf
+                                                        @csrf --}}
 
-                                                        <button class="btn btn-danger"><i class="material-icons">
+                                                    <a href="{{ route('admin.meeting.delete', ['id' => $meeting->id, 'event_id' => $meeting->event_id]) }}"
+                                                        type="submit" class="btn btn-danger" id="delete_button"
+                                                        data-id="{{ $meeting->id }}"><i class="material-icons">
                                                             delete
-                                                        </i></button>
+                                                        </i></a>
+
+                                                    <a href="{{ route('admin.meetings.edit', $meeting->id) }}"
+                                                        type="submit" class="btn btn-info" id="edit_button"><i
+                                                            class="material-icons">
+                                                            edit
+                                                        </i></a>
                                                     {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
                                                         type="submit" class="btn btn-danger" id="delete_button"
                                                         data-id="{{ $user_meeting->id }}"><i class="material-icons">
                                                             delete
                                                         </i></a> --}}
-                                                    </form>
+                                                    {{-- </form> --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -106,3 +120,9 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+
+    <script src="{{ asset('js/employee/meeting.js') }}"></script>
+
+@endpush

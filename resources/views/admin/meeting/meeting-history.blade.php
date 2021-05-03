@@ -33,7 +33,7 @@
 
                         <div class="card-header card-header-primary">
 
-                            <a class="btn btn-info pull-right" href="{{ route('admin.today-meetings') }}">See Today's Meetings</a>
+                            <a class="btn btn-info pull-right" href="{{ route('admin.meetings.index') }}">See Today's Meetings</a>
                             <h4 class="card-title ">Meeting List</h4>
                             <p class="card-category"> Here is a subtitle for this table</p>
                         </div>

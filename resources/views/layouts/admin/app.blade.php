@@ -17,7 +17,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="{{ asset('css/material-dashboard.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css"
+        rel="stylesheet" />
 </head>
 
 <body class="">
@@ -52,7 +55,7 @@
                     </li>
 
                     <li class="nav-item @if (isset($page) && $page=='meetingHistory' ) active @endif">
-                        <a class="nav-link " href="{{ route('admin.meeting-history') }}">
+                        <a class="nav-link " href="{{ route('admin.employee.meeting-history') }}">
                             <i class="material-icons">
                                 history
                             </i>
@@ -61,7 +64,7 @@
                     </li>
 
                     <li class="nav-item @if (isset($page) && $page=='events' ) active @endif">
-                        <a class="nav-link " href="{{ route('admin.events.index') }}">
+                        <a class="nav-link " href="">
                             <i class="material-icons">
                                 emoji_events
                             </i>
@@ -164,14 +167,16 @@
     </div>
 
     <!--   Core JS Files   -->
-    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/jquery.min.js') }}"></script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-material-design.min.js') }}"></script>
     <script src="{{ asset('js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
     <!-- Plugin for the momentJs  -->
     <script src="{{ asset('js/plugins/moment.min.js') }}"></script>
     <!--  Plugin for Sweet Alert -->
-    <script src="{{ asset('js/plugins/sweetalert2.js') }}"></script>
+    {{-- <script src="{{ asset('js/plugins/sweetalert2.js') }}"></script> --}}
     <!-- Forms Validations Plugin -->
     <script src="{{ asset('js/plugins/jquery.validate.min.js') }}"></script>
     <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
@@ -206,8 +211,17 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js">
     </script>
 
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+
+
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
+
+    {{-- <script src="{{ asset('js/material-dashboard.min.js') }}" type="text/javascript"></script> --}}
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         $(document).ready(function() {
             $().ready(function() {
