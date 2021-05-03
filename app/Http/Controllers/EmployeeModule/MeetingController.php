@@ -232,12 +232,13 @@ class MeetingController extends Controller
 
         $input_date = Carbon::parse($request->meeting_date)->startOfDay();
 
+        $meeting_id = $meeting->id;
         $from_time = $request->from_time;
         $to_time = $request->to_time;
 
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
-            ->where(function ($query) use ($from_time, $to_time) {
+            ->where(function ($query) use ($from_time, $to_time, $meeting_id) {
                 $query->orWhere('from_time', $from_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $from_time)
@@ -252,7 +253,11 @@ class MeetingController extends Controller
                         $query->where('from_time', '>', $from_time)
                             ->where('to_time', '<', $to_time);
                     });
-            })->exists();
+            })
+            ->where(function ($query) use ($meeting_id) {
+                $query->where('id', '!=', $meeting_id);
+            })
+            ->exists();
 
         if ($check_meeting_start_time) {
             return Response::json(array(
@@ -284,7 +289,7 @@ class MeetingController extends Controller
 
             //mail
             $meetingDetails = [
-                'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+                'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
                 'body' => 'Testing Mail',
             ];
 
@@ -300,7 +305,7 @@ class MeetingController extends Controller
             $event->delete();
 
             $events = Event::create([
-                'name' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+                'name' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
                 'startDateTime' => $meetingStartTime,
                 'endDateTime' => $meetingEndTime,
             ]);

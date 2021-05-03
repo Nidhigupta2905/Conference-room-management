@@ -35,7 +35,8 @@
                 <div class="card-body">
 
                     <div id="loader"></div>
-                    <form method="POST" action="{{ route('employee.meeting.update', $meeting->id) }}" id="update_meeting_form">
+                    <form method="POST" action="{{ route('employee.meeting.update', ['meeting' => $meeting->id]) }}"
+                        id="update_meeting_form">
                         @method('PUT')
                         @csrf
                         <div class="row">
@@ -43,7 +44,8 @@
                                 <div class="form-group">
 
                                     <select name="cr_id" id="cr_id" class="custom-select">
-                                        <option value="{{$meeting->conferenceRoom->id}}">{{$meeting->conferenceRoom->name}}</option>
+                                        <option value="{{ $meeting->conferenceRoom->id }}">
+                                            {{ $meeting->conferenceRoom->name }}</option>
                                         @foreach ($cr_rooms as $cr_room)
                                             <option value="{{ $cr_room->id }}">{{ $cr_room->name }}</option>
                                         @endforeach
@@ -53,7 +55,7 @@
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Date</label>
                                     <input type="text" class="form-control" name="meeting_date" id="meeting_date"
-                                        autocomplete="off" value="{{  date('Y-m-d', strtotime($meeting->meeting_date)) }}">
+                                        autocomplete="off" value="{{ date('Y-m-d', strtotime($meeting->meeting_date)) }}">
                                 </div>
 
                                 <div class="row">
@@ -116,8 +118,46 @@
                 ]
             });
 
+            //submitting meetings
+            $('#update_meeting_form').submit(function(e) {
+                e.preventDefault();
+
+                var _token = $('input[name=_token]').val();
+                var cr_id = $('#cr_id').val();
+                var meeting_date = $('#meeting_date').val();
+                var from_time = $('#from_time').val();
+                var to_time = $('#to_time').val();
+
+                const data = {
+                    _token: _token,
+                    cr_id: cr_id,
+                    meeting_date: meeting_date,
+                    from_time: from_time,
+                    to_time: to_time
+                }
+
+                $.ajax({
+                    type: "PUT",
+                    url: $('#update_meeting_form').attr('action'),
+                    data: data,
+
+                    success: function(response) {
+                        console.log(response);
+                        swal("Done", "Successfully Booked", "success");
+                        $('#update_meeting_form').trigger('reset');
+                    },
+                    error: function(response) {
+                        var error = response.responseJSON.errors.join("\n");
+                        swal("Cancelled", error, "error");
+
+                    }
+
+
+                });
+
+            });
+
         });
 
     </script>
 @endpush
-
