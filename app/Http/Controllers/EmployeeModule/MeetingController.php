@@ -222,9 +222,12 @@ class MeetingController extends Controller
         $meeting = Meeting::find($id);
 
         $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
+            ->where('to_time', $request->to_time)
             ->whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
-            ->first(); // TODO: fix
+            ->where('id', '!=', $meeting->id)
+            ->exists();
+        // TODO: fix
 
         //check today's date
         $today = Carbon::now()->startOfDay();

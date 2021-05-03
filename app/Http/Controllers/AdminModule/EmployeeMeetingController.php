@@ -3,17 +3,15 @@
 namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConferenceRoom;
 use App\Models\Meeting;
 use App\Models\User;
-use App\Models\ConferenceRoom;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Response;
-
-use Auth;
 use Spatie\GoogleCalendar\Event;
-
 
 class EmployeeMeetingController extends Controller
 {
@@ -117,9 +115,11 @@ class EmployeeMeetingController extends Controller
         $meeting = Meeting::find($id);
 
         $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
+            ->where('to_time', $request->to_time)
             ->whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
-            ->first(); // TODO: fix
+            ->where('id', '!=', $meeting->id)
+            ->exists(); // TODO: fix
 
 //check today's date
         $today = Carbon::now()->startOfDay();
