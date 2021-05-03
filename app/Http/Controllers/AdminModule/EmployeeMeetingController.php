@@ -176,14 +176,15 @@ class EmployeeMeetingController extends Controller
             $meeting->meeting_date = $request->meeting_date;
             $meeting->from_time = $request->from_time;
             $meeting->to_time = $request->to_time;
-            $meeting->user_id = Auth::user()->id;
             $meeting->save();
 
             $cr = $meeting->conferenceRoom()->first();
 
+            $employee = $meeting->user()->first();
+
             //mail
             $meetingDetails = [
-                'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
+                'title' => $employee->name . ' rescheduled a meeting in ' . $cr->name . " CR",
                 'body' => 'Testing Mail',
             ];
 
@@ -199,7 +200,7 @@ class EmployeeMeetingController extends Controller
             $event->delete();
 
             $events = Event::create([
-                'name' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
+                'name' => Auth::user()->name . ' rescheduled a meeting for ' . $employee->name . ' in ' . $cr->name . " CR",
                 'startDateTime' => $meetingStartTime,
                 'endDateTime' => $meetingEndTime,
             ]);
@@ -211,7 +212,6 @@ class EmployeeMeetingController extends Controller
                 'success' => true,
             ), 200);
         }
-
     }
 
     /**

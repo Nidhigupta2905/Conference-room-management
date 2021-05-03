@@ -143,7 +143,7 @@
                     success: function(response) {
                         console.log(response);
                         swal("Done", "Successfully Booked", "success");
-                        window.location.href = "{{route('admin.meetings.index')}}"
+                        window.location.href = "{{ route('admin.meetings.index') }}"
                     },
                     error: function(response) {
                         var error = response.responseJSON.errors.join("\n");
