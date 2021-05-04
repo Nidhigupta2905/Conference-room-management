@@ -89,7 +89,7 @@
                                                         @method('DELETE')
                                                         @csrf --}}
 
-                                                    <a href="{{ route('admin.meeting.delete', ['id' => $meeting->id, 'event_id' => $meeting->event_id]) }}"
+                                                    <a href="{{ route('admin.meetings.destroy', ['meeting' => $meeting->id]) }}"
                                                         type="submit" class="btn btn-danger" id="delete_button"
                                                         data-id="{{ $meeting->id }}"><i class="material-icons">
                                                             delete

@@ -328,21 +328,6 @@ class MeetingController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    // public function destroy(Request $request, $id, $event_id)
-    // {
-    //     Meeting::where('id', $id)->delete();
-
-    //     // Meeting::destroy($id);
-    //     $event = Event::find($event_id);
-    //     $event->delete();
-
-    //     return Response::json(array(
-    //         'success' => true,
-    //         'message' => "deleted",
-    //         "data" => $id,
-    //     ), 200);
-    // }
-
     public function destroy(Request $request, $id)
     {
         // Meeting::where('id', $id)->delete();

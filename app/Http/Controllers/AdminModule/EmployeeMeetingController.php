@@ -222,7 +222,20 @@ class EmployeeMeetingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $meeting = Meeting::find($id);
+
+// Meeting::destroy($id);
+        $event = Event::find($meeting->event_id);
+
+        $event->delete();
+        $meeting->delete();
+
+        return Response::json(array(
+            'success' => true,
+            'message' => "deleted",
+            "data" => $id,
+        ), 200);
+
     }
 
     public function delete(Request $request, $id, $event_id)

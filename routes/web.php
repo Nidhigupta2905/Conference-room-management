@@ -3,11 +3,10 @@
 use App\Http\Controllers\AdminModule\AdminController;
 use App\Http\Controllers\AdminModule\EmployeeController;
 use App\Http\Controllers\AdminModule\ConferenceRoomController;
-
+use App\Http\Controllers\AdminModule\EmployeeMeetingController;
 
 use App\Http\Controllers\EmployeeModule\MeetingController;
 use App\Http\Controllers\EmployeeModule\DashboardController;
-use App\Http\Controllers\AdminModule\EmployeeMeetingController;
 
 use App\Http\Controllers\GoogleModule\GoogleController;
 
@@ -50,8 +49,6 @@ Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "a
     Route::resource('conference_room', ConferenceRoomController::class);
     Route::resource('employee', EmployeeController::class);
 
-    Route::delete('meeting/{id}/{event_id}', [MeetingController::class, 'delete'])->name('meeting.delete');
-
     Route::resource('meetings', EmployeeMeetingController::class);
 });
 
@@ -61,7 +58,6 @@ Route::group(["middleware" => ["auth", "employee"], "prefix" => "employee", "as"
 
     Route::get('/meeting-history', [MeetingController::class, 'meetingHistory'])->name('meeting-history');
 
-    Route::delete('meeting/{id}/{event_id}', [MeetingController::class, 'delete'])->name('meeting.delete');
     Route::resource('meeting', MeetingController::class);
 });
 

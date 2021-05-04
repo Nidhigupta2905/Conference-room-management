@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{{asset('css/material-dashboard.css')}}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css"
         rel="stylesheet" />
@@ -22,6 +24,10 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+        integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -151,20 +157,22 @@
         </div>
     </div>
 
-    {{-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script> --}}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    {{-- <script src="{{ asset('js/popper.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-material-design.min.js') }}"></script>
-    <script src="{{asset('js/plugins/perfect-scrollbar.jquery.min.js')}}"></script> --}}
+    {{-- <script src="{{ asset('js/popper.min.js') }}"></script> --}}
+    {{-- <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+        integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous">
+    </script> --}}
+
+    <script src="{{asset('js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
 
     <!-- Plugin for the momentJs  -->
-    <script src="{{ asset('js/plugins/moment.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/plugins/moment.min.js') }}"></script> --}}
+    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="{{ asset('js/material-dashboard.js') }}" type="text/javascript"></script>
+
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
-
-    {{-- <script src="{{ asset('js/material-dashboard.min.js') }}" type="text/javascript"></script> --}}
 
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

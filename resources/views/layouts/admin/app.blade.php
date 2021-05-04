@@ -218,11 +218,11 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
 
-    {{-- <script src="{{ asset('js/material-dashboard.min.js') }}" type="text/javascript"></script> --}}
+    <script src="{{ asset('js/material-dashboard.js') }}" type="text/javascript"></script>
 
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $().ready(function() {
                 $sidebar = $('.sidebar');
@@ -402,7 +402,7 @@
             });
         });
 
-    </script>
+    </script> --}}
 
     @stack('js')
 </body>
