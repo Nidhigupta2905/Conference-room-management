@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\EmployeeModule;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\employee\StoreFormRequest;
+use App\Http\Requests\employee\UpdateFormRequest;
 use App\Models\ConferenceRoom;
 use App\Models\Employee;
 use App\Models\Meeting;
@@ -56,22 +58,8 @@ class MeetingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreFormRequest $request)
     {
-        // TODO: validation
-        $validator = Validator::make($request->all(), [
-            'cr_id' => 'required',
-            'meeting_date' => 'required|date_format:Y-m-d',
-            'from_time' => 'required|date_format:H:i',
-            'to_time' => 'required|date_format:H:i|after:from_time',
-        ]);
-
-        if ($validator->fails()) {
-            return Response::json(array(
-                'success' => false,
-                'errors' => $validator->errors()->all(),
-            ), 422);
-        }
 
         $meeting = new Meeting();
 
@@ -79,6 +67,7 @@ class MeetingController extends Controller
             ->whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
             ->first(); // TODO: fix
+
         //check today's date
         $today = Carbon::now()->startOfDay();
 
@@ -203,22 +192,9 @@ class MeetingController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateFormRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'cr_id' => 'required',
-            'meeting_date' => 'required|date_format:Y-m-d',
-            'from_time' => 'required|date_format:H:i',
-            'to_time' => 'required|date_format:H:i|after:from_time',
-        ]);
-
-        if ($validator->fails()) {
-            return Response::json(array(
-                'success' => false,
-                'errors' => $validator->errors()->all(),
-            ), 422);
-        }
-
+        
         $meeting = Meeting::find($id);
 
         $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
@@ -241,12 +217,12 @@ class MeetingController extends Controller
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
             ->where(function ($query) use ($from_time, $to_time, $meeting_id) {
-                $query->where('from_time', '!=', $from_time)
+                $query->where('from_time', $from_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $from_time)
                             ->where('to_time', '>', $from_time);
                     })
-                    ->where('to_time', '!=', $to_time)
+                    ->where('to_time', $to_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $to_time)
                             ->where('to_time', '>', $to_time);
