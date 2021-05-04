@@ -121,7 +121,7 @@ class EmployeeMeetingController extends Controller
             ->where('id', '!=', $meeting->id)
             ->exists(); // TODO: fix
 
-//check today's date
+        //check today's date
         $today = Carbon::now()->startOfDay();
 
         $input_date = Carbon::parse($request->meeting_date)->startOfDay();
@@ -133,12 +133,12 @@ class EmployeeMeetingController extends Controller
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
             ->where(function ($query) use ($from_time, $to_time, $meeting_id) {
-                $query->orWhere('from_time', $from_time)
+                $query->where('from_time', '!=', $from_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $from_time)
                             ->where('to_time', '>', $from_time);
                     })
-                    ->orWhere('to_time', $to_time)
+                    ->where('to_time', '!=', $to_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $to_time)
                             ->where('to_time', '>', $to_time);
@@ -160,7 +160,7 @@ class EmployeeMeetingController extends Controller
             ), 422);
         }
 
-// checking time conflicts
+        // checking time conflicts
         else if ($check_start_time_conflict) {
             return Response::json(array(
                 'success' => false,

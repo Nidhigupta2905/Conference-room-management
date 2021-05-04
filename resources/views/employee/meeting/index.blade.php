@@ -93,7 +93,7 @@
                                                         <button class="btn btn-danger"><i class="material-icons">
                                                             delete
                                                         </i></button> --}}
-                                                    <a href="{{ route('employee.meeting.delete', ['id' => $user_meeting->id, 'event_id' => $user_meeting->event_id]) }}"
+                                                    <a href="{{route('employee.meeting.destroy', ['meeting' => $user_meeting->id])}}"
                                                         type="submit" class="btn btn-danger" id="delete_button"
                                                         data-id="{{ $user_meeting->id }}"><i class="material-icons">
                                                             delete

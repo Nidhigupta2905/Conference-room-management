@@ -241,12 +241,12 @@ class MeetingController extends Controller
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
             ->where(function ($query) use ($from_time, $to_time, $meeting_id) {
-                $query->orWhere('from_time', $from_time)
+                $query->where('from_time', '!=', $from_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $from_time)
                             ->where('to_time', '>', $from_time);
                     })
-                    ->orWhere('to_time', $to_time)
+                    ->where('to_time', '!=', $to_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $to_time)
                             ->where('to_time', '>', $to_time);
@@ -284,7 +284,7 @@ class MeetingController extends Controller
             $meeting->meeting_date = $request->meeting_date;
             $meeting->from_time = $request->from_time;
             $meeting->to_time = $request->to_time;
-            $meeting->user_id = Auth::user()->id;
+            // $meeting->user_id = Auth::user()->id;
             $meeting->save();
 
             $cr = $meeting->conferenceRoom()->first();
@@ -343,19 +343,21 @@ class MeetingController extends Controller
     //     ), 200);
     // }
 
-    public function delete(Request $request, $id, $event_id)
+    public function destroy(Request $request, $id)
     {
-        Meeting::where('id', $id)->delete();
+        // Meeting::where('id', $id)->delete();
+        $meeting = Meeting::find($id);
 
         // Meeting::destroy($id);
-        $event = Event::find($event_id);
+        $event = Event::find($meeting->event_id);
+
         $event->delete();
+        $meeting->delete();
 
         return Response::json(array(
             'success' => true,
             'message' => "deleted",
             "data" => $id,
-            "event_id" => $event_id,
         ), 200);
     }
     //user's meeting history
