@@ -213,7 +213,6 @@ class EmployeeMeetingController extends Controller
     {
         $meeting = Meeting::find($id);
 
-// Meeting::destroy($id);
         $event = Event::find($meeting->event_id);
 
         $event->delete();
@@ -227,27 +226,10 @@ class EmployeeMeetingController extends Controller
 
     }
 
-    public function delete(Request $request, $id, $event_id)
-    {
-        Meeting::where('id', $id)->delete();
-
-        // Meeting::destroy($id);
-        $event = Event::find($event_id);
-        $event->delete();
-
-        return Response::json(array(
-            'success' => true,
-            'message' => "deleted",
-            "data" => $id,
-            "event_id" => $event_id,
-        ), 200);
-    }
-
     //employee meeting history
     public function meetingHistory()
     {
-        $meetings = Meeting::all();
-
+        $meetings = Meeting::with('user', 'conferenceRoom')->get();
         return view('admin.meeting.meeting-history')->with([
             'page' => 'meetingHistory',
             'meetings' => $meetings,

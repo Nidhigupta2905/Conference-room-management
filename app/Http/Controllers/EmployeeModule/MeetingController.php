@@ -12,7 +12,6 @@ use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Response;
 use Spatie\GoogleCalendar\Event;
 
@@ -194,7 +193,7 @@ class MeetingController extends Controller
      */
     public function update(UpdateFormRequest $request, $id)
     {
-        
+
         $meeting = Meeting::find($id);
 
         $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
