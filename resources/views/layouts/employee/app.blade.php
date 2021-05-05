@@ -62,7 +62,7 @@
                     </li>
 
                     <li class="nav-item @if (isset($page) && $page=='meeting' ) active @endif">
-                        <a class="nav-link" href="{{ route('employee.meeting.index') }}">
+                        <a class="nav-link" href="{{ route('employee.meeting.create') }}">
                             <i class="material-icons">meeting_room</i>
                             <p>Book CR</p>
                         </a>

@@ -32,7 +32,7 @@ class MeetingController extends Controller
             'conferenceRoom', 'user'
         ])->orderBy('from_time', 'ASC')->where('meeting_date', $today)->get();
         return view('employee.meeting.index')->with([
-            'page' => 'meeting',
+            'page' => 'meeting-history',
             'meeting' => $meeting,
         ]);
     }
@@ -325,8 +325,8 @@ class MeetingController extends Controller
     {
         $user = Auth::user();
         $meeting = $user->meetings()->with([
-            'conferenceRoom',
-        ])->orderBy('meeting_date', 'DESC')->get();
+            'conferenceRoom', 'user'
+        ])->orderBy('meeting_date', 'DESC')->paginate(5);
 
         return view('employee.meeting.meeting-history')->with([
             'page' => 'meeting-history',

@@ -36,7 +36,7 @@
 
                             <a class="btn btn-info pull-right" href="{{ route('employee.meeting.create') }}"><i
                                     class="material-icons">
-                                    add_circle_outline</i>Add</a>
+                                    add_circle_outline</i>Book CR</a>
                             <h4 class="card-title ">Meeting List</h4>
                             <p class="card-category"> Here is a subtitle for this table</p>
                         </div>
