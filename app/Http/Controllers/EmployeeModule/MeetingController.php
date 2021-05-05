@@ -29,7 +29,7 @@ class MeetingController extends Controller
         $today = Carbon::now()->startOfDay();
 
         $meeting = $user->meetings()->with([
-            'conferenceRoom',
+            'conferenceRoom', 'user'
         ])->orderBy('from_time', 'ASC')->where('meeting_date', $today)->get();
         return view('employee.meeting.index')->with([
             'page' => 'meeting',
@@ -93,10 +93,6 @@ class MeetingController extends Controller
                             ->where('to_time', '<', $to_time);
                     });
             })->exists();
-
-        $now = Carbon::now(new \DateTimeZone('Asia/Kolkata'));
-
-        $get_input_time = Carbon::parse($request->from_time, 'Asia/Kolkata');
 
         if ($check_meeting_start_time) {
             return Response::json(array(

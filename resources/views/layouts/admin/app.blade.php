@@ -19,8 +19,7 @@
     <link href="{{ asset('css/material-dashboard.min.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css"
-        rel="stylesheet" />
+    
 </head>
 
 <body class="">
@@ -62,16 +61,6 @@
                             <p>Meeting History</p>
                         </a>
                     </li>
-
-                    <li class="nav-item @if (isset($page) && $page=='events' ) active @endif">
-                        <a class="nav-link " href="">
-                            <i class="material-icons">
-                                emoji_events
-                            </i>
-                            <p>Events</p>
-                        </a>
-                    </li>
-
                 </ul>
             </div>
         </div>

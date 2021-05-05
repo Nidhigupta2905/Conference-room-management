@@ -33,7 +33,8 @@
 
                         <div class="card-header card-header-primary">
 
-                            <a class="btn btn-info pull-right" href="{{ route('admin.meetings.index') }}">See Today's Meetings</a>
+                            <a class="btn btn-info pull-right" href="{{ route('admin.meetings.index') }}">See Today's
+                                Meetings</a>
                             <h4 class="card-title ">Meeting List</h4>
                             <p class="card-category"> Here is a subtitle for this table</p>
                         </div>
@@ -43,7 +44,7 @@
                                 <table class="table" id="meeting_list_table">
                                     <thead class=" text-primary">
                                         <th>
-                                            ID
+                                            S.No
                                         </th>
                                         <th>
                                             User Name
@@ -60,15 +61,16 @@
 
                                     <tbody>
                                         @php
-                                            $i = 0;
+                                            $i = 1;
                                         @endphp
                                         @foreach ($meetings as $user_meeting)
 
                                             <tr class="highlight_tr">
-                                                <td>{{ ++$i }}</td>
+                                                <td>{{ $i + (($meetings->currentPage() - 1) * $meetings->perPage()) }}</td>
                                                 <td>{{ $user_meeting->user->name }}</td>
                                                 <td>{{ $user_meeting->conferenceRoom->name }}</td>
-                                                <td class="start_date">{{ date('d-m-y', strtotime($user_meeting->meeting_date)) }}</td>
+                                                <td class="start_date">
+                                                    {{ date('d-m-y', strtotime($user_meeting->meeting_date)) }}</td>
                                                 <td class="start_time">
                                                     {{ Carbon\Carbon::parse($user_meeting->from_time)->format('h:i a') }}
                                                 </td>
@@ -76,10 +78,15 @@
                                                 </td>
 
                                             </tr>
+
+                                            @php
+                                                $i++;
+                                            @endphp
                                         @endforeach
                                     </tbody>
 
                                 </table>
+                                {{ $meetings->links() }}
                             </div>
                         </div>
                     </div>
@@ -88,3 +95,25 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    {{-- <script>
+        $(function() {
+
+            var table = $('#meeting_list_table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    "type": "GET",
+                    url: "{{route('admin.employee.meeting-history')}}",
+
+
+                }
+
+            });
+
+        });
+
+    </script> --}}
+
+@endpush

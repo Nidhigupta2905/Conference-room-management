@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\admin\UpdateFormRequest;
 use App\Models\ConferenceRoom;
 use App\Models\Meeting;
 use App\Models\User;
-use App\Http\Requests\admin\UpdateFormRequest;
-
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Response;
 use Spatie\GoogleCalendar\Event;
 
@@ -28,6 +26,7 @@ class EmployeeMeetingController extends Controller
 
         $meetings = Meeting::where('meeting_date', $today)
             ->orderBy('meeting_date', 'ASC')
+            ->with('user', 'conferenceRoom')
             ->get();
 
         return view('admin.meeting.index')->with([
@@ -227,9 +226,11 @@ class EmployeeMeetingController extends Controller
     }
 
     //employee meeting history
-    public function meetingHistory()
+    public function meetingHistory(Request $request)
     {
-        $meetings = Meeting::with('user', 'conferenceRoom')->get();
+        $meetings = Meeting::with(['user', 'conferenceRoom'])
+            ->orderBy('meeting_date', 'DESC')
+            ->paginate(10);
         return view('admin.meeting.meeting-history')->with([
             'page' => 'meetingHistory',
             'meetings' => $meetings,

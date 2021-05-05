@@ -82,30 +82,22 @@
                                                 </td>
 
                                                 <td>
+                                                    @php
+                                                        $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+                                                    @endphp
+                                                    @if ($now->lt(Carbon\Carbon::parse($meeting->from_time, 'Asia/Kolkata')))
+                                                        <a href="{{ route('admin.meetings.destroy', ['meeting' => $meeting->id]) }}"
+                                                            type="submit" class="btn btn-danger" id="delete_button"
+                                                            data-id="{{ $meeting->id }}"><i class="material-icons">
+                                                                delete
+                                                            </i></a>
 
-                                                    {{-- <form
-                                                        action="{{ route('admin.events.destroy', ['event' => $google_events->id]) }}"
-                                                        method="post" class="d-inline" id="delete_event_form">
-                                                        @method('DELETE')
-                                                        @csrf --}}
-
-                                                    <a href="{{ route('admin.meetings.destroy', ['meeting' => $meeting->id]) }}"
-                                                        type="submit" class="btn btn-danger" id="delete_button"
-                                                        data-id="{{ $meeting->id }}"><i class="material-icons">
-                                                            delete
-                                                        </i></a>
-
-                                                    <a href="{{ route('admin.meetings.edit', $meeting->id) }}"
-                                                        type="submit" class="btn btn-info" id="edit_button"><i
-                                                            class="material-icons">
-                                                            edit
-                                                        </i></a>
-                                                    {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
-                                                        type="submit" class="btn btn-danger" id="delete_button"
-                                                        data-id="{{ $user_meeting->id }}"><i class="material-icons">
-                                                            delete
-                                                        </i></a> --}}
-                                                    {{-- </form> --}}
+                                                        <a href="{{ route('admin.meetings.edit', $meeting->id) }}"
+                                                            type="submit" class="btn btn-info" id="edit_button"><i
+                                                                class="material-icons">
+                                                                edit
+                                                            </i></a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
