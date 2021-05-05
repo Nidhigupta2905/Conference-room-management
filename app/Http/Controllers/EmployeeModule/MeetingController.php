@@ -94,6 +94,10 @@ class MeetingController extends Controller
                     });
             })->exists();
 
+        $now = Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+
+        $get_input_time = Carbon::parse($request->from_time, 'Asia/Kolkata');
+
         if ($check_meeting_start_time) {
             return Response::json(array(
                 'success' => false,
