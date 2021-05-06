@@ -29,7 +29,7 @@ class MeetingController extends Controller
         $today = Carbon::now()->startOfDay();
 
         $meeting = $user->meetings()->with([
-            'conferenceRoom', 'user'
+            'conferenceRoom', 'user',
         ])->orderBy('from_time', 'ASC')->where('meeting_date', $today)->get();
         return view('employee.meeting.index')->with([
             'page' => 'meeting-history',
@@ -321,16 +321,23 @@ class MeetingController extends Controller
         ), 200);
     }
     //user's meeting history
-    public function meetingHistory()
+    public function meetingHistory(Request $request)
     {
+
         $user = Auth::user();
         $meeting = $user->meetings()->with([
-            'conferenceRoom', 'user'
+            'conferenceRoom', 'user',
         ])->orderBy('meeting_date', 'DESC')->paginate(5);
 
+        if($request->ajax()){
+            return view('employee.meeting.paginate_data')->with([
+                'meeting' => $meeting,
+            ]);
+        }
         return view('employee.meeting.meeting-history')->with([
             'page' => 'meeting-history',
             'meeting' => $meeting,
         ]);
+
     }
 }

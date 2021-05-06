@@ -13,7 +13,7 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="{{asset('css/material-dashboard.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/material-dashboard.css') }}">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css"
         rel="stylesheet" />
@@ -164,7 +164,7 @@
         integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous">
     </script> --}}
 
-    <script src="{{asset('js/plugins/perfect-scrollbar.jquery.min.js')}}"></script>
+    <script src="{{ asset('js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
 
     <!-- Plugin for the momentJs  -->
     {{-- <script src="{{ asset('js/plugins/moment.min.js') }}"></script> --}}
