@@ -27,7 +27,7 @@ class StoreFormRequest extends FormRequest
             'cr_id' => 'required',
             'meeting_date' => 'required|date_format:Y-m-d',
             'from_time' => 'required|date_format:H:i',
-            'to_time' => 'required|date_format:H:i|after:from_time',
+            'to_time' => 'required|date_format:H:i|after:from_time'
         ];
     }
 }

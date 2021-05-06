@@ -38,6 +38,7 @@
                             <h4 class="card-title ">Meeting List</h4>
                             <p class="card-category"> Here is a subtitle for this table</p>
                         </div>
+
                         <div class="card-body" id="table_data">
 
                             @include('admin.meeting.paginate_data')

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ConferenceRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ConferenceRoomController extends Controller
 {
@@ -46,7 +47,11 @@ class ConferenceRoomController extends Controller
     {
         //validation
         $validator = Validator::make($request->all(), [
-            'conference_room_name' => 'required|unique:conference_rooms,name',
+            'conference_room_name' => [
+                'required',
+                Rule::unique('conference_rooms', 'name'),
+            ],
+
         ]);
 
         if ($validator->fails()) {
@@ -108,14 +113,17 @@ class ConferenceRoomController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'conference_room_name' => 'required|unique:conference_rooms,name',
+            'conference_room_name' => [
+                'required',
+                Rule::unique('conference_rooms', 'name'),
+            ],
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'success'=>false,
-                'errors'=>$validator->errors()->all(),
-                'message'=>'validation error'
+                'success' => false,
+                'errors' => $validator->errors()->all(),
+                'message' => 'validation error',
             ], 422);
         }
 
@@ -123,8 +131,8 @@ class ConferenceRoomController extends Controller
         $cr_room->name = $request->conference_room_name;
         $cr_room->save();
         return response()->json([
-            'success'=>true,
-            'message'=>"CR Name Updated Successfully"
+            'success' => true,
+            'message' => "CR Name Updated Successfully",
         ], 200);
 
     }
@@ -141,6 +149,5 @@ class ConferenceRoomController extends Controller
         $request->session()->flash("success", "Room Deleted Successfully");
         return redirect()->back();
     }
-
 
 }

@@ -95,10 +95,10 @@ class MeetingController extends Controller
             })->exists();
 
         if ($check_meeting_start_time) {
-            return Response::json(array(
+            return response()->json([
                 'success' => false,
                 'errors' => ["Booked Already for the time. Choose another CR"],
-            ), 422);
+            ], 422);
         }
 
         // checking time conflicts
@@ -320,6 +320,7 @@ class MeetingController extends Controller
             "data" => $id,
         ), 200);
     }
+
     //user's meeting history
     public function meetingHistory(Request $request)
     {
@@ -330,7 +331,7 @@ class MeetingController extends Controller
         ])->orderBy('meeting_date', 'DESC')->paginate(10);
 
         //ajax call
-        if($request->ajax()){
+        if ($request->ajax()) {
             return view('employee.meeting.paginate_data')->with([
                 'meeting' => $meeting,
             ]);
@@ -341,6 +342,6 @@ class MeetingController extends Controller
             'page' => 'meeting-history',
             'meeting' => $meeting,
         ]);
-
     }
+
 }

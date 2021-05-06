@@ -70,7 +70,13 @@
                     },
 
                     error: function(response) {
-                        var error = response.responseJSON.errors.join("\n");
+                        var errors = response.responseJSON.errors;
+
+                        var error = '';
+                        for (const key in errors) {
+                            error += errors[key].join('\n');
+                            error += '\n'
+                        }
                         swal("Cancelled", error, "error");
                     }
                 });

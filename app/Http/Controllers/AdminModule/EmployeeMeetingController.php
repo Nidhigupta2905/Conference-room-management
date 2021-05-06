@@ -242,4 +242,19 @@ class EmployeeMeetingController extends Controller
             'meetings' => $meetings,
         ]);
     }
+
+    //ajax search
+    public function ajaxSearch(Request $request)
+    {
+        $query = $request->search;
+
+        $meeting = new Meeting();
+        $user = $meeting->user()->first();
+
+        $search = Meeting::where('from_time', 'LIKE', '%' . $query . '%')->get();
+
+        return view('admin.meeting.search')->with([
+            'search' => $search,
+        ]);
+    }
 }
