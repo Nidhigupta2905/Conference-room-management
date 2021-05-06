@@ -45,8 +45,6 @@ Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "a
 
     Route::get('/meeting-history', [EmployeeMeetingController::class, 'meetingHistory'])->name('employee.meeting-history');
 
-    Route::get('search', [EmployeeMeetingController::class, 'ajaxSearch'])->name('meetings.search');
-
     Route::resource('conference_room', ConferenceRoomController::class);
     Route::resource('employee', EmployeeController::class);
 

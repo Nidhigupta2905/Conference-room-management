@@ -1,9 +1,3 @@
-<form action="{{route('admin.meetings.search')}}" method="get">
-    <input type="text" name="search" id="search" class="form-control" placeholder="Search" style="width: 300px;"
-        name="search" id="search">
-    <button class="btn btn-success">Search</button>
-</form>
-
 <div class="table-responsive">
     <table class="table" id="meeting_list_table">
         <thead class=" text-primary">

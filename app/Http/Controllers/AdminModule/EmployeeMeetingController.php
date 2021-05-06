@@ -210,6 +210,7 @@ class EmployeeMeetingController extends Controller
      */
     public function destroy($id)
     {
+
         $meeting = Meeting::find($id);
 
         $event = Event::find($meeting->event_id);
@@ -228,6 +229,12 @@ class EmployeeMeetingController extends Controller
     //employee meeting history
     public function meetingHistory(Request $request)
     {
+        //auto delete meetings for previous 2 days
+        $delete_meetings = Meeting::where('updated_at', '<', Carbon::now()->subDays(2))->get();
+        foreach ($delete_meetings as $delete_meeting) {
+            $delete_meeting->delete();
+        }
+
         $meetings = Meeting::with(['user', 'conferenceRoom'])
             ->orderBy('meeting_date', 'DESC')
             ->paginate(10);
@@ -240,21 +247,6 @@ class EmployeeMeetingController extends Controller
         return view('admin.meeting.meeting-history')->with([
             'page' => 'meetingHistory',
             'meetings' => $meetings,
-        ]);
-    }
-
-    //ajax search
-    public function ajaxSearch(Request $request)
-    {
-        $query = $request->search;
-
-        $meeting = new Meeting();
-        $user = $meeting->user()->first();
-
-        $search = Meeting::where('from_time', 'LIKE', '%' . $query . '%')->get();
-
-        return view('admin.meeting.search')->with([
-            'search' => $search,
         ]);
     }
 }
