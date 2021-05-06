@@ -231,6 +231,12 @@ class EmployeeMeetingController extends Controller
         $meetings = Meeting::with(['user', 'conferenceRoom'])
             ->orderBy('meeting_date', 'DESC')
             ->paginate(10);
+
+        if ($request->ajax()) {
+            return view('admin.meeting.paginate_data')->with([
+                'meetings' => $meetings,
+            ]);
+        }
         return view('admin.meeting.meeting-history')->with([
             'page' => 'meetingHistory',
             'meetings' => $meetings,

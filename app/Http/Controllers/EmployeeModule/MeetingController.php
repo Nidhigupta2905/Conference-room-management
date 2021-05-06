@@ -327,13 +327,16 @@ class MeetingController extends Controller
         $user = Auth::user();
         $meeting = $user->meetings()->with([
             'conferenceRoom', 'user',
-        ])->orderBy('meeting_date', 'DESC')->paginate(5);
+        ])->orderBy('meeting_date', 'DESC')->paginate(10);
 
+        //ajax call
         if($request->ajax()){
             return view('employee.meeting.paginate_data')->with([
                 'meeting' => $meeting,
             ]);
         }
+
+        //if ajax fails
         return view('employee.meeting.meeting-history')->with([
             'page' => 'meeting-history',
             'meeting' => $meeting,
