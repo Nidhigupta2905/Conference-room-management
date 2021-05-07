@@ -70,14 +70,14 @@
                     },
 
                     error: function(response) {
-                        var errors = response.responseJSON.errors;
+                        var errors = response.responseJSON.errors.join('\n');
 
-                        var error = '';
-                        for (const key in errors) {
-                            error += errors[key].join('\n');
-                            error += '\n'
-                        }
-                        swal("Cancelled", error, "error");
+                        // var error = '';
+                        // for (const key in errors) {
+                        //     error += errors[key].join('\n');
+                        //     error += '\n'
+                        // }
+                        swal("Cancelled", errors, "error");
                     }
                 });
 

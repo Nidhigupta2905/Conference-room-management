@@ -119,6 +119,7 @@ class ConferenceRoomController extends Controller
             ],
         ]);
 
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,

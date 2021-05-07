@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use App\Rules\admin\Uppercase;
 
 
 class EmployeeController extends Controller
@@ -49,7 +50,7 @@ class EmployeeController extends Controller
 
         //validation
         Validator::make($request->all(), [
-            'employee_name' => 'required|max:255',
+            'employee_name' => ['required','max:255',new Uppercase],
             'employee_email' => 'required|unique:users,email',
         ])->validate();
 

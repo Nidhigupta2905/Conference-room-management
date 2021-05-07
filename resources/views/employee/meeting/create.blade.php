@@ -143,14 +143,24 @@
                         $('#meeting_form').trigger('reset');
                     },
                     error: function(response) {
-                        var errors = response.responseJSON.errors;
+                        let validation_errors = response.responseJSON.errors;
 
-                        var error = '';
-                        for (const key in errors) {
-                            error += errors[key].join('\n');
-                            error += '\n';
+                        if ("errors" in validation_errors) {
+                            let error = '';
+                            for (const key in validation_errors) {
+                                error += validation_errors["errors"].join('\n');
+                                error += '\n';
+                            }
+                            swal("Cancelled", error, 'error');
+                        } else {
+                            let errors = '';
+                            for (const key in validation_errors) {
+                                errors += validation_errors[key];
+                                errors += '\n';
+                            }
+
+                            swal("Cancelled", errors, 'error');
                         }
-                        swal("Cancelled", error, 'error');
                     }
                 });
 

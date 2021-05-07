@@ -103,15 +103,15 @@ class MeetingController extends Controller
 
         // checking time conflicts
         else if ($check_start_time_conflict) {
-            return Response::json(array(
+            return response()->json([
                 'success' => false,
                 'errors' => ["Choose a different meeting start time"],
-            ), 422);
+            ], 422);
         } else if ($input_date != $today) {
-            return Response::json(array(
+            return response()->json([
                 'success' => false,
                 'errors' => ["Cannot Book for the next day"],
-            ), 422);
+            ], 422);
         } else {
             $meeting->conference_room_id = $request->cr_id;
             $meeting->meeting_date = $request->meeting_date;
