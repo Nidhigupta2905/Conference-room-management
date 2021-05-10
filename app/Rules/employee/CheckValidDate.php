@@ -14,7 +14,7 @@ class CheckValidDate implements Rule
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -31,11 +31,13 @@ class CheckValidDate implements Rule
 
         $input_date = Carbon::parse($value)->startOfDay();
 
-        if($today != $input_date){
+        if($input_date != $today){
+
             return false;
+            // return false;
+        }else{
+            return true;
         }
-
-
     }
 
     /**

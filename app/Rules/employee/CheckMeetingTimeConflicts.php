@@ -1,19 +1,23 @@
 <?php
 
-namespace App\Rules\admin;
+namespace App\Rules\employee;
 
 use Illuminate\Contracts\Validation\Rule;
+use App\Models\Meeting;
 
-class Uppercase implements Rule
+class CheckMeetingTimeConflicts implements Rule
 {
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($from_time, $to_time, $meeting_date, $cr_id)
     {
-        //
+        $this->from_time = $from_time;
+        $this->to_time = $to_time;
+        $this->meeting_date = $meeting_date;
+        $this->cr_id = $cr_id;
     }
 
     /**
@@ -25,17 +29,18 @@ class Uppercase implements Rule
      */
     public function passes($attribute, $value)
     {
-        
+        $from_time = $this->from_time;
+        $to_time = $this->to_time;
 
-        $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
-            ->where('conference_room_id', $request->cr_id)
+        $check_start_time_conflict = Meeting::whereDate('meeting_date', $this->meeting_date)
+            ->where('conference_room_id', $this->cr_id)
             ->where(function ($query) use ($from_time, $to_time) {
                 $query->orWhere('from_time', $from_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $from_time)
                             ->where('to_time', '>', $from_time);
                     })
-                    ->orWhere('to_time', $to_time)
+                    ->orWhere('to_time', $this->to_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $to_time)
                             ->where('to_time', '>', $to_time);
@@ -47,10 +52,9 @@ class Uppercase implements Rule
             })->exists();
 
         if ($check_start_time_conflict) {
-            return response()->json([
-                'success' => false,
-                'errors' => ["Choose a different meeting start time"],
-            ], 422);
+            return false;
+        } else {
+            return true;
         }
 
     }
@@ -62,6 +66,6 @@ class Uppercase implements Rule
      */
     public function message()
     {
-        return 'The :attribute must be uppercase';
+        return 'Choose a different meeting start or end time';
     }
 }

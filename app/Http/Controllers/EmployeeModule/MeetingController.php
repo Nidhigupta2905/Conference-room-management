@@ -62,96 +62,43 @@ class MeetingController extends Controller
 
         $meeting = new Meeting();
 
-        $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
-            ->whereDate('meeting_date', $request->meeting_date)
-            ->where('conference_room_id', $request->cr_id)
-            ->first(); // TODO: fix
+        $meeting->conference_room_id = $request->cr_id;
+        $meeting->meeting_date = $request->meeting_date;
+        $meeting->from_time = $request->from_time;
+        $meeting->to_time = $request->to_time;
+        $meeting->user_id = Auth::user()->id;
+        $meeting->save();
 
-        //check today's date
-        $today = Carbon::now()->startOfDay();
+        $cr = $meeting->conferenceRoom()->first();
 
-        $input_date = Carbon::parse($request->meeting_date)->startOfDay();
+        //mail
+        $meetingDetails = [
+            'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+            'body' => 'Testing Mail',
+        ];
 
-        $from_time = $request->from_time;
-        $to_time = $request->to_time;
+        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
-        $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
-            ->where('conference_room_id', $request->cr_id)
-            ->where(function ($query) use ($from_time, $to_time) {
-                $query->orWhere('from_time', $from_time)
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '<', $from_time)
-                            ->where('to_time', '>', $from_time);
-                    })
-                    ->orWhere('to_time', $to_time)
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '<', $to_time)
-                            ->where('to_time', '>', $to_time);
-                    })
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '>', $from_time)
-                            ->where('to_time', '<', $to_time);
-                    });
-            })->exists();
+        //google calendar events
+        $event = new Event();
 
-        if ($check_meeting_start_time) {
-            return response()->json([
-                'success' => false,
-                'errors' => ["Booked Already for the time. Choose another CR"],
-            ], 422);
-        }
+        $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
+        $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
-        // checking time conflicts
-        else if ($check_start_time_conflict) {
-            return response()->json([
-                'success' => false,
-                'errors' => ["Choose a different meeting start time"],
-            ], 422);
-        }
-        // else if ($input_date != $today) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'errors' => ["Cannot Book for the next day"],
-        //     ], 422);
-        // }
-         else {
-            $meeting->conference_room_id = $request->cr_id;
-            $meeting->meeting_date = $request->meeting_date;
-            $meeting->from_time = $request->from_time;
-            $meeting->to_time = $request->to_time;
-            $meeting->user_id = Auth::user()->id;
-            $meeting->save();
+        $events = Event::create([
+            'name' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+            'startDateTime' => $meetingStartTime,
+            'endDateTime' => $meetingEndTime,
+        ]);
 
-            $cr = $meeting->conferenceRoom()->first();
+        $meeting->event_id = $events->id;
+        $meeting->save();
 
-            //mail
-            $meetingDetails = [
-                'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
-                'body' => 'Testing Mail',
-            ];
-
-            // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
-
-            //google calendar events
-            $event = new Event();
-
-            $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
-            $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
-
-            $events = Event::create([
-                'name' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
-                'startDateTime' => $meetingStartTime,
-                'endDateTime' => $meetingEndTime,
-            ]);
-
-            $meeting->event_id = $events->id;
-            $meeting->save();
-
-            return Response::json(array(
-                'success' => true,
-            ), 200);
-        }
+        return Response::json(array(
+            'success' => true,
+        ), 200);
     }
+    // }
 
     /**
      * Display the specified resource.
