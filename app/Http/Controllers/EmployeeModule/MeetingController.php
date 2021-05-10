@@ -108,12 +108,13 @@ class MeetingController extends Controller
                 'errors' => ["Choose a different meeting start time"],
             ], 422);
         }
-        else if ($input_date != $today) {
-            return response()->json([
-                'success' => false,
-                'errors' => ["Cannot Book for the next day"],
-            ], 422);
-        } else {
+        // else if ($input_date != $today) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'errors' => ["Cannot Book for the next day"],
+        //     ], 422);
+        // }
+         else {
             $meeting->conference_room_id = $request->cr_id;
             $meeting->meeting_date = $request->meeting_date;
             $meeting->from_time = $request->from_time;

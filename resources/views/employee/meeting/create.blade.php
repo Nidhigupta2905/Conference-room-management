@@ -86,8 +86,8 @@
         $(function() {
             $("#meeting_date").datepicker({
                 dateFormat: 'yy-mm-dd',
-                minDate: 0,
-                maxDate: 0
+                // minDate: 0,
+                // maxDate: 0
             });
         });
 

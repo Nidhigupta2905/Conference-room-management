@@ -3,6 +3,8 @@
 namespace App\Http\Requests\employee;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\employee\CheckValidDate;
+
 
 class StoreFormRequest extends FormRequest
 {
@@ -25,9 +27,9 @@ class StoreFormRequest extends FormRequest
     {
         return [
             'cr_id' => 'required',
-            'meeting_date' => 'required|date_format:Y-m-d',
+            'meeting_date' => ['required','date_format:Y-m-d',new CheckValidDate()],
             'from_time' => 'required|date_format:H:i',
-            'to_time' => 'required|date_format:H:i|after:from_time'
+            'to_time' => 'required|date_format:H:i|after:from_time',
         ];
     }
 }
