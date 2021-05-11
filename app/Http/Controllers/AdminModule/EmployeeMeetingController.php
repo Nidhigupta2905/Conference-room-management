@@ -107,7 +107,8 @@ class EmployeeMeetingController extends Controller
             ->whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
             ->where('id', '!=', $meeting->id)
-            ->exists(); // TODO: fix
+            ->exists();
+            // TODO: fix
 
         //check today's date
         $today = Carbon::now()->startOfDay();

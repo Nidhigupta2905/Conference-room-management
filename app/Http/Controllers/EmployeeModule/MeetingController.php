@@ -145,105 +145,44 @@ class MeetingController extends Controller
 
         $meeting = Meeting::find($id);
 
-        $check_meeting_start_time = Meeting::where('from_time', $request->from_time)
-            ->where('to_time', $request->to_time)
-            ->whereDate('meeting_date', $request->meeting_date)
-            ->where('conference_room_id', $request->cr_id)
-            ->where('id', '!=', $meeting->id)
-            ->exists();
-        // TODO: fix
+        $meeting->conference_room_id = $request->cr_id;
+        $meeting->meeting_date = $request->meeting_date;
+        $meeting->from_time = $request->from_time;
+        $meeting->to_time = $request->to_time;
+        // $meeting->user_id = Auth::user()->id;
+        $meeting->save();
 
-        //check today's date
-        $today = Carbon::now()->startOfDay();
+        $cr = $meeting->conferenceRoom()->first();
 
-        $input_date = Carbon::parse($request->meeting_date)->startOfDay();
+        //mail
+        $meetingDetails = [
+            'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
+            'body' => 'Testing Mail',
+        ];
 
-        $meeting_id = $meeting->id;
-        $from_time = $request->from_time;
-        $to_time = $request->to_time;
+        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
-        $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
-            ->where('conference_room_id', $request->cr_id)
-            ->where(function ($query) use ($from_time, $to_time, $meeting_id) {
-                $query->where('from_time', $from_time)
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '<', $from_time)
-                            ->where('to_time', '>', $from_time);
-                    })
-                    ->where('to_time', $to_time)
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '<', $to_time)
-                            ->where('to_time', '>', $to_time);
-                    })
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '>', $from_time)
-                            ->where('to_time', '<', $to_time);
-                    });
-            })
-            ->where(function ($query) use ($meeting_id) {
-                $query->where('id', '!=', $meeting_id);
-            })
-            ->exists();
+        //google calendar events
+        $event = new Event();
 
-        if ($check_meeting_start_time) {
-            return Response::json(array(
-                'success' => false,
-                'errors' => ["Booked Already for the time. Choose another CR"],
-            ), 422);
-        }
+        $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
+        $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
-        // checking time conflicts
-        else if ($check_start_time_conflict) {
-            return Response::json(array(
-                'success' => false,
-                'errors' => ["Choose a different meeting start time"],
-            ), 422);
-        } else if ($input_date != $today) {
-            return Response::json(array(
-                'success' => false,
-                'errors' => ["Cannot Book for the next day"],
-            ), 422);
-        } else {
-            $meeting->conference_room_id = $request->cr_id;
-            $meeting->meeting_date = $request->meeting_date;
-            $meeting->from_time = $request->from_time;
-            $meeting->to_time = $request->to_time;
-            // $meeting->user_id = Auth::user()->id;
-            $meeting->save();
+        $event = Event::find($meeting->event_id);
+        $event->delete();
 
-            $cr = $meeting->conferenceRoom()->first();
+        $events = Event::create([
+            'name' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
+            'startDateTime' => $meetingStartTime,
+            'endDateTime' => $meetingEndTime,
+        ]);
 
-            //mail
-            $meetingDetails = [
-                'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
-                'body' => 'Testing Mail',
-            ];
+        $meeting->event_id = $events->id;
+        $meeting->save();
 
-            // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
-
-            //google calendar events
-            $event = new Event();
-
-            $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
-            $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
-
-            $event = Event::find($meeting->event_id);
-            $event->delete();
-
-            $events = Event::create([
-                'name' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
-                'startDateTime' => $meetingStartTime,
-                'endDateTime' => $meetingEndTime,
-            ]);
-
-            $meeting->event_id = $events->id;
-            $meeting->save();
-
-            return Response::json(array(
-                'success' => true,
-            ), 200);
-        }
-
+        return Response::json(array(
+            'success' => true,
+        ), 200);
     }
 
     /**
