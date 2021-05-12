@@ -61,7 +61,7 @@
                                     <div class="col bootstrap-timepicker">
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
-                                            autocomplete="off" value="{{ $meeting->from_time }}">
+                                            autocomplete="off" value="{{ Carbon\Carbon::parse($meeting->from_time, 'Asia/Kolkata')->format('H:i') }}">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
@@ -70,17 +70,17 @@
 
                                     </div>
 
-                                
+
+                                </div>
                             </div>
                         </div>
-                </div>
 
-                <button type="submit" class="btn btn-primary mt-2">Book</button>
-                <div class="clearfix"></div>
-                </form>
+                        <button type="submit" class="btn btn-primary mt-2">Book</button>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
 @endsection
@@ -100,13 +100,13 @@
             $('#from_time').wickedpicker({
                 now: "{{ $meeting->from_time }}",
                 minutesInterval: 15,
-                twentyFour: false,
+                twentyFour: true,
             });
 
             $('#to_time').wickedpicker({
                 now: "{{ $meeting->to_time }}",
                 minutesInterval: 15,
-                twentyFour: false,
+                twentyFour: true,
             });
 
             // $('#from_time').timepicker({

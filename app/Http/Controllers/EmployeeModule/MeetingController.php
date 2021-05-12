@@ -60,14 +60,7 @@ class MeetingController extends Controller
     public function store(StoreFormRequest $request)
     {
 
-        $meeting = new Meeting();
-
-        $meeting->conference_room_id = $request->cr_id;
-        $meeting->meeting_date = $request->meeting_date;
-        $meeting->from_time = $request->from_time;
-        $meeting->to_time = $request->to_time;
-        $meeting->user_id = Auth::user()->id;
-        $meeting->save();
+        $meeting = Meeting::create($request->getData());
 
         $cr = $meeting->conferenceRoom()->first();
 
@@ -210,7 +203,7 @@ class MeetingController extends Controller
     }
 
     //user's meeting history
-    public function meetingHistory(Request $request)
+    public function meetingHistory(Request $request, $filter_days = null)
     {
 
         //auto delete meetings for previous 2 days
