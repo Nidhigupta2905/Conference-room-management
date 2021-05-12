@@ -11,11 +11,8 @@
 
                         <div class="card-header card-header-primary">
 
-                            <a class="btn btn-info pull-right" href="{{ route('admin.conference_room.create') }}"><i
-                                        class="material-icons">
-                                    add_circle_outline</i>Add</a>
+                            <a class="btn btn-info float-right" href="{{ route('admin.conference_room.create') }}"><i class="fas fa-folder-plus"></i>Add</a>
                             <h4 class="card-title ">Simple Table</h4>
-                            <p class="card-category"> Here is a subtitle for this table</p>
                         </div>
                         <div class="card-body">
 
@@ -46,20 +43,14 @@
                                                         class="d-inline" method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button class="btn btn-danger"><i class="material-icons">
-                                                            delete
-                                                        </i></button>
+                                                    <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                                                 </form>
 
                                                 <a href="{{ route('admin.conference_room.edit', $cr_room->id) }}"
-                                                   class="btn btn-info"><i class="material-icons">
-                                                        create
-                                                    </i></a>
+                                                   class="btn btn-info"><i class="fas fa-edit"></i></a>
 
                                                 <a href="{{ route('admin.conference_room.show', $cr_room->id) }}"
-                                                   class="btn btn-light" href=""><i class="material-icons">
-                                                        visibility
-                                                    </i></a>
+                                                   class="btn btn-light" href=""><i class="fas fa-info"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

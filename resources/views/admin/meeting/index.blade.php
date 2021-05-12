@@ -34,11 +34,11 @@
 
                         <div class="card-header card-header-primary">
 
-                            <a class="btn btn-info pull-right" href="{{ route('admin.employee.meeting-history') }}">See
+                            <a class="btn btn-info float-right" href="{{ route('admin.employee.meeting-history') }}">See
                                 all
                                 Meetings</a>
                             <h4 class="card-title ">Today's Meeting List</h4>
-                            <p class="card-category"> Here is a subtitle for this table</p>
+
                         </div>
                         <div class="card-body">
 
@@ -88,15 +88,10 @@
                                                     @if ($now->lt(Carbon\Carbon::parse($meeting->from_time, 'Asia/Kolkata')))
                                                         <a href="{{ route('admin.meetings.destroy', ['meeting' => $meeting->id]) }}"
                                                             type="submit" class="btn btn-danger" id="delete_button"
-                                                            data-id="{{ $meeting->id }}"><i class="material-icons">
-                                                                delete
-                                                            </i></a>
+                                                            data-id="{{ $meeting->id }}"><i class="far fa-trash-alt"></i></a>
 
                                                         <a href="{{ route('admin.meetings.edit', $meeting->id) }}"
-                                                            type="submit" class="btn btn-info" id="edit_button"><i
-                                                                class="material-icons">
-                                                                edit
-                                                            </i></a>
+                                                            type="submit" class="btn btn-info" id="edit_button"><i class="fas fa-edit"></i></a>
                                                     @endif
                                                 </td>
                                             </tr>

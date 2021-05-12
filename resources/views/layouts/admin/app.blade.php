@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -33,20 +33,20 @@
                 </a></div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item  @if (isset($page) && $page=='dashboard' ) active @endif ">
+                    <li class="nav-item  @if (isset($page) && $page == 'dashboard') active @endif ">
                     <a class=" nav-link" href="{{ route('admin.home') }}">
                         <i class="material-icons">dashboard</i>
                         <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item @if (isset($page) && $page=='employees' ) active @endif ">
+                    <li class="nav-item @if (isset($page) && $page == 'employees') active @endif ">
                     <a class=" nav-link" href="{{ route('admin.employee.index') }}">
                         <i class="material-icons">person</i>
                         <p>Employees</p>
                         </a>
                     </li>
 
-                    <li class="nav-item @if (isset($page) && $page=='cr_room' ) active @endif">
+                    <li class="nav-item @if (isset($page) && $page == 'cr_room') active @endif">
                         <a class="nav-link " href="{{ route('admin.conference_room.index') }}">
                             <i class="material-icons">
                                 meeting_room
@@ -55,7 +55,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-item @if (isset($page) && $page=='meetingHistory' ) active @endif">
+                    <li class="nav-item @if (isset($page) && $page == 'meetingHistory') active @endif">
                         <a class="nav-link " href="{{ route('admin.employee.meeting-history') }}">
                             <i class="material-icons">
                                 history
@@ -159,18 +159,16 @@
 
     <!--   Core JS Files   -->
     {{-- <script src="{{ asset('js/jquery.min.js') }}"></script> --}}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap-material-design.min.js') }}"></script>
     <script src="{{ asset('js/plugins/perfect-scrollbar.jquery.min.js') }}"></script>
     <!-- Plugin for the momentJs  -->
     <script src="{{ asset('js/plugins/moment.min.js') }}"></script>
-    <!--  Plugin for Sweet Alert -->
-    {{-- <script src="{{ asset('js/plugins/sweetalert2.js') }}"></script> --}}
-    <!-- Forms Validations Plugin -->
+
     <script src="{{ asset('js/plugins/jquery.validate.min.js') }}"></script>
-    <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+
     <script src="{{ asset('js/plugins/jquery.bootstrap-wizard.js') }}"></script>
     <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
     <script src="{{ asset('js/plugins/bootstrap-selectpicker.js') }}"></script>
@@ -211,187 +209,186 @@
 
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    {{-- <script>
-        $(document).ready(function() {
-            $().ready(function() {
-                $sidebar = $('.sidebar');
-
-                $sidebar_img_container = $sidebar.find('.sidebar-background');
-
-                $full_page = $('.full-page');
-
-                $sidebar_responsive = $('body > .navbar-collapse');
-
-                window_width = $(window).width();
-
-                fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-                if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-                    if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-                        $('.fixed-plugin .dropdown').addClass('open');
-                    }
-
-                }
-
-                $('.fixed-plugin a').click(function(event) {
-                    // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-                    if ($(this).hasClass('switch-trigger')) {
-                        if (event.stopPropagation) {
-                            event.stopPropagation();
-                        } else if (window.event) {
-                            window.event.cancelBubble = true;
-                        }
-                    }
-                });
-
-                $('.fixed-plugin .active-color span').click(function() {
-                    $full_page_background = $('.full-page-background');
-
-                    $(this).siblings().removeClass('active');
-                    $(this).addClass('active');
-
-                    var new_color = $(this).data('color');
-
-                    if ($sidebar.length != 0) {
-                        $sidebar.attr('data-color', new_color);
-                    }
-
-                    if ($full_page.length != 0) {
-                        $full_page.attr('filter-color', new_color);
-                    }
-
-                    if ($sidebar_responsive.length != 0) {
-                        $sidebar_responsive.attr('data-color', new_color);
-                    }
-                });
-
-                $('.fixed-plugin .background-color .badge').click(function() {
-                    $(this).siblings().removeClass('active');
-                    $(this).addClass('active');
-
-                    var new_color = $(this).data('background-color');
-
-                    if ($sidebar.length != 0) {
-                        $sidebar.attr('data-background-color', new_color);
-                    }
-                });
-
-                $('.fixed-plugin .img-holder').click(function() {
-                    $full_page_background = $('.full-page-background');
-
-                    $(this).parent('li').siblings().removeClass('active');
-                    $(this).parent('li').addClass('active');
 
 
-                    var new_image = $(this).find("img").attr('src');
+    @stack('js')
+</body>
 
-                    if ($sidebar_img_container.length != 0 && $(
-                            '.switch-sidebar-image input:checked').length != 0) {
-                        $sidebar_img_container.fadeOut('fast', function() {
-                            $sidebar_img_container.css('background-image', 'url("' +
-                                new_image + '")');
-                            $sidebar_img_container.fadeIn('fast');
-                        });
-                    }
+</html> --}}
 
-                    if ($full_page_background.length != 0 && $(
-                            '.switch-sidebar-image input:checked').length != 0) {
-                        var new_image_full_page = $('.fixed-plugin li.active .img-holder').find(
-                            'img').data('src');
+<!DOCTYPE html>
+<html lang="en">
 
-                        $full_page_background.fadeOut('fast', function() {
-                            $full_page_background.css('background-image', 'url("' +
-                                new_image_full_page + '")');
-                            $full_page_background.fadeIn('fast');
-                        });
-                    }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-                    if ($('.switch-sidebar-image input:checked').length == 0) {
-                        var new_image = $('.fixed-plugin li.active .img-holder').find("img")
-                            .attr('src');
-                        var new_image_full_page = $('.fixed-plugin li.active .img-holder').find(
-                            'img').data('src');
 
-                        $sidebar_img_container.css('background-image', 'url("' + new_image +
-                            '")');
-                        $full_page_background.css('background-image', 'url("' +
-                            new_image_full_page + '")');
-                    }
+    <title>AdminLTE 3 | Dashboard</title>
 
-                    if ($sidebar_responsive.length != 0) {
-                        $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
-                    }
-                });
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-                $('.switch-sidebar-image input').change(function() {
-                    $full_page_background = $('.full-page-background');
+        <link rel="stylesheet" href="{{asset('admin/fonts/fontello.woff')}}">
+        <link rel="stylesheet" href="{{asset('admin/fonts/fontello.ttf')}}">
 
-                    $input = $(this);
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('admin/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-                    if ($input.is(':checked')) {
-                        if ($sidebar_img_container.length != 0) {
-                            $sidebar_img_container.fadeIn('fast');
-                            $sidebar.attr('data-image', '#');
-                        }
+    <!-- DateTimepicker -->
+    {{-- <link rel="stylesheet" href="{{asset('admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}"> --}}
 
-                        if ($full_page_background.length != 0) {
-                            $full_page_background.fadeIn('fast');
-                            $full_page.attr('data-image', '#');
-                        }
+    <link rel="stylesheet" href="{{asset('admin/dist/css/wickedpicker.min.css')}}">
 
-                        background_image = true;
-                    } else {
-                        if ($sidebar_img_container.length != 0) {
-                            $sidebar.removeAttr('data-image');
-                            $sidebar_img_container.fadeOut('fast');
-                        }
+    <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.min.css') }}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{{ asset('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 
-                        if ($full_page_background.length != 0) {
-                            $full_page.removeAttr('data-image', '#');
-                            $full_page_background.fadeOut('fast');
-                        }
+    <link rel="stylesheet" href="{{asset('admin/plugins/daterangepicker/daterangepicker.css')}}">
 
-                        background_image = false;
-                    }
-                });
+    <!-- DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
-                $('.switch-sidebar-mini input').change(function() {
-                    $body = $('body');
 
-                    $input = $(this);
+</head>
 
-                    if (md.misc.sidebar_mini_active == true) {
-                        $('body').removeClass('sidebar-mini');
-                        md.misc.sidebar_mini_active = false;
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
 
-                        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    {{-- <a href="{{ route('admin.home') }}" class="nav-link">Home</a> --}}
+                </li>
 
-                    } else {
+            </ul>
 
-                        $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+            <ul class="navbar-nav ml-auto">
 
-                        setTimeout(function() {
-                            $('body').addClass('sidebar-mini');
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
 
-                            md.misc.sidebar_mini_active = true;
-                        }, 300);
-                    }
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
 
-                    // we simulate the window Resize so the charts will get updated in realtime.
-                    var simulateWindowResize = setInterval(function() {
-                        window.dispatchEvent(new Event('resize'));
-                    }, 180);
+            </ul>
 
-                    // we stop the simulation of Window Resize after the animations are completed
-                    setTimeout(function() {
-                        clearInterval(simulateWindowResize);
-                    }, 1000);
+        </nav>
+        <!-- /.navbar -->
 
-                });
-            });
-        });
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="{{ route('admin.home') }}" class="brand-link">
+                <img src="{{asset('admin/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                    style="opacity: .8">
+                <span class="brand-text font-weight-light">AdminLTE 3</span>
+            </a>
 
-    </script> --}}
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="info">
+                        <a href="" class="d-block">{{ auth()->user()->name }}</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column">
+                        <li class="nav-item  @if (isset($page) && $page=='dashboard' ) active @endif ">
+                    <a class=" nav-link" href="{{ route('admin.home') }}">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item @if (isset($page) && $page=='employees' ) active @endif ">
+                    <a class=" nav-link" href="{{ route('admin.employee.index') }}">
+                            <i class="fas fa-user"></i>
+                            <p>Employees</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item @if (isset($page) && $page=='cr_room' ) active @endif">
+                            <a class="nav-link " href="{{ route('admin.conference_room.index') }}">
+                                <i class="fas fa-person-booth"></i>
+                                <p>Conference Rooms</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item @if (isset($page) && $page=='meetingHistory' ) active @endif">
+                            <a class="nav-link " href="{{ route('admin.employee.meeting-history') }}">
+                                <i class="fas fa-history"></i>
+                                <p>Meeting History</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="min-height: 100px">
+
+            <div class="loading" id="full_page_loader" style="display: none">Loading&#8230;</div>
+
+            @yield('content')
+
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.1.0-rc
+            </div>
+        </footer>
+
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    {{-- <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script> --}}
+    <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{ asset('admin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{ asset('admin/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    <script src="../../plugins/moment/moment.min.js"></script>
+
+    {{-- <script src="{{asset('admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>--}}
+
+    <script src="{{asset('admin/dist/js/wickedpicker.min.js')}}"></script>
+
+    <!-- Datatables -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 
     @stack('js')
 </body>

@@ -34,9 +34,9 @@
 
                         <div class="card-header card-header-primary">
 
-                            <a class="btn btn-info pull-right" href="{{route('admin.meeting-history')}}">See all Meetings</a>
+                            <a class="btn btn-info float-right" href="{{route('admin.meeting-history')}}">See all Meetings</a>
                             <h4 class="card-title ">Today's Meeting List</h4>
-                            <p class="card-category"> Here is a subtitle for this table</p>
+
                         </div>
                         <div class="card-body">
 
@@ -80,21 +80,11 @@
 
                                                 <td>
 
-                                                    {{-- <form
-                                                        action="{{ route('admin.events.destroy', ['event' => $google_events->id]) }}"
-                                                        method="post" class="d-inline" id="delete_event_form">
-                                                        @method('DELETE')
-                                                        @csrf --}}
 
                                                         <button class="btn btn-danger"><i class="material-icons">
                                                             delete
                                                         </i></button>
-                                                    {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
-                                                        type="submit" class="btn btn-danger" id="delete_button"
-                                                        data-id="{{ $user_meeting->id }}"><i class="material-icons">
-                                                            delete
-                                                        </i></a> --}}
-                                                    {{-- </form> --}}
+
                                                 </td>
                                             </tr>
                                         @endforeach

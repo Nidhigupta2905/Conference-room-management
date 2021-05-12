@@ -57,8 +57,8 @@
                                         autocomplete="off" value="{{ date('Y-m-d', strtotime($meeting->meeting_date)) }}">
                                 </div>
 
-                                <div class="row">
-                                    <div class="col">
+                                {{-- <div class="row">
+                                    <div class="col bootstrap-timepicker">
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
                                             autocomplete="off" value="{{ $meeting->from_time }}">
@@ -68,17 +68,51 @@
                                         <input type="text" name="to_time" id="to_time" class="form-control"
                                             autocomplete="off" value="{{ $meeting->to_time }}">
 
+                                    </div> --}}
+
+                                <div class="bootstrap-timepicker">
+                                    <div class="form-group">
+                                        <label>Time picker:</label>
+
+                                        <div class="input-group date" id="from_time" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input"
+                                                data-target="#from_time" />
+                                            <div class="input-group-append" data-target="#from_time"
+                                                data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                            </div>
+                                        </div>
+                                        <!-- /.input group -->
                                     </div>
+                                    <!-- /.form group -->
+                                </div>
+
+                                <div class="bootstrap-timepicker">
+                                    <div class="form-group">
+                                        <label>Time picker:</label>
+
+                                        <div class="input-group date" id="to_time" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input"
+                                                data-target="#to_time" />
+                                            <div class="input-group-append" data-target="#to_time"
+                                                data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                            </div>
+                                        </div>
+                                        <!-- /.input group -->
+                                    </div>
+                                    <!-- /.form group -->
                                 </div>
                             </div>
                         </div>
-
-                        <button type="submit" class="btn btn-primary pull-right">Book</button>
-                        <div class="clearfix"></div>
-                    </form>
                 </div>
+
+                <button type="submit" class="btn btn-primary pull-right">Book</button>
+                <div class="clearfix"></div>
+                </form>
             </div>
         </div>
+    </div>
     </div>
 
 @endsection
@@ -94,17 +128,27 @@
 
         $(document).ready(function() {
 
-            $('#from_time').timepicker({
-                timeFormat: 'H:i',
-                step: 15,
-
+            //Timepicker
+            $('#from_time').wickedpicker({
+                minutesInterval: 15,
+                twentyFour: true,
             });
 
-            $('#to_time').timepicker({
-                timeFormat: 'H:i',
-                step: 15,
-                
+            $('#to_time').wickedpicker({
+                // format: 'LT'
             });
+
+            // $('#from_time').timepicker({
+            //     timeFormat: 'H:i',
+            //     step: 15,
+
+            // });
+
+            // $('#to_time').timepicker({
+            //     timeFormat: 'H:i',
+            //     step: 15,
+
+            // });
 
             //submitting meetings
             $('#update_meeting_form').submit(function(e) {
