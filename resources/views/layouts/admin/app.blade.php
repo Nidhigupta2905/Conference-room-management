@@ -231,8 +231,8 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-        <link rel="stylesheet" href="{{asset('admin/fonts/fontello.woff')}}">
-        <link rel="stylesheet" href="{{asset('admin/fonts/fontello.ttf')}}">
+    <link rel="stylesheet" href="{{ asset('admin/dist/fonts/fontello.woff') }}">
+    <link rel="stylesheet" href="{{ asset('admin/dist/fonts/fontello.ttf') }}">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('admin/plugins/fontawesome-free/css/all.min.css') }}">
@@ -242,13 +242,13 @@
     <!-- DateTimepicker -->
     {{-- <link rel="stylesheet" href="{{asset('admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}"> --}}
 
-    <link rel="stylesheet" href="{{asset('admin/dist/css/wickedpicker.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin/dist/css/wickedpicker.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.min.css') }}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 
-    <link rel="stylesheet" href="{{asset('admin/plugins/daterangepicker/daterangepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin/plugins/daterangepicker/daterangepicker.css') }}">
 
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
@@ -267,7 +267,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    {{-- <a href="{{ route('admin.home') }}" class="nav-link">Home</a> --}}
+
                 </li>
 
             </ul>
@@ -294,8 +294,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ route('admin.home') }}" class="brand-link">
-                <img src="{{asset('admin/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-                    style="opacity: .8">
+                <img src="{{ asset('admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                    class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">AdminLTE 3</span>
             </a>
 
@@ -311,28 +311,28 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column">
-                        <li class="nav-item  @if (isset($page) && $page=='dashboard' ) active @endif ">
-                    <a class=" nav-link" href="{{ route('admin.home') }}">
-                            <i class="fas fa-chart-line"></i>
-                            <p>Dashboard</p>
+                        <li class="nav-item   ">
+                            <a class=" nav-link @if (isset($page) && $page=='dashboard' ) active @endif" href="{{ route('admin.home') }}">
+                                <i class="fas fa-chart-line"></i>
+                                <p>Dashboard</p>
                             </a>
                         </li>
-                        <li class="nav-item @if (isset($page) && $page=='employees' ) active @endif ">
-                    <a class=" nav-link" href="{{ route('admin.employee.index') }}">
+                        <li class="nav-item  ">
+                    <a class=" nav-link @if (isset($page) && $page=='employees' ) active @endif" href="{{ route('admin.employee.index') }}">
                             <i class="fas fa-user"></i>
                             <p>Employees</p>
                             </a>
                         </li>
 
-                        <li class="nav-item @if (isset($page) && $page=='cr_room' ) active @endif">
-                            <a class="nav-link " href="{{ route('admin.conference_room.index') }}">
+                        <li class="nav-item ">
+                            <a class="nav-link @if (isset($page) && $page=='cr_room' ) active @endif" href="{{ route('admin.conference_room.index') }}">
                                 <i class="fas fa-person-booth"></i>
                                 <p>Conference Rooms</p>
                             </a>
                         </li>
 
-                        <li class="nav-item @if (isset($page) && $page=='meetingHistory' ) active @endif">
-                            <a class="nav-link " href="{{ route('admin.employee.meeting-history') }}">
+                        <li class="nav-item ">
+                            <a class="nav-link @if (isset($page) && $page=='meetingHistory' ) active @endif" href="{{ route('admin.employee.meeting-history') }}">
                                 <i class="fas fa-history"></i>
                                 <p>Meeting History</p>
                             </a>
@@ -366,10 +366,8 @@
 
     <!-- jQuery -->
     {{-- <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script> --}}
-    <script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('admin/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -383,12 +381,13 @@
     <script src="{{ asset('admin/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
     <script src="../../plugins/moment/moment.min.js"></script>
 
-    {{-- <script src="{{asset('admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>--}}
+    {{-- <script src="{{asset('admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script> --}}
 
-    <script src="{{asset('admin/dist/js/wickedpicker.min.js')}}"></script>
+    <script src="{{ asset('admin/dist/js/wickedpicker.min.js') }}"></script>
 
     <!-- Datatables -->
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js">
+    </script>
 
     @stack('js')
 </body>
