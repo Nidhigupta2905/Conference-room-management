@@ -70,7 +70,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary pull-right">Book</button>
+                        <button type="submit" class="btn btn-primary mt-2">Book</button>
                         <div class="clearfix"></div>
                     </form>
                 </div>
