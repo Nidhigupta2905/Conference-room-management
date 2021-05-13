@@ -1,5 +1,9 @@
 @extends('layouts.admin.app')
 
 @section('content')
-    Admin Dashboard
+    <div class="container">
+        <div class="row justify-content-center">
+            Admin Dashboard
+        </div>
+    </div>
 @endsection

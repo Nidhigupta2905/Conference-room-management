@@ -24,7 +24,11 @@
     <!-- DateTimepicker -->
     {{-- <link rel="stylesheet" href="{{asset('admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}"> --}}
 
-    <link rel="stylesheet" href="{{ asset('admin/dist/css/wickedpicker.min.css') }}">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css"
+        rel="stylesheet" />
+
+    {{-- <link rel="stylesheet" href="{{ asset('admin/dist/css/wickedpicker.min.css') }}"> --}}
 
     <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.min.css') }}">
     <!-- overlayScrollbars -->
@@ -49,9 +53,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-
                 </li>
-
             </ul>
 
             <ul class="navbar-nav ml-auto">
@@ -92,7 +94,8 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="tree" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="tree" role="menu"
+                        data-accordion="false" style="font-size: 20px;">
                         <li class="nav-item   ">
                             <a class=" nav-link @if (isset($page) && $page=='dashboard' ) active @endif" href="{{ route('admin.home') }}">
                                 <i class="fas fa-chart-line"></i>
@@ -129,7 +132,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="min-height: 600px">
+        <div class="content-wrapper" style="min-height: 800px; overflow-x: hidden">
 
             {{-- <div class="loading" id="full_page_loader" style="display: none;">Loading&#8230;</div> --}}
 
@@ -162,16 +165,20 @@
     <!-- Bootstrap 4 -->
     <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    <script src="{{ asset('admin/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
-    <script src="{{asset('admin/plugins/moment/moment.min.js')}}"></script>
+    {{-- <script src="{{ asset('admin/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script> --}}
+    <script src="{{ asset('admin/plugins/moment/moment.min.js') }}"></script>
 
     {{-- <script src="{{asset('admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script> --}}
 
-    <script src="{{ asset('admin/dist/js/wickedpicker.min.js') }}"></script>
+    {{-- <script src="{{ asset('admin/dist/js/wickedpicker.min.js') }}"></script> --}}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- Datatables -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js">
     </script>
+    <script src="{{ asset('admin/dist/js/adminlte.js') }}"></script>
 
     @stack('js')
 </body>

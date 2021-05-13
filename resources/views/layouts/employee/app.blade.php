@@ -20,21 +20,11 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css"
         rel="stylesheet" />
-    <!-- Tempusdominus Bootstrap 4 -->
-    {{-- <link rel="stylesheet"
-        href="{{ asset('admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}"> --}}
-    <!-- iCheck -->
-    {{-- <link rel="stylesheet" href="{{ asset('admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}"> --}}
-    <!-- JQVMap -->
-    {{-- <link rel="stylesheet" href="{{ asset('admin/plugins/jqvmap/jqvmap.min.css') }}"> --}}
-    <!-- Theme style -->
+
     <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.min.css') }}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-    <!-- Daterange picker -->
-    {{-- <link rel="stylesheet" href="{{ asset('admin/plugins/daterangepicker/daterangepicker.css') }}"> --}}
-    <!-- summernote -->
-    {{-- <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}"> --}}
+
 
 
     <!-- DataTables -->
@@ -103,7 +93,7 @@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
+                        data-accordion="false" style="font-size: 20px">
 
                         <li class="nav-item ">
                             <a class="nav-link @if (isset($page) && $page=='dashboard' ) active @endif" href="{{ route('employee.dashboard') }}">
@@ -133,7 +123,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="min-height: 600px">
+        <div class="content-wrapper" style="min-height: 600px; overflow-x: hidden;">
 
             {{-- <div class="loading" id="full_page_loader" style="display: none">Loading&#8230;</div> --}}
             @yield('content')
@@ -171,6 +161,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+     <script src="{{ asset('admin/dist/js/adminlte.js') }}"></script>
 
     @stack('js')
 </body>

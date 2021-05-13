@@ -142,7 +142,6 @@ class MeetingController extends Controller
         $meeting->meeting_date = $request->meeting_date;
         $meeting->from_time = $request->from_time;
         $meeting->to_time = $request->to_time;
-        // $meeting->user_id = Auth::user()->id;
         $meeting->save();
 
         $cr = $meeting->conferenceRoom()->first();

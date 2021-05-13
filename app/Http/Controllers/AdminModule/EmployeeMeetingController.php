@@ -102,12 +102,6 @@ class EmployeeMeetingController extends Controller
 
         $meeting = Meeting::find($id);
 
-        $start_Time = Carbon::parse($request->from_time, 'Asia/Kolkata')->format("H:i");
-        $end_Time = Carbon::parse($request->to_time, 'Asia/Kolkata')->format("H:i");
-
-        dd($start_time);
-
-
         $meeting->conference_room_id = $request->cr_id;
         $meeting->meeting_date = $request->meeting_date;
         $meeting->from_time = $request->from_time;

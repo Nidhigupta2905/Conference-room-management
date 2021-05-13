@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md-8 offset-2">
+        <div class="col-sm-6 col-md-8 offset-2">
 
             @if (session('success'))
                 <div class="alert alert-success ">
@@ -27,7 +27,7 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card">
+            <div class="card mt-5">
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Book CR</h4>
 
@@ -61,7 +61,7 @@
                                     <div class="col bootstrap-timepicker">
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
-                                            autocomplete="off" value="{{ Carbon\Carbon::parse($meeting->from_time, 'Asia/Kolkata')->format('H:i') }}">
+                                            autocomplete="off" value="{{ $meeting->from_time }}">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
@@ -69,8 +69,6 @@
                                             autocomplete="off" value="{{ $meeting->to_time }}">
 
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -97,29 +95,17 @@
         $(document).ready(function() {
 
             //Timepicker
-            $('#from_time').wickedpicker({
-                now: "{{ $meeting->from_time }}",
-                minutesInterval: 15,
-                twentyFour: true,
+            $('#from_time').timepicker({
+                timeFormat: 'H:i',
+                step: 15,
+
             });
 
-            $('#to_time').wickedpicker({
-                now: "{{ $meeting->to_time }}",
-                minutesInterval: 15,
-                twentyFour: true,
+            $('#to_time').timepicker({
+                timeFormat: 'H:i',
+                step: 15,
+
             });
-
-            // $('#from_time').timepicker({
-            //     timeFormat: 'H:i',
-            //     step: 15,
-
-            // });
-
-            // $('#to_time').timepicker({
-            //     timeFormat: 'H:i',
-            //     step: 15,
-
-            // });
 
             //submitting meetings
             $('#update_meeting_form').submit(function(e) {
