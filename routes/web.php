@@ -1,15 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminModule\AdminController;
-use App\Http\Controllers\AdminModule\EmployeeController;
 use App\Http\Controllers\AdminModule\ConferenceRoomController;
+use App\Http\Controllers\AdminModule\EmployeeController;
 use App\Http\Controllers\AdminModule\EmployeeMeetingController;
-
-use App\Http\Controllers\EmployeeModule\MeetingController;
 use App\Http\Controllers\EmployeeModule\DashboardController;
-
+use App\Http\Controllers\EmployeeModule\MeetingController;
 use App\Http\Controllers\GoogleModule\GoogleController;
-
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,10 +52,7 @@ Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "a
 Route::group(["middleware" => ["auth", "employee"], "prefix" => "employee", "as" => "employee."], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/meeting-history/{filter_days?}', [MeetingController::class, 'meetingHistory'])->name('meeting-history');
+    Route::get('/meeting-history', [MeetingController::class, 'meetingHistory'])->name('meeting-history');
 
     Route::resource('meeting', MeetingController::class);
 });
-
-
-

@@ -203,7 +203,7 @@ class MeetingController extends Controller
     }
 
     //user's meeting history
-    public function meetingHistory(Request $request, $filter_days = null)
+    public function meetingHistory(Request $request)
     {
 
         //auto delete meetings for previous 2 days
