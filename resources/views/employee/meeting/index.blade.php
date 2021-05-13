@@ -86,15 +86,10 @@
                                                     @if ($now->lt(Carbon\Carbon::parse($user_meeting->from_time, 'Asia/Kolkata')))
                                                         <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
                                                             type="submit" class="btn btn-danger" id="delete_button"
-                                                            data-id="{{ $user_meeting->id }}"><i class="material-icons">
-                                                                delete
-                                                            </i></a>
+                                                            data-id="{{ $user_meeting->id }}"><i class="far fa-trash-alt"></i></a>
 
                                                         <a href="{{ route('employee.meeting.edit', $user_meeting->id) }}"
-                                                            type="submit" class="btn btn-info" id="edit_button"><i
-                                                                class="material-icons">
-                                                                edit
-                                                            </i></a>
+                                                            type="submit" class="btn btn-info" id="edit_button"><i class="fas fa-edit"></i></a>
 
                                                     @endif
 

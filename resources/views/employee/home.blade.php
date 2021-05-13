@@ -1,5 +1,9 @@
 @extends('layouts.employee.app')
 
+@push('css')
+
+@endpush
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">

@@ -60,32 +60,36 @@ class MeetingController extends Controller
     public function store(StoreFormRequest $request)
     {
 
-        $meeting = Meeting::create($request->getData());
+        \DB::transaction(function () use($request) {
 
-        $cr = $meeting->conferenceRoom()->first();
+            $meeting = Meeting::create($request->getData());
 
-        //mail
-        $meetingDetails = [
-            'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
-            'body' => 'Testing Mail',
-        ];
+            $cr = $meeting->conferenceRoom()->first();
 
-        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+            //mail
+            $meetingDetails = [
+                'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+                'body' => 'Testing Mail',
+            ];
 
-        //google calendar events
-        $event = new Event();
+            // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
-        $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
-        $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
+            //google calendar events
+            $event = new Event();
 
-        $events = Event::create([
-            'name' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
-            'startDateTime' => $meetingStartTime,
-            'endDateTime' => $meetingEndTime,
-        ]);
+            $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
+            $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
-        $meeting->event_id = $events->id;
-        $meeting->save();
+            $events = Event::create([
+                'name' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+                'startDateTime' => $meetingStartTime,
+                'endDateTime' => $meetingEndTime,
+            ]);
+
+            $meeting->event_id = $events->id;
+            $meeting->save();
+
+        });
 
         return Response::json(array(
             'success' => true,

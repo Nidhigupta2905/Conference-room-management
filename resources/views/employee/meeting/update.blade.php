@@ -27,7 +27,7 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card">
+            <div class="card mt-5">
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Book CR</h4>
 
@@ -74,7 +74,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary pull-right">Book</button>
+                        <button type="submit" class="btn btn-primary mt-2">Book</button>
                         <div class="clearfix"></div>
                     </form>
                 </div>
