@@ -26,14 +26,13 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card">
+            <div class="card mt-5">
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Book CR</h4>
 
                 </div>
                 <div class="card-body">
 
-                    <div id="loader"></div>
                     <form method="POST" action="{{ route('employee.meeting.store') }}" id="meeting_form">
                         @csrf
                         <div class="row">

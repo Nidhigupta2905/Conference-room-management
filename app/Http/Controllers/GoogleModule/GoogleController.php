@@ -5,8 +5,10 @@ namespace App\Http\Controllers\GoogleModule;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Auth;
+use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Validator;
+use Validator;
+use App\Http\Requests\googleEmail\GoogleEmailValidation;
 
 class GoogleController extends Controller
 {
@@ -20,7 +22,9 @@ class GoogleController extends Controller
 
         //TODO: email domain name check validation
         try {
+
             $google_obj = Socialite::driver('google')->stateless()->user();
+
             $existing_employee = User::where('google_id', $google_obj->user['id'])->first();
 
             if ($existing_employee) {

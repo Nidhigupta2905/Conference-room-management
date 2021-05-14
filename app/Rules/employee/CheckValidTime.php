@@ -5,7 +5,7 @@ namespace App\Rules\employee;
 use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 
-class CheckValidDate implements Rule
+class CheckValidTime implements Rule
 {
     /**
      * Create a new rule instance.
@@ -14,7 +14,7 @@ class CheckValidDate implements Rule
      */
     public function __construct()
     {
-
+        //
     }
 
     /**
@@ -26,12 +26,17 @@ class CheckValidDate implements Rule
      */
     public function passes($attribute, $value)
     {
-        //check today's date
-        $today = Carbon::now()->startOfDay();
+        //check if input date is less than current date
+        $now = Carbon::now();
 
-        $input_date = Carbon::parse($value)->startOfDay();
+        if ($value < $now) {
+            return false;
+        } else {
+            return true;
+        }
 
-        if ($input_date != $today) {
+        //check office start time
+        if ($value < "8:30") {
             return false;
         } else {
             return true;
@@ -47,8 +52,8 @@ class CheckValidDate implements Rule
     public function message()
     {
         return [
-            'You cannot book a meeting other than today',
-            
+            'The meeting start time have passed',
+            'Cannot book before office time'
         ];
     }
 }
