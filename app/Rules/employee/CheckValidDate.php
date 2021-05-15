@@ -48,7 +48,6 @@ class CheckValidDate implements Rule
     {
         return [
             'You cannot book a meeting other than today',
-            
         ];
     }
 }

@@ -39,6 +39,17 @@ class StoreFormRequest extends FormRequest
         ];
     }
 
+    public function messages(Type $var = null)
+    {
+        return [
+            'cr_id.required' => 'The CR Name is required',
+            'meeting_date.required' => 'The meeting date is required',
+            'from_time.required' => 'Meeting start time is required',
+            'to_time.required' => 'Meeting end time is required',
+        ];
+
+    }
+
     public function getData()
     {
         return [

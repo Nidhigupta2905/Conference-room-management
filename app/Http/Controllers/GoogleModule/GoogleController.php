@@ -5,10 +5,9 @@ namespace App\Http\Controllers\GoogleModule;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Auth;
-use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
-use Validator;
-use App\Http\Requests\googleEmail\GoogleEmailValidation;
+use Illuminate\Http\Request;
+
 
 class GoogleController extends Controller
 {
@@ -17,7 +16,7 @@ class GoogleController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleCallback()
+    public function handleGoogleCallback(Request $request)
     {
 
         //TODO: email domain name check validation
@@ -33,17 +32,25 @@ class GoogleController extends Controller
             } else {
 
                 //new user
-                $new_employee = User::where('email', $google_obj->user['email'])->first();
-                $new_employee = User::create([
-                    'name' => $google_obj->user['name'],
-                    'email' => $google_obj->user['email'],
-                    'google_id' => $google_obj->user['id'],
-                    'image' => $google_obj->user['picture'],
-                    'role_id' => User::ROLES['EMPLOYEE'],
-                ]);
+                $match_email = preg_match('/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(ithands)\.com|\.biz$/i', $google_obj->user['email']);
 
-                Auth::login($new_employee, true);
-                return redirect()->route('employee.meeting.index');
+                if ($match_email) {
+
+                    $new_employee = User::create([
+                        'name' => $google_obj->user['name'],
+                        'email' => $google_obj->user['email'],
+                        'google_id' => $google_obj->user['id'],
+                        'image' => $google_obj->user['picture'],
+                        'role_id' => User::ROLES['EMPLOYEE'],
+                    ]);
+
+                    Auth::login($new_employee, true);
+                    return redirect()->route('employee.meeting.index');
+                } else {
+                    $request->session()->flash("error", "Mail should be @ithands.com | @ithands.biz");
+                    return redirect()->back();
+
+                }
 
             }
         } catch (Exception $e) {

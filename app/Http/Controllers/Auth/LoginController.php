@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Validator;
 
 class LoginController extends Controller
 {
@@ -19,7 +20,7 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
+     */
 
     use AuthenticatesUsers;
 
@@ -40,7 +41,6 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-
     /**
      *
      * Admin Login
@@ -49,16 +49,23 @@ class LoginController extends Controller
     {
 
         //TODO: add validation
+
+        Validator::make($request->all(), [
+            'email' => [
+                'required',
+                'regex:/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(ithands)\.com|\.biz$/i',
+            ],
+        ])->validate();
         $credentials = [
             'email' => $request->email,
             'password' => $request->password,
-            'role_id' => 1
+            'role_id' => 1,
         ];
 
-        if(Auth::attempt($credentials, $request->has('remember'))){
+        if (Auth::attempt($credentials, $request->has('remember'))) {
             $user = Auth::user();
-           return redirect()->route('admin.home');
+            return redirect()->route('admin.home');
         }
-        return redirect()->back()->withErrors(["email"=>"These credentials do not match our records."]);
+        return redirect()->back()->withErrors(["email" => "These credentials do not match our records."]);
     }
 }

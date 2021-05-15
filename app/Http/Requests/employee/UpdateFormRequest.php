@@ -36,4 +36,15 @@ class UpdateFormRequest extends FormRequest
             'to_time' => ['required', 'date_format:H:i', 'after:from_time', new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id)],
         ];
     }
+
+    public function messages(Type $var = null)
+    {
+        return [
+            'cr_id.required' => 'The CR Name is required',
+            'meeting_date.required' => 'The meeting date is required',
+            'from_time.required' => 'Meeting start time is required',
+            'to_time.required' => 'Meeting end time is required',
+        ];
+
+    }
 }

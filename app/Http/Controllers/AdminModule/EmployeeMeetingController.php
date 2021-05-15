@@ -9,10 +9,10 @@ use App\Models\Meeting;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use Response;
 use Spatie\GoogleCalendar\Event;
-use DB;
 
 class EmployeeMeetingController extends Controller
 {
@@ -101,50 +101,48 @@ class EmployeeMeetingController extends Controller
     public function update(UpdateFormRequest $request, $id)
     {
 
-        DB::beginTransaction();
-
         try {
-            DB::transaction(function () use ($request) {
+            DB::beginTransaction();
 
-                $meeting = Meeting::find($id);
+            $meeting = Meeting::find($id);
 
-                $meeting->conference_room_id = $request->cr_id;
-                $meeting->meeting_date = $request->meeting_date;
-                $meeting->from_time = $request->from_time;
-                $meeting->to_time = $request->to_time;
-                $meeting->save();
+            $meeting->conference_room_id = $request->cr_id;
+            $meeting->meeting_date = $request->meeting_date;
+            $meeting->from_time = $request->from_time;
+            $meeting->to_time = $request->to_time;
+            $meeting->save();
 
-                $cr = $meeting->conferenceRoom()->first();
+            $cr = $meeting->conferenceRoom()->first();
 
-                $employee = $meeting->user()->first();
+            $employee = $meeting->user()->first();
 
-                //mail
-                $meetingDetails = [
-                    'title' => $employee->name . ' rescheduled a meeting in ' . $cr->name . " CR",
-                    'body' => 'Testing Mail',
-                ];
+            //mail
+            $meetingDetails = [
+                'title' => $employee->name . ' rescheduled a meeting in ' . $cr->name . " CR",
+                'body' => 'Testing Mail',
+            ];
 
-                // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+            // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
-                //google calendar events
-                $event = new Event();
+            //google calendar events
+            $event = new Event();
 
-                $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
-                $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
+            $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
+            $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
-                $event = Event::find($meeting->event_id);
-                $event->delete();
+            $event = Event::find($meeting->event_id);
+            $event->delete();
 
-                $events = Event::create([
-                    'name' => Auth::user()->name . ' rescheduled a meeting for ' . $employee->name . ' in ' . $cr->name . " CR",
-                    'startDateTime' => $meetingStartTime,
-                    'endDateTime' => $meetingEndTime,
-                ]);
+            $events = Event::create([
+                'name' => Auth::user()->name . ' rescheduled a meeting for ' . $employee->name . ' in ' . $cr->name . " CR",
+                'startDateTime' => $meetingStartTime,
+                'endDateTime' => $meetingEndTime,
+            ]);
 
-                $meeting->event_id = $events->id;
-                $meeting->save();
-            });
+            $meeting->event_id = $events->id;
+            $meeting->save();
 
+            DB::commit();
             return Response::json(array(
                 'success' => true,
             ), 200);

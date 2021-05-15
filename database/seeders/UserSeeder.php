@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Str;
-use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -26,7 +26,27 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),
-            'role_id' => User::ROLES['ADMIN']
+            'role_id' => User::ROLES['ADMIN'],
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'superuser',
+            'email' => 'superuser@ithands.com',
+            'password' => Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'role_id' => User::ROLES['ADMIN'],
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'master',
+            'email' => 'master@ithands.biz',
+            'password' => Hash::make('password'),
+            'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'role_id' => User::ROLES['ADMIN'],
         ]);
 
     }
