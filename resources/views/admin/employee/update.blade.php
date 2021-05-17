@@ -19,7 +19,7 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card">
+            <div class="card mt-5">
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Edit Employee</h4>
                 </div>
@@ -35,10 +35,15 @@
                                         value="{{ $employee->name }}" disabled>
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group row">
                                     <label class="bmd-label-floating">Employee Name</label>
                                     <input type="text" class="form-control" name="employee_email" id="employee_email"
                                         value="{{ $employee->email }}">
+                                    @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
                         </div>

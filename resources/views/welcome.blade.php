@@ -428,38 +428,48 @@
     @endif
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        {{-- <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-2">
                     <div class="p-6">
                         <div class="flex items-center">
                             <div class="ml-4 text-lg leading-7 font-semibold">
 
-                                <i class="fab fa-google"></i><a href="{{ route('auth.google.login') }}"
-                                    class="btn btn-google">Employee Login </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div> --}}
+
+        <div class="social-auth-links text-center mb-3">
+
+            <a href="{{ route('auth.google.login') }}" class="btn btn-block btn-danger">
+                <i class="fab fa-google-plus mr-2"></i> Employee Login
+            </a>
+
+            <a href="{{ route('login') }}" class="btn btn-block btn-primary">
+                <i class="fab mr-2"></i> Admin Login
+
+            </a>
         </div>
 
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        {{-- <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-2">
                     <div class="p-6">
                         <div class="flex items-center">
                             <div class="ml-4 text-lg leading-7 font-semibold">
 
-                                <i class="fab fa-google"></i><a href="{{ route('login') }}"
-                                    class="btn btn-google">Admin
-                                    Login </a>
+                                
+
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </body>
 

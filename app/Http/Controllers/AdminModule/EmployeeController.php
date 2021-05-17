@@ -46,11 +46,6 @@ class EmployeeController extends Controller
     {
         $employees = User::create($request->getData());
 
-        // $employees->name = $request->employee_name;
-        // $employees->email = $request->employee_email;
-        // $employees->role_id = User::ROLES['EMPLOYEE'];
-        // $employees->save();
-
         $request->session()->flash('success', 'Employee added successfully');
         return redirect()->back();
 
@@ -95,15 +90,18 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Validator::make($request->all(), [
-            'employee_email' => 'required|unique:users,email',
-        ])->validate();
-        $employee = User::find($id);
-        $employee->email = $request->employee_email;
-        $employee->save();
-
-        $request->session()->flash('success', 'Employee Updated Successfully');
-        return redirect()->back();
+        try{
+            $employee = User::find($id);
+            $employee->email = $request->employee_email;
+            $employee->save();
+    
+            $request->session()->flash('success', 'Employee Updated Successfully');
+            return redirect()->back();
+        }catch(\Exception $e){
+            return redirect()->back()->withErrors([
+                'email'=>"Email Cannot be Empty"
+            ]);
+        }
     }
 
     /**
