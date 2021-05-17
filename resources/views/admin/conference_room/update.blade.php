@@ -69,8 +69,23 @@
                         swal("Done", "Name updaed Successfully", "success");
                     },
                     error: function(response) {
-                        var error = response.responseJSON.errors.join("\n");
-                        swal("Cancelled", error, "error");
+                        console.log(response);
+                        let validation_errors = response.responseJSON.errors;
+
+                        // let db_messages = response.responseJSON.message;
+                        // console.log(db_messages);
+
+                        // if (!validation_errors){
+                        //     swal("Cancelled", db_messages, 'error');
+                        // } 
+                        // else {
+                        let errors = '';
+                        for (const key in validation_errors) {
+                            errors += validation_errors[key];
+                            errors += '\n';
+                        }
+                        swal("Cancelled", errors, 'error');
+                        // }
                     }
                 });
 

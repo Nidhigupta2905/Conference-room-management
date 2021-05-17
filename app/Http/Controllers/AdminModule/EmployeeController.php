@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
-use App\Models\Meeting;
+use App\Http\Requests\admin\employee\StoreFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
-use App\Rules\admin\Uppercase;
-
 
 class EmployeeController extends Controller
 {
@@ -45,21 +42,14 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreFormRequest $request)
     {
+        $employees = User::create($request->getData());
 
-        //validation
-        Validator::make($request->all(), [
-            'employee_name' => ['required','max:255',new Uppercase],
-            'employee_email' => 'required|unique:users,email',
-        ])->validate();
-
-        $employees = new User();
-
-        $employees->name = $request->employee_name;
-        $employees->email = $request->employee_email;
-        $employees->role_id = User::ROLES['EMPLOYEE'];
-        $employees->save();
+        // $employees->name = $request->employee_name;
+        // $employees->email = $request->employee_email;
+        // $employees->role_id = User::ROLES['EMPLOYEE'];
+        // $employees->save();
 
         $request->session()->flash('success', 'Employee added successfully');
         return redirect()->back();

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\admin\UpdateFormRequest;
+use App\Http\Requests\admin\meeting\UpdateFormRequest;
 use App\Models\ConferenceRoom;
 use App\Models\Meeting;
 use App\Models\User;

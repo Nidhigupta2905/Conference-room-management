@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\admin;
+namespace App\Http\Requests\admin\meeting;
 
 use App\Rules\admin\CheckMeetingStartTimeUpdate;
 use App\Rules\admin\CheckMeetingUpdateTimeConflict;

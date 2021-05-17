@@ -68,40 +68,47 @@ class MeetingController extends Controller
 
             $cr = $meeting->conferenceRoom()->first();
 
-            //mail
-            $meetingDetails = [
-                'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
-                'body' => 'Testing Mail',
-            ];
-
-            // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
-
             //google calendar events
             $event = new Event();
 
             $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
             $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
-            $events = Event::create([
+            $event = Event::create([
                 'name' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
                 'startDateTime' => $meetingStartTime,
                 'endDateTime' => $meetingEndTime,
             ]);
 
-            $meeting->even_id = $events->id;
+            $meeting->event_id = $event->id;
             $meeting->save();
 
             DB::commit();
 
-            return Response::json(array(
-                'success' => true,
-            ), 200);
-
         } catch (\Exception $e) {
 
+            if (isset($event)) {
+                //delete this event
+            }
             DB::rollback();
 
         }
+
+        try {
+//mail
+            $meetingDetails = [
+                'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+                'body' => 'Testing Mail',
+            ];
+
+// \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+
+        } catch (\Exception $e) {
+
+        }
+        return Response::json(array(
+            'success' => true,
+        ), 200);
 
     }
     // }

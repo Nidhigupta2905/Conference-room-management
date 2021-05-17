@@ -19,7 +19,7 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card">
+            <div class="card mt-5">
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Add Conference Rooms</h4>
                 </div>
@@ -70,14 +70,23 @@
                     },
 
                     error: function(response) {
-                        var errors = response.responseJSON.errors.join('\n');
+                        console.log(response);
+                        let validation_errors = response.responseJSON.errors;
 
-                        // var error = '';
-                        // for (const key in errors) {
-                        //     error += errors[key].join('\n');
-                        //     error += '\n'
+                        // let db_messages = response.responseJSON.message;
+                        // console.log(db_messages);
+                        
+                        // if (!validation_errors){
+                        //     swal("Cancelled", db_messages, 'error');
+                        // } 
+                        // else {
+                            let errors = '';
+                            for (const key in validation_errors) {
+                                errors += validation_errors[key];
+                                errors += '\n';
+                            }
+                            swal("Cancelled", errors, 'error');
                         // }
-                        swal("Cancelled", errors, "error");
                     }
                 });
 

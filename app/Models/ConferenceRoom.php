@@ -10,6 +10,8 @@ class ConferenceRoom extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     /**
      * Get all of the meetings for the ConferenceRoom
      *

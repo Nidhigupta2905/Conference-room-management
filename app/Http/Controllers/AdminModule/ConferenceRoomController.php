@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\admin\conferenceRoom\StoreFormRequest;
 use App\Models\ConferenceRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -43,29 +44,10 @@ class ConferenceRoomController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreFormRequest $request)
     {
-        //validation
-        $validator = Validator::make($request->all(), [
-            'conference_room_name' => [
-                'required',
-                Rule::unique('conference_rooms', 'name'),
-            ],
-
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all(),
-                'message' => 'validation error',
-            ], 422);
-        }
-
-        $conference_room = new ConferenceRoom;
-        $conference_room->name = $request->conference_room_name;
-        $conference_room->save();
-
+    
+        $conference_room = ConferenceRoom::create($request->getData());
         return response()->json([
             'success' => true,
             'message' => 'CR Name uploaded successfully',
@@ -109,28 +91,12 @@ class ConferenceRoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreFormRequest $request, $id)
     {
-
-        $validator = Validator::make($request->all(), [
-            'conference_room_name' => [
-                'required',
-                Rule::unique('conference_rooms', 'name'),
-            ],
-        ]);
-
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'errors' => $validator->errors()->all(),
-                'message' => 'validation error',
-            ], 422);
-        }
-
         $cr_room = ConferenceRoom::find($id);
         $cr_room->name = $request->conference_room_name;
         $cr_room->save();
+        
         return response()->json([
             'success' => true,
             'message' => "CR Name Updated Successfully",
