@@ -56,6 +56,7 @@ class LoginController extends Controller
                 'regex:/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(ithands)\.com|\.biz$/i',
             ],
         ])->validate();
+        
         $credentials = [
             'email' => $request->email,
             'password' => $request->password,
