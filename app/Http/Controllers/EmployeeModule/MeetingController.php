@@ -61,7 +61,7 @@ class MeetingController extends Controller
     public function store(StoreFormRequest $request)
     {
 
-        try {
+        try {;
             DB::beginTransaction();
 
             $meeting = Meeting::create($request->getData());
@@ -69,8 +69,6 @@ class MeetingController extends Controller
             $cr = $meeting->conferenceRoom()->first();
 
             //google calendar events
-            $event = new Event();
-
             $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
             $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
@@ -95,13 +93,13 @@ class MeetingController extends Controller
         }
 
         try {
-//mail
+            //mail
             $meetingDetails = [
                 'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
                 'body' => 'Testing Mail',
             ];
 
-// \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+            // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
         } catch (\Exception $e) {
 

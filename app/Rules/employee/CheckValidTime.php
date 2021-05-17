@@ -29,18 +29,18 @@ class CheckValidTime implements Rule
         //check if input date is less than current date
         $now = Carbon::now();
 
-        if ($value < $now) {
-            return false;
-        } else {
-            return true;
-        }
+        // if ($value < $now) {
+        //     return false;
+        // } else {
+        //     return true;
+        // }
 
         //check office start time
-        if ($value < "8:30") {
-            return false;
-        } else {
-            return true;
-        }
+        // if ($value < "8:30") {
+        //     return false;
+        // } else {
+        //     return true;
+        // }
 
     }
 

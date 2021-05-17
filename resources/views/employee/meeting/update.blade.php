@@ -147,24 +147,23 @@
                         $('#update_meeting_form').trigger('reset');
                     },
                     error: function(response) {
+                        console.log(response);
                         let validation_errors = response.responseJSON.errors;
 
-                        if ("errors" in validation_errors) {
-                            let error = '';
-                            for (const key in validation_errors) {
-                                error += validation_errors["errors"].join('\n');
-                                error += '\n';
-                            }
-                            swal("Cancelled", error, 'error');
-                        } else {
-                            let errors = '';
-                            for (const key in validation_errors) {
-                                errors += validation_errors[key];
-                                errors += '\n';
-                            }
+                        // let db_messages = response.responseJSON.message;
+                        // console.log(db_messages);
 
-                            swal("Cancelled", errors, 'error');
+                        // if (!validation_errors){
+                        //     swal("Cancelled", db_messages, 'error');
+                        // } 
+                        // else {
+                        let errors = '';
+                        for (const key in validation_errors) {
+                            errors += validation_errors[key];
+                            errors += '\n';
                         }
+                        swal("Cancelled", errors, 'error');
+                        // }
                     }
 
 
