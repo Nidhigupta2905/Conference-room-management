@@ -5,9 +5,8 @@ namespace App\Http\Requests\employee;
 use App\Rules\employee\CheckMeetingStartTime;
 use App\Rules\employee\CheckMeetingTimeConflicts;
 use App\Rules\employee\CheckValidDate;
-use App\Rules\employee\CheckValidTime;
-use Illuminate\Foundation\Http\FormRequest;
 use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
 
 class StoreFormRequest extends FormRequest
 {
@@ -33,9 +32,9 @@ class StoreFormRequest extends FormRequest
 
             'meeting_date' => ['required', 'date_format:Y-m-d', new CheckValidDate],
 
-            'from_time' => ['required', 'date_format:H:i', new CheckMeetingStartTime($this->from_time, $this->meeting_date, $this->cr_id),],
+            'from_time' => ['required', 'date_format:h:i A', new CheckMeetingStartTime($this->from_time, $this->meeting_date, $this->cr_id)],
 
-            'to_time' => ['required', 'date_format:H:i', 'after:from_time', new CheckMeetingTimeConflicts($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id)],
+            'to_time' => ['required', 'date_format:h:i A', 'after:from_time', new CheckMeetingTimeConflicts($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id)],
 
         ];
     }
@@ -51,12 +50,14 @@ class StoreFormRequest extends FormRequest
 
     }
 
+
     public function getData()
     {
 
-        $start_time = Carbon::parse($this->from_time)->format("H:i");
-        $end_time = Carbon::parse($this->to_time)->format("H:i");
-        
+        $start_time = Carbon::parse($this->from_time, 'Asia/Kolkata')->format("H:i:s");
+        $end_time = Carbon::parse($this->to_time, 'Asia/Kolkata')->format("H:i:s");
+
+        // dd($start_time);
         return [
             'conference_room_id' => $this->cr_id,
             'meeting_date' => $this->meeting_date,
