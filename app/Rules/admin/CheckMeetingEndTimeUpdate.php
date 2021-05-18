@@ -5,7 +5,7 @@ namespace App\Rules\admin;
 use Illuminate\Contracts\Validation\Rule;
 use App\Models\Meeting;
 
-class CheckMeetingStartTimeUpdate implements Rule
+class CheckMeetingEndTimeUpdate implements Rule
 {
     /**
      * Create a new rule instance.
@@ -18,7 +18,6 @@ class CheckMeetingStartTimeUpdate implements Rule
         $this->to_time = $to_time;
         $this->meeting_date = $meeting_date;
         $this->cr_id = $cr_id;
-        // $this->meeting_id = $meeting_id;
     }
 
     /**
@@ -30,18 +29,19 @@ class CheckMeetingStartTimeUpdate implements Rule
      */
     public function passes($attribute, $value)
     {
-        $check_meeting_start_time = Meeting::where('from_time', $this->from_time)
-            ->where('to_time', '!=', $this->to_time)
+        $check_meeting_end_time = Meeting::where('from_time',  $this->from_time)
+            ->where('to_time', $this->to_time)
             ->whereDate('meeting_date', $this->meeting_date)
             ->where('conference_room_id', $this->cr_id)
-            // ->where('id', '!=', $this->meeting_id)
+        // ->where('id', '!=', $this->meeting_id)
             ->exists();
 
-        if ($check_meeting_start_time) {
+        if ($check_meeting_end_time) {
             return false;
         } else {
             return true;
         }
+
     }
 
     /**
@@ -51,6 +51,6 @@ class CheckMeetingStartTimeUpdate implements Rule
      */
     public function message()
     {
-        return 'Booked Already for the time. Choose another CR';
+        return 'Check the meeting End Time';
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\employee;
 
+// use App\Rules\admin\CheckMeetingEndTimeUpdate;
 use App\Rules\admin\CheckMeetingStartTimeUpdate;
 use App\Rules\admin\CheckMeetingUpdateTimeConflict;
 use App\Rules\employee\CheckValidDate;
@@ -36,9 +37,7 @@ class UpdateFormRequest extends FormRequest
 
                 'date_format:H:i',
 
-                new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id),
-
-                new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id),
+                new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id),
             ],
 
             'to_time' => [
@@ -48,7 +47,9 @@ class UpdateFormRequest extends FormRequest
 
                 'after:from_time',
 
-                new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id),
+                // new CheckMeetingEndTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id),
+
+                new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id),
             ],
         ];
     }
