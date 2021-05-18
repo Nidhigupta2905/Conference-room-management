@@ -7,6 +7,7 @@ use App\Rules\employee\CheckMeetingTimeConflicts;
 use App\Rules\employee\CheckValidDate;
 use App\Rules\employee\CheckValidTime;
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class StoreFormRequest extends FormRequest
 {
@@ -52,11 +53,15 @@ class StoreFormRequest extends FormRequest
 
     public function getData()
     {
+
+        $start_time = Carbon::parse($this->from_time)->format("H:i");
+        $end_time = Carbon::parse($this->to_time)->format("H:i");
+        
         return [
             'conference_room_id' => $this->cr_id,
             'meeting_date' => $this->meeting_date,
-            'from_time' => $this->from_time,
-            'to_time' => $this->to_time,
+            'from_time' => $start_time,
+            'to_time' => $end_time,
             'user_id' => $this->user()->id,
         ];
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\EmployeeModule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\employee\StoreFormRequest;
 use App\Http\Requests\employee\UpdateFormRequest;
+use App\Mail\MeetingBookingMail;
 use App\Models\ConferenceRoom;
 use App\Models\Employee;
 use App\Models\Meeting;
@@ -61,8 +62,10 @@ class MeetingController extends Controller
     public function store(StoreFormRequest $request)
     {
 
-        try {;
+        try {
             DB::beginTransaction();
+
+            
 
             $meeting = Meeting::create($request->getData());
 
@@ -81,19 +84,6 @@ class MeetingController extends Controller
             $meeting->event_id = $event->id;
             $meeting->save();
 
-            DB::commit();
-
-        } catch (\Exception $e) {
-
-            if (isset($event)) {
-                //delete this event
-            }
-            DB::rollback();
-
-        }
-
-        try {
-            //mail
             $meetingDetails = [
                 'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
                 'body' => 'Testing Mail',
@@ -101,9 +91,13 @@ class MeetingController extends Controller
 
             // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
+            DB::commit();
+
         } catch (\Exception $e) {
 
+            DB::rollback();
         }
+
         return Response::json(array(
             'success' => true,
         ), 200);
@@ -213,10 +207,9 @@ class MeetingController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        // Meeting::where('id', $id)->delete();
+
         $meeting = Meeting::find($id);
 
-        // Meeting::destroy($id);
         $event = Event::find($meeting->event_id);
 
         $event->delete();
@@ -244,14 +237,6 @@ class MeetingController extends Controller
             'conferenceRoom', 'user',
         ])->orderBy('meeting_date', 'DESC')->paginate(10);
 
-        //ajax call
-        if ($request->ajax()) {
-            return view('employee.meeting.paginate_data')->with([
-                'meeting' => $meeting,
-            ]);
-        }
-
-        //if ajax fails
         return view('employee.meeting.meeting-history')->with([
             'page' => 'meeting-history',
             'meeting' => $meeting,

@@ -1,5 +1,11 @@
 @extends('layouts.employee.app')
 
+@push('css')
+
+    <link rel="stylesheet" href="{{ asset('admin/dist/css/timepicki.css') }}">
+
+@endpush
+
 @section('content')
     <div class="row">
         <div class="col-md-8 offset-2">
@@ -81,6 +87,8 @@
 
 @push('js')
 
+    <script src="{{ asset('admin/dist/js/timepicki.js') }}" type="text/javascript"></script>
+
     <script type="text/javascript">
         $(function() {
             $("#meeting_date").datepicker({
@@ -97,73 +105,70 @@
             //         'X - CSRF - TOKEN': $('meta[name = "csrf-token"]').attr('content')
             //     }
             // });
-            $('#from_time').timepicker({
-                timeFormat: 'H:i',
-                step: 15,
-                disableTimeRanges: [
 
-                ]
+            $('#from_time').timepicki({
+                // show_meridian:false,
+                overflow_minutes: true,
+                step_size_minutes: 15
             });
+            
 
-            $('#to_time').timepicker({
-                timeFormat: 'H:i',
-                step: 15,
-                disableTimeRanges: [
-
-                ]
+            $('#to_time').timepicki({
+                overflow_minutes: true,
+                step_size_minutes: 15
             });
+            
 
             //submitting meetings
-            $('#meeting_form').submit(function(e) {
-                e.preventDefault();
+            // $('#meeting_form').submit(function(e) {
+            //     e.preventDefault();
 
-                var _token = $('input[name=_token]').val();
-                var cr_id = $('#cr_id').val();
-                var meeting_date = $('#meeting_date').val();
-                var from_time = $('#from_time').val();
-                var to_time = $('#to_time').val();
+            //     var _token = $('input[name=_token]').val();
+            //     var cr_id = $('#cr_id').val();
+            //     var meeting_date = $('#meeting_date').val();
+            //     var from_time = $('#from_time').val();
+            //     var to_time = $('#to_time').val();
 
-                const data = {
-                    _token: _token,
-                    cr_id: cr_id,
-                    meeting_date: meeting_date,
-                    from_time: from_time,
-                    to_time: to_time
-                }
+            //     const data = {
+            //         _token: _token,
+            //         cr_id: cr_id,
+            //         meeting_date: meeting_date,
+            //         from_time: from_time,
+            //         to_time: to_time
+            //     }
 
-                $.ajax({
-                    type: "POST",
-                    url: "{{ route('employee.meeting.store') }}",
-                    data: data,
+            //     $.ajax({
+            //         type: "POST",
+            //         url: "{{ route('employee.meeting.store') }}",
+            //         data: data,
 
-                    success: function(response) {
-                        console.log(response);
-                        swal("Done", "Successfully Booked", "success");
-                        $('#meeting_form').trigger('reset');
-                    },
-                    error: function(response) {
-                        let validation_errors = response.responseJSON.errors;
+            //         success: function(response) {
+            //             console.log(response);
+            //             swal("Done", "Successfully Booked", "success");
+            //             $('#meeting_form').trigger('reset');
+            //         },
+            //         error: function(response) {
+            //             console.log(response);
+            //             let validation_errors = response.responseJSON.errors;
 
-                        if ("errors" in validation_errors) {
-                            let error = '';
-                            for (const key in validation_errors) {
-                                error += validation_errors["errors"].join('\n');
-                                error += '\n';
-                            }
-                            swal("Cancelled", error, 'error');
-                        } else {
-                            let errors = '';
-                            for (const key in validation_errors) {
-                                errors += validation_errors[key];
-                                errors += '\n';
-                            }
+            //             // let db_messages = response.responseJSON.message;
+            //             // console.log(db_messages);
 
-                            swal("Cancelled", errors, 'error');
-                        }
-                    }
-                });
+            //             // if (!validation_errors){
+            //             //     swal("Cancelled", db_messages, 'error');
+            //             // } 
+            //             // else {
+            //             let errors = '';
+            //             for (const key in validation_errors) {
+            //                 errors += validation_errors[key];
+            //                 errors += '\n';
+            //             }
+            //             swal("Cancelled", errors, 'error');
+            //             // }
+            //         }
+            //     });
 
-            });
+            // });
 
         });
 
