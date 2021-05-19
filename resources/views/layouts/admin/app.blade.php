@@ -13,6 +13,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('admin/dist/fonts/fontello.woff') }}">
     <link rel="stylesheet" href="{{ asset('admin/dist/fonts/fontello.ttf') }}">
 
@@ -21,14 +22,8 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-    <!-- DateTimepicker -->
-    {{-- <link rel="stylesheet" href="{{asset('admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}"> --}}
-
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css"
-        rel="stylesheet" />
-
-    {{-- <link rel="stylesheet" href="{{ asset('admin/dist/css/wickedpicker.min.css') }}"> --}}
+   
 
     <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.min.css') }}">
     <!-- overlayScrollbars -->
@@ -42,7 +37,7 @@
 
 </head>
 
-<body class="hold-transition sidebar-mini ">
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -132,7 +127,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="min-height: 800px; overflow-x: hidden">
+        <div class="content-wrapper text-danger" style="min-height: 800px; overflow-x: hidden">
 
             {{-- <div class="loading" id="full_page_loader" style="display: none;">Loading&#8230;</div> --}}
 
@@ -172,7 +167,6 @@
 
     {{-- <script src="{{ asset('admin/dist/js/wickedpicker.min.js') }}"></script> --}}
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- Datatables -->

@@ -1,5 +1,9 @@
 @extends('layouts.employee.app')
+@push('css')
 
+    <link rel="stylesheet" href="{{ asset('admin/dist/css/timepicki.css') }}">
+
+@endpush
 @section('content')
 
     <div class="row">
@@ -62,13 +66,14 @@
                                     <div class="col">
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
-                                            autocomplete="off" value="{{ $meeting->from_time }}">
+                                            autocomplete="off"
+                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('h:i a') }}">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
                                         <input type="text" name="to_time" id="to_time" class="form-control"
-                                            autocomplete="off" value="{{ $meeting->to_time }}">
-
+                                            autocomplete="off"
+                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('h:i a') }}">
                                     </div>
                                 </div>
                             </div>
@@ -85,37 +90,25 @@
 @endsection
 
 @push('js')
+    <script src="{{ asset('admin/dist/js/timepicki.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(function() {
             $("#meeting_date").datepicker({
                 dateFormat: 'yy-mm-dd',
-                // minDate: 0,
-                // maxDate: 0
             });
         });
 
         $(document).ready(function() {
 
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X - CSRF - TOKEN': $('meta[name = "csrf-token"]').attr('content')
-            //     }
-            // });
-            $('#from_time').timepicker({
-                timeFormat: 'H:i',
-                step: 15,
-                disableTimeRanges: [
-
-                ]
+            $('#from_time').timepicki({
+                overflow_minutes: true,
+                step_size_minutes: 15,
             });
 
-            $('#to_time').timepicker({
-                timeFormat: 'H:i',
-                step: 15,
-                disableTimeRanges: [
-
-                ]
+            $('#to_time').timepicki({
+                overflow_minutes: true,
+                step_size_minutes: 15
             });
 
             //submitting meetings
@@ -149,21 +142,12 @@
                     error: function(response) {
                         console.log(response);
                         let validation_errors = response.responseJSON.errors;
-
-                        // let db_messages = response.responseJSON.message;
-                        // console.log(db_messages);
-
-                        // if (!validation_errors){
-                        //     swal("Cancelled", db_messages, 'error');
-                        // } 
-                        // else {
                         let errors = '';
                         for (const key in validation_errors) {
                             errors += validation_errors[key];
                             errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
-                        // }
                     }
 
 

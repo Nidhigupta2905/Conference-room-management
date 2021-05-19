@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('content')
-    <div class="row">
+    <div class="row text-danger">
         <div class="col-md-8 offset-2">
 
             @if (session('success'))

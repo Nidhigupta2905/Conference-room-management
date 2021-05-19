@@ -65,8 +65,6 @@ class MeetingController extends Controller
         try {
             DB::beginTransaction();
 
-            
-
             $meeting = Meeting::create($request->getData());
 
             $cr = $meeting->conferenceRoom()->first();
