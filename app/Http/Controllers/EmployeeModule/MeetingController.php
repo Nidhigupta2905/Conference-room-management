@@ -5,7 +5,6 @@ namespace App\Http\Controllers\EmployeeModule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\employee\StoreFormRequest;
 use App\Http\Requests\employee\UpdateFormRequest;
-use App\Mail\MeetingBookingMail;
 use App\Models\ConferenceRoom;
 use App\Models\Employee;
 use App\Models\Meeting;
@@ -150,10 +149,13 @@ class MeetingController extends Controller
             DB::beginTransaction();
             $meeting = Meeting::find($id);
 
+            $start_time = Carbon::parse($request->from_time, 'Asia/Kolkata')->format("H:i:s");
+            $end_time = Carbon::parse($request->to_time, 'Asia/Kolkata')->format("H:i:s");
+
             $meeting->conference_room_id = $request->cr_id;
             $meeting->meeting_date = $request->meeting_date;
-            $meeting->from_time = $request->from_time;
-            $meeting->to_time = $request->to_time;
+            $meeting->from_time = $start_time;
+            $meeting->to_time = $end_time;
             $meeting->save();
 
             $cr = $meeting->conferenceRoom()->first();

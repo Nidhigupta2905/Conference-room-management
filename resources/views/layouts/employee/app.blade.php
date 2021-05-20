@@ -25,11 +25,8 @@
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 
-
-
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-
     @stack('css')
 
 
@@ -73,7 +70,7 @@
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidebar">
             <!-- Brand Logo -->
             <a href="{{ route('admin.home') }}" class="brand-link">
                 <img src="{{ asset('admin/dist/images/AdminLTELogo.png') }}" alt="AdminLTE Logo"

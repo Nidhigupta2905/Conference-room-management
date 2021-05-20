@@ -13,7 +13,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('admin/dist/fonts/fontello.woff') }}">
     <link rel="stylesheet" href="{{ asset('admin/dist/fonts/fontello.ttf') }}">
 
@@ -23,9 +23,9 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-   
 
-    <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('admin/dist/css/adminlte.css') }}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 
@@ -33,6 +33,12 @@
 
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+    <style>
+        #sidebar{
+           
+        }
+    </style>
 
     @stack('css')
 
@@ -72,10 +78,10 @@
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4"  id="sidebar">
             <!-- Brand Logo -->
             <a href="{{ route('admin.home') }}" class="brand-link">
-                <img src="{{ asset('admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                <img src="{{ asset('admin/dist/images/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">AdminLTE 3</span>
             </a>
@@ -85,6 +91,8 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="info">
+                        <img src="{{ asset('admin/dist/images/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                            class="brand-image img-circle elevation-3" style="opacity: .8">
                         <a href="" class="d-block">{{ auth()->user()->name }}</a>
                     </div>
                 </div>
@@ -129,7 +137,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper text-danger" style="min-height: 800px; overflow-x: hidden">
+        <div class="content-wrapper" style="min-height: 800px; overflow-x: hidden">
 
             {{-- <div class="loading" id="full_page_loader" style="display: none;">Loading&#8230;</div> --}}
 

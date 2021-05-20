@@ -31,9 +31,9 @@ class UpdateFormRequest extends FormRequest
 
             'meeting_date' => ['required', 'date_format:Y-m-d', new CheckValidDate],
 
-            'from_time' => ['required', 'date_format:H:i', new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id)],
+            'from_time' => ['required', 'date_format:h:i A', new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id)],
 
-            'to_time' => ['required', 'date_format:H:i', 'after:from_time', new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id)],
+            'to_time' => ['required', 'date_format:h:i A', 'after:from_time', new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id)],
         ];
 
     }

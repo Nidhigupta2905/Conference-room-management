@@ -35,7 +35,7 @@ class UpdateFormRequest extends FormRequest
             'from_time' => [
                 'required',
 
-                'date_format:H:i',
+                'date_format:h:i A',
 
                 new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id),
             ],
@@ -43,7 +43,7 @@ class UpdateFormRequest extends FormRequest
             'to_time' => [
                 'required',
 
-                'date_format:H:i',
+                'date_format:h:i A',
 
                 'after:from_time',
 

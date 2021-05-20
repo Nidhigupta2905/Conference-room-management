@@ -95,8 +95,8 @@
 
     <script type="text/javascript">
         $(function() {
-            $("#meeting_date").datepicker({
-                dateFormat: 'yy-mm-dd',
+            $("#meeting_date").flatpickr({
+               
             });
         });
 
@@ -107,25 +107,21 @@
             $("#from_time").flatpickr({
                 'enableTime': true,
                 'noCalendar': true,
-                'dateFormat': "h:i A",
+                'dateFormat': "G:i A",
                 'time_24hr': false,
                 'minuteIncrement': 15,
                 'defaultMinute': 0,
                 'position': 'auto',
-                'minTime': new Date(),
-
             });
-
 
             $('#to_time').flatpickr({
                 'enableTime': true,
                 'noCalendar': true,
-                'dateFormat': "h:i A",
+                'dateFormat': "G:i A",
                 'time_24hr': false,
                 'minuteIncrement': 15,
                 'defaultMinute': 0,
                 'position': 'auto',
-                'minTime': new Date(),
             });
 
             //submitting meetings

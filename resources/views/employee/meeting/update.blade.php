@@ -102,7 +102,7 @@
             $("#from_time").flatpickr({
                 'enableTime': true,
                 'noCalendar': true,
-                'dateFormat': "h:i A",
+                'dateFormat': "G:i A",
                 'time_24hr': false,
                 'minuteIncrement': 15,
                 'defaultMinute': 0,
@@ -115,7 +115,7 @@
             $('#to_time').flatpickr({
                 'enableTime': true,
                 'noCalendar': true,
-                'dateFormat': "h:i A",
+                'dateFormat': "G:i A",
                 'time_24hr': false,
                 'minuteIncrement': 15,
                 'defaultMinute': 0,
