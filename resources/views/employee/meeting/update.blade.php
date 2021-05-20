@@ -1,8 +1,6 @@
 @extends('layouts.employee.app')
 @push('css')
-
-    <link rel="stylesheet" href="{{ asset('admin/dist/css/timepicki.css') }}">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 @endpush
 @section('content')
 
@@ -90,25 +88,39 @@
 @endsection
 
 @push('js')
-    <script src="{{ asset('admin/dist/js/timepicki.js') }}" type="text/javascript"></script>
+
+    <script src="{{ asset('admin/dist/js/flatpickr.js') }}"></script>
 
     <script type="text/javascript">
-        $(function() {
-            $("#meeting_date").datepicker({
-                dateFormat: 'yy-mm-dd',
-            });
+        $("#meeting_date").flatpickr({
+            'minDate': 'today'
         });
 
         $(document).ready(function() {
 
-            $('#from_time').timepicki({
-                overflow_minutes: true,
-                step_size_minutes: 15,
+            //timepicker
+            $("#from_time").flatpickr({
+                'enableTime': true,
+                'noCalendar': true,
+                'dateFormat': "h:i A",
+                'time_24hr': false,
+                'minuteIncrement': 15,
+                'defaultMinute': 0,
+                'position': 'auto',
+                'minTime': new Date(),
+
             });
 
-            $('#to_time').timepicki({
-                overflow_minutes: true,
-                step_size_minutes: 15
+
+            $('#to_time').flatpickr({
+                'enableTime': true,
+                'noCalendar': true,
+                'dateFormat': "h:i A",
+                'time_24hr': false,
+                'minuteIncrement': 15,
+                'defaultMinute': 0,
+                'position': 'auto',
+                'minTime': new Date(),
             });
 
             //submitting meetings

@@ -2,8 +2,6 @@
 
 @push('css')
 
-    <link rel="stylesheet" href="{{ asset('admin/dist/css/timepicki.css') }}">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 @endpush
@@ -89,9 +87,7 @@
 
 @push('js')
 
-    <script src="{{ asset('admin/dist/js/timepicki.js') }}" type="text/javascript"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
+    <script src="{{ asset('admin/dist/js/flatpickr.js') }}"></script>
 
     <script type="text/javascript">
         $("#meeting_date").flatpickr({
@@ -103,7 +99,7 @@
             $("#from_time").flatpickr({
                 'enableTime': true,
                 'noCalendar': true,
-                'dateFormat': "h:i K",
+                'dateFormat': "h:i A",
                 'time_24hr': false,
                 'minuteIncrement': 15,
                 'defaultMinute': 0,
@@ -116,7 +112,7 @@
             $('#to_time').flatpickr({
                 'enableTime': true,
                 'noCalendar': true,
-                'dateFormat': "h:i K",
+                'dateFormat': "h:i A",
                 'time_24hr': false,
                 'minuteIncrement': 15,
                 'defaultMinute': 0,

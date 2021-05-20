@@ -1,5 +1,9 @@
 @extends('layouts.admin.app')
 
+@push('css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endpush
+
 @section('content')
 
     <div class="row">
@@ -85,6 +89,10 @@
 
 @push('js')
 
+    <script src="{{ asset('admin/dist/js/flatpickr.js') }}">
+
+    </script>
+
     <script type="text/javascript">
         $(function() {
             $("#meeting_date").datepicker({
@@ -95,16 +103,29 @@
         $(document).ready(function() {
 
             //Timepicker
-            $('#from_time').timepicker({
-                timeFormat: 'H:i',
-                step: 15,
+
+            $("#from_time").flatpickr({
+                'enableTime': true,
+                'noCalendar': true,
+                'dateFormat': "h:i A",
+                'time_24hr': false,
+                'minuteIncrement': 15,
+                'defaultMinute': 0,
+                'position': 'auto',
+                'minTime': new Date(),
 
             });
 
-            $('#to_time').timepicker({
-                timeFormat: 'H:i',
-                step: 15,
 
+            $('#to_time').flatpickr({
+                'enableTime': true,
+                'noCalendar': true,
+                'dateFormat': "h:i A",
+                'time_24hr': false,
+                'minuteIncrement': 15,
+                'defaultMinute': 0,
+                'position': 'auto',
+                'minTime': new Date(),
             });
 
             //submitting meetings
