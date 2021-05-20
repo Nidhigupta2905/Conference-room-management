@@ -100,6 +100,7 @@
 
             //timepicker
             $("#from_time").flatpickr({
+                
                 'enableTime': true,
                 'noCalendar': true,
                 'dateFormat': "G:i A",

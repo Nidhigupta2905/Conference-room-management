@@ -27,6 +27,19 @@
 
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+    <style>
+        #sidebar {
+            border-top-right-radius: 50px;
+        }
+        
+        #content-wrapper {
+            min-height: 600px;
+            overflow-x: hidden;
+            background: white;
+        }
+
+    </style>
     @stack('css')
 
 
@@ -123,7 +136,7 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="min-height: 600px; overflow-x: hidden;">
+        <div class="content-wrapper" id="content-wrapper">
 
             {{-- <div class="loading" id="full_page_loader" style="display: none">Loading&#8230;</div> --}}
             @yield('content')
@@ -157,11 +170,12 @@
 
 
     {{-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> --}}
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-     <script src="{{ asset('admin/dist/js/adminlte.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js">
+    </script>
+    <script src="{{ asset('admin/dist/js/adminlte.js') }}"></script>
 
     @stack('js')
 </body>
