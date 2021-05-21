@@ -35,12 +35,12 @@ class CheckMeetingTimeConflicts implements Rule
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $this->meeting_date)
             ->where('conference_room_id', $this->cr_id)
             ->where(function ($query) use ($from_time, $to_time) {
-                $query->orWhere('from_time', $from_time)
+                $query->where('from_time', $from_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $from_time)
                             ->where('to_time', '>', $from_time);
                     })
-                    ->orWhere('to_time', $this->to_time)
+                    ->where('to_time', $this->to_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
                         $query->where('from_time', '<', $to_time)
                             ->where('to_time', '>', $to_time);

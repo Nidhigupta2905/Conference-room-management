@@ -4,6 +4,8 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+
 @endpush
 
 @section('content')
@@ -88,38 +90,49 @@
 @push('js')
 
     <script src="{{ asset('admin/dist/js/flatpickr.js') }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
     <script type="text/javascript">
         $("#meeting_date").flatpickr({
-            'minDate': 'today'
+            
         });
 
         $(document).ready(function() {
 
-            $("#from_time").flatpickr({
-                'enableTime': true,
-                'noCalendar': true,
-                'dateFormat': "G:i A",
-                'time_24hr': false,
-                'minuteIncrement': 15,
-                'defaultMinute': 0,
-                'position': 'auto',
-                'minTime': new Date(),
+            // $("#from_time").flatpickr({
+            //     'enableTime': true,
+            //     'noCalendar': true,
+            //     'dateFormat': "G:i A",
+            //     'time_24hr': false,
+            //     'minuteIncrement': 15,
+            //     'defaultMinute': 0,
+            //     'position': 'auto',
+            //     'minTime': new Date(),
 
+            // });
+
+
+            // $('#to_time').flatpickr({
+            //     'enableTime': true,
+            //     'noCalendar': true,
+            //     'dateFormat': "G:i A",
+            //     'time_24hr': false,
+            //     'minuteIncrement': 15,
+            //     'defaultMinute': 0,
+            //     'position': 'auto',
+            //     'minTime': new Date(),
+            // });
+
+
+            $("#from_time").timepicker({
+                timeFormat: 'H:mm',
+                interval: 15,
             });
 
-
-            $('#to_time').flatpickr({
-                'enableTime': true,
-                'noCalendar': true,
-                'dateFormat': "G:i A",
-                'time_24hr': false,
-                'minuteIncrement': 15,
-                'defaultMinute': 0,
-                'position': 'auto',
-                'minTime': new Date(),
+            $("#to_time").timepicker({
+                timeFormat: 'H:mm',
+                interval: 15,
             });
-
 
             //submitting meetings
             $('#meeting_form').submit(function(e) {
