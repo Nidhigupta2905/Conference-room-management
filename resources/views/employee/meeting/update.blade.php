@@ -139,15 +139,15 @@
                     success: function(response) {
                         console.log(response);
                         swal("Done", "Successfully Booked", "success");
-                        $('#update_meeting_form').trigger('reset');
+                        // $('#update_meeting_form').trigger('reset');
                     },
                     error: function(response) {
                         console.log(response);
-                        let validation_errors = response.responseJSON.errors;
+                        let validation_errors = response.responseJSON.message;
                         let errors = '';
                         for (const key in validation_errors) {
                             errors += validation_errors[key];
-                            errors += '\n';
+                            // errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
                     }

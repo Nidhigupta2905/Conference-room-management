@@ -12,13 +12,13 @@ class CheckMeetingUpdateTimeConflict implements Rule
      *
      * @return void
      */
-    public function __construct($from_time, $to_time, $meeting_date, $cr_id)
+    public function __construct($from_time, $to_time, $meeting_date, $cr_id, $meeting_id)
     {
         $this->from_time = $from_time;
         $this->to_time = $to_time;
         $this->meeting_date = $meeting_date;
         $this->cr_id = $cr_id;
-        // $this->meeting_id = $meeting_id;
+        $this->meeting_id = $meeting_id;
     }
 
     /**
@@ -32,7 +32,7 @@ class CheckMeetingUpdateTimeConflict implements Rule
     {
         $from_time = $this->from_time;
         $to_time = $this->to_time;
-        // $meeting_id = $this->meeting_id;
+        $meeting_id = $this->meeting_id;
         // dd($meeting_id);
 
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $this->meeting_date)
@@ -58,9 +58,9 @@ class CheckMeetingUpdateTimeConflict implements Rule
                             ->where('to_time', '<', $to_time);
                     });
             })
-            // ->where(function ($query) use ($meeting_id) {
-            //     $query->where('id', '!=', $meeting_id);
-            // })
+            ->where(function ($query) use ($meeting_id) {
+                $query->where('id', '!=', $meeting_id);
+            })
             ->exists();
 
             // dd($check_start_time_conflict);

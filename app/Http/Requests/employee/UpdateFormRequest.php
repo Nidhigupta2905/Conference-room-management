@@ -37,7 +37,7 @@ class UpdateFormRequest extends FormRequest
 
                 'date_format:H:i',
 
-                new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id),
+                // new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id),
             ],
 
             'to_time' => [
@@ -49,7 +49,7 @@ class UpdateFormRequest extends FormRequest
 
                 // new CheckMeetingEndTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id),
 
-                new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id),
+                // new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id),
             ],
         ];
     }
