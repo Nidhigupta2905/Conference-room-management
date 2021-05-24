@@ -58,7 +58,7 @@
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Date</label>
                                     <input type="text" class="form-control" name="meeting_date" id="meeting_date"
-                                        autocomplete="off" value="{{ date('Y-m-d', strtotime($meeting->meeting_date)) }}">
+                                        autocomplete="off" value="{{ date('Y-m-d', strtotime($meeting->meeting_date)) }}" style="background: white">
                                 </div>
 
                                 <div class="row">
@@ -94,9 +94,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
     <script type="text/javascript">
-        $("#meeting_date").flatpickr({
-            'minDate': 'today'
-        });
+        $("#meeting_date").flatpickr({});
 
         $(document).ready(function() {
 

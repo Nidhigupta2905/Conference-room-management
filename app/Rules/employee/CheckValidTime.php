@@ -12,9 +12,10 @@ class CheckValidTime implements Rule
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($from_time)
     {
-        //
+        $this->from_time = $from_time;
+
     }
 
     /**
@@ -27,21 +28,13 @@ class CheckValidTime implements Rule
     public function passes($attribute, $value)
     {
         //check if input date is less than current date
-        $now = Carbon::now();
-
-        // if ($value < $now) {
-        //     return false;
-        // } else {
-        //     return true;
-        // }
-
-        //check office start time
-        // if ($value < "8:30") {
-        //     return false;
-        // } else {
-        //     return true;
-        // }
-
+        $now = Carbon::now('Asia/Kolkata')->format('H:i');
+        
+        if ($this->from_time < $now) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -53,7 +46,6 @@ class CheckValidTime implements Rule
     {
         return [
             'The meeting start time have passed',
-            'Cannot book before office time'
         ];
     }
 }

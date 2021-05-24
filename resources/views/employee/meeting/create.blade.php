@@ -58,7 +58,7 @@
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Date</label>
                                     <input type="text" class="form-control" name="meeting_date" id="meeting_date"
-                                        autocomplete="off" value="{{ old('meeting_date') }}">
+                                        autocomplete="off" value="{{ old('meeting_date') }}" style="background: white">
                                 </div>
 
                                 <div class="row">
@@ -93,44 +93,16 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
     <script type="text/javascript">
-        $("#meeting_date").flatpickr({
-            
-        });
+        $("#meeting_date").flatpickr({});
 
         $(document).ready(function() {
-
-            // $("#from_time").flatpickr({
-            //     'enableTime': true,
-            //     'noCalendar': true,
-            //     'dateFormat': "G:i A",
-            //     'time_24hr': false,
-            //     'minuteIncrement': 15,
-            //     'defaultMinute': 0,
-            //     'position': 'auto',
-            //     'minTime': new Date(),
-
-            // });
-
-
-            // $('#to_time').flatpickr({
-            //     'enableTime': true,
-            //     'noCalendar': true,
-            //     'dateFormat': "G:i A",
-            //     'time_24hr': false,
-            //     'minuteIncrement': 15,
-            //     'defaultMinute': 0,
-            //     'position': 'auto',
-            //     'minTime': new Date(),
-            // });
-
-
             $("#from_time").timepicker({
-                timeFormat: 'H:mm',
+                timeFormat: 'HH:mm',
                 interval: 15,
             });
 
             $("#to_time").timepicker({
-                timeFormat: 'H:mm',
+                timeFormat: 'HH:mm',
                 interval: 15,
             });
 
@@ -158,28 +130,19 @@
                     data: data,
 
                     success: function(response) {
-                        console.log(response);
                         swal("Done", "Successfully Booked", "success");
                         $('#meeting_form').trigger('reset');
                     },
                     error: function(response) {
-                        console.log(response);
                         let validation_errors = response.responseJSON.errors;
 
-                        // let db_messages = response.responseJSON.message;
-                        // console.log(db_messages);
-
-                        // if (!validation_errors){
-                        //     swal("Cancelled", db_messages, 'error');
-                        // } 
-                        // else {
                         let errors = '';
                         for (const key in validation_errors) {
                             errors += validation_errors[key];
                             errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
-                        // }
+                    
                     }
                 });
 
