@@ -1,8 +1,7 @@
 @extends('layouts.admin.app')
 
 @push('css')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    
 @endpush
 
 @section('content')
@@ -68,13 +67,13 @@
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
                                             autocomplete="off"
-                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('H:i') }}">
+                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('H:i') }}" style="background: white">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
                                         <input type="text" name="to_time" id="to_time" class="form-control"
                                             autocomplete="off"
-                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('H:i') }}">
+                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('H:i') }}" style="background: white">
 
                                     </div>
                                 </div>
@@ -97,33 +96,27 @@
 
 @push('js')
 
-    <script src="{{ asset('admin/dist/js/flatpickr.js') }}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js">
-
-    </script>
 
     <script type="text/javascript">
         $(function() {
-            $("#meeting_date").flatpickr({
-
-            });
+            $("#meeting_date").flatpickr({});
         });
 
         $(document).ready(function() {
 
-            //Timepicker
-
             //timepicker
-            $("#from_time").timepicker({
-                timeFormat: 'H:mm',
-                interval: 15,
-
+            $("#from_time").flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                minuteIncrement: 15
             });
 
-
-            $('#to_time').timepicker({
-                timeFormat: 'H:mm',
-                interval: 15,
+            $("#to_time").flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                minuteIncrement: 15
             });
 
             //submitting meetings

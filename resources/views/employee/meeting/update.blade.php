@@ -67,13 +67,15 @@
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
                                             autocomplete="off"
-                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('H:i') }}">
+                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('H:i') }}"
+                                            style="background: white">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
                                         <input type="text" name="to_time" id="to_time" class="form-control"
                                             autocomplete="off"
-                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('H:i') }}">
+                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('H:i') }}"
+                                            style="background: white">
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +98,6 @@
 @push('js')
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
     <script type="text/javascript">
         $("#meeting_date").flatpickr({});
@@ -104,16 +105,18 @@
         $(document).ready(function() {
 
             //timepicker
-            $("#from_time").timepicker({
-                timeFormat: 'H:mm',
-                interval: 15,
-
+            $("#from_time").flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                minuteIncrement: 15
             });
 
-
-            $('#to_time').timepicker({
-                timeFormat: 'H:mm',
-                interval: 15,
+            $("#to_time").flatpickr({
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                minuteIncrement: 15
             });
 
             //submitting meetings
@@ -149,13 +152,13 @@
                         $('.meeting_btn').show();
                     },
                     error: function(response) {
-                        $('#loading').hide();
+                        $('.loading').hide();
                         console.log(response);
-                        let validation_errors = response.responseJSON.message;
+                        let validation_errors = response.responseJSON.errors;
                         let errors = '';
                         for (const key in validation_errors) {
                             errors += validation_errors[key];
-                            // errors += '\n';
+                            errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
                         $('.meeting_btn').show();

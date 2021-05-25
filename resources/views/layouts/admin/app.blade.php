@@ -22,6 +22,8 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 
@@ -35,9 +37,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
     <style>
-        #sidebar{
-           
-        }
+        #sidebar {}
+
     </style>
 
     @stack('css')
@@ -78,7 +79,7 @@
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4"  id="sidebar">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidebar">
             <!-- Brand Logo -->
             <a href="{{ route('admin.home') }}" class="brand-link">
                 <img src="{{ asset('admin/dist/images/AdminLTELogo.png') }}" alt="AdminLTE Logo"
@@ -178,6 +179,9 @@
     {{-- <script src="{{ asset('admin/dist/js/wickedpicker.min.js') }}"></script> --}}
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- flatpickr time picker-->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <!-- Datatables -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js">
