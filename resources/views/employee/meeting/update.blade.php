@@ -58,7 +58,8 @@
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Date</label>
                                     <input type="text" class="form-control" name="meeting_date" id="meeting_date"
-                                        autocomplete="off" value="{{ date('Y-m-d', strtotime($meeting->meeting_date)) }}" style="background: white">
+                                        autocomplete="off" value="{{ date('Y-m-d', strtotime($meeting->meeting_date)) }}"
+                                        style="background: white">
                                 </div>
 
                                 <div class="row">
@@ -78,7 +79,11 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary mt-2">Book</button>
+                        <button class="btn btn-primary mt-2 loading" style="display: none;" type="button">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="sr-only">Loading...</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary mt-2 meeting_btn">Book</button>
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -128,6 +133,8 @@
                     from_time: from_time,
                     to_time: to_time
                 }
+                $('.loading').show();
+                $('.meeting_btn').hide();
 
                 $.ajax({
                     type: "PUT",
@@ -135,11 +142,14 @@
                     data: data,
 
                     success: function(response) {
+                        $('.loading').hide();
                         console.log(response);
                         swal("Done", "Successfully Booked", "success");
                         // $('#update_meeting_form').trigger('reset');
+                        $('.meeting_btn').show();
                     },
                     error: function(response) {
+                        $('#loading').hide();
                         console.log(response);
                         let validation_errors = response.responseJSON.message;
                         let errors = '';
@@ -148,6 +158,7 @@
                             // errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
+                        $('.meeting_btn').show();
                     }
 
 

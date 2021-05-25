@@ -10,6 +10,7 @@
 
 @section('content')
     <div class="row">
+
         <div class="col-md-8 offset-2">
 
             @if (session('success'))
@@ -35,6 +36,7 @@
                 @endforeach
             @endif
             <div class="card mt-5">
+                {{-- <div class="loader">Loading...</div> --}}
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Book CR</h4>
 
@@ -77,8 +79,15 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary mt-2">Book</button>
-                        <div class="clearfix"></div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary mt-2 loading" style="display: none;" type="button">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="sr-only">Loading...</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary mt-2 meeting_btn">Book</button>
+
+                        </div>
                     </form>
                 </div>
             </div>
@@ -124,16 +133,22 @@
                     to_time: to_time
                 }
 
+                $('.loading').show();
+                $('.meeting_btn').hide();
+
                 $.ajax({
                     type: "POST",
                     url: "{{ route('employee.meeting.store') }}",
                     data: data,
 
                     success: function(response) {
+                        $('.loading').hide();
                         swal("Done", "Successfully Booked", "success");
                         $('#meeting_form').trigger('reset');
+                        $('.meeting_btn').show();
                     },
                     error: function(response) {
+                        $('#loading').hide();
                         let validation_errors = response.responseJSON.errors;
 
                         let errors = '';
@@ -142,12 +157,12 @@
                             errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
-                    
+                        $('.meeting_btn').show();
+
                     }
                 });
 
             });
-
         });
 
     </script>

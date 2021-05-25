@@ -1,4 +1,4 @@
-window.$ = require( 'jquery' );
+window.$ = require('jquery');
 import 'datatables.net';
 
 $('body').on('click', '#delete_button', function (e) {
@@ -14,11 +14,15 @@ $('body').on('click', '#delete_button', function (e) {
         "_method": "DELETE",
     }
 
+    $('.loading').show();
+    $('.delete_button').hide();
+
     $.ajax({
         type: "POST",
         url: $(this).attr('action'),
         data: data,
         success: function (response) {
+            $('.loading').hide();
             console.log(response);
 
             const id = "#meeting_data_" + response.data;
@@ -29,6 +33,6 @@ $('body').on('click', '#delete_button', function (e) {
 });
 
 
-    $('#meeting_list_table').DataTable();
+$('#meeting_list_table').DataTable();
 
 

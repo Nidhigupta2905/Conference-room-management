@@ -59,26 +59,33 @@
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Date</label>
                                     <input type="text" class="form-control" name="meeting_date" id="meeting_date"
-                                        autocomplete="off" value="{{ date('Y-m-d', strtotime($meeting->meeting_date)) }}" style="background: white" >
+                                        autocomplete="off" value="{{ date('Y-m-d', strtotime($meeting->meeting_date)) }}"
+                                        style="background: white">
                                 </div>
 
                                 <div class="row">
                                     <div class="col bootstrap-timepicker">
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
-                                            autocomplete="off" value="{{ Carbon\Carbon::parse($meeting->from_time)->format('H:i') }}">
+                                            autocomplete="off"
+                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('H:i') }}">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
                                         <input type="text" name="to_time" id="to_time" class="form-control"
-                                            autocomplete="off" value="{{ Carbon\Carbon::parse($meeting->to_time)->format('H:i') }}">
+                                            autocomplete="off"
+                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('H:i') }}">
 
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary mt-2">Book</button>
+                        <button class="btn btn-primary mt-2 loading" style="display: none;" type="button">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="sr-only">Loading...</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary mt-2 meeting_btn">Book</button>
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -91,7 +98,7 @@
 @push('js')
 
     <script src="{{ asset('admin/dist/js/flatpickr.js') }}"></script>
-        <script src = "//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js" >
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js">
 
     </script>
 
@@ -137,17 +144,24 @@
                     to_time: to_time
                 }
 
+                $('.loading').show();
+                $('.meeting_btn').hide();
+
                 $.ajax({
                     type: "PUT",
                     url: $('#update_meeting_form').attr('action'),
                     data: data,
 
                     success: function(response) {
+                        $('.loading').hide();
                         console.log(response);
                         swal("Done", "Successfully Booked", "success");
                         window.location.href = "{{ route('admin.meetings.index') }}"
+                        $('.meeting_btn').show();
                     },
                     error: function(response) {
+
+                        $('.loading').hide();
                         var errors = response.responseJSON.errors;
 
                         var error = '';
@@ -156,6 +170,7 @@
                             error += '\n';
                         }
                         swal("Cancelled", error, 'error');
+                        $('.meeting_btn').show();
 
                     }
                 });
