@@ -106,42 +106,35 @@ class EmployeeMeetingController extends Controller
 
         $meeting = Meeting::find($id);
 
-        $check_meeting_start_time = Meeting::where('from_time', $this->from_time)
-            ->where('to_time', $this->to_time)
-            ->whereDate('meeting_date', $this->meeting_date)
-            ->where('conference_room_id', $this->cr_id)
-            ->where('id', '!=', $id)
-            ->exists();
-
-        if ($check_meeting_start_time) {
-            return Response::json([
-                'success' => false,
-                'message' => "Already booked for the time. Choose another CR",
-            ], 422);
-
-        }
-
         $from_time = $request->from_time;
         $to_time = $request->to_time;
 
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
-            ->where('conference_room_id', $request->cr_id)
-            ->where(function ($query) use ($from_time, $to_time) {
-                $query->where('from_time', $from_time)
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '<', $from_time)
-                            ->where('to_time', '>', $from_time);
-                    })
-                    ->where('to_time', $to_time)
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '<', $to_time)
-                            ->where('to_time', '>', $to_time);
-                    })
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '>', $from_time)
-                            ->where('to_time', '<', $to_time);
-                    });
-            })->where('id', '!=', $id)->exists();
+    ->where('conference_room_id', $request->cr_id)
+    ->where(function ($query) use ($from_time, $to_time) {
+        $query->orWhere('from_time', $from_time)
+            ->orWhere('to_time', $to_time)
+            ->orWhere(function ($query) use ($from_time, $to_time) {
+
+                //if meeting start time occurs between an existing meeting
+                $query->where('from_time', '<', $from_time)
+                    ->where('to_time', '>', $from_time);
+            })
+
+            ->orWhere(function ($query) use ($from_time, $to_time) {
+
+                //if meeting end time occurs between the existing meeting
+                $query->where('from_time', '<', $to_time)
+                    ->where('to_time', '>', $to_time);
+            })
+            ->orWhere(function ($query) use ($from_time, $to_time) {
+
+                //if existing meeting occurs between this meeting time
+                $query->where('from_time', '>', $from_time)
+                    ->where('to_time', '<', $to_time);
+            });
+    })->where('id', '!=', $id)->exists();
+
 
         if ($check_start_time_conflict) {
 

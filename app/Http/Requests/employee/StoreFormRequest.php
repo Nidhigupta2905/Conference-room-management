@@ -33,12 +33,14 @@ class StoreFormRequest extends FormRequest
 
             'meeting_date' => ['required', 'date_format:Y-m-d', new CheckValidDate],
 
-            'from_time' => ['required', 'date_format:H:i', new CheckMeetingStartTime($this->from_time, $this->meeting_date, $this->cr_id), new CheckValidTime($this->from_time)],
+            'from_time' => ['required', 'date_format:H:i', new CheckValidTime($this->from_time)],
 
             'to_time' => ['required', 'date_format:H:i', 'after:from_time', new CheckMeetingTimeConflicts($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id)],
 
         ];
     }
+
+    // new CheckMeetingStartTime($this->from_time, $this->meeting_date, $this->cr_id)
 
     public function messages()
     {
@@ -54,15 +56,15 @@ class StoreFormRequest extends FormRequest
     public function getData()
     {
 
-        $start_time = Carbon::parse($this->from_time, 'Asia/Kolkata')->format("H:i:s");
-        $end_time = Carbon::parse($this->to_time, 'Asia/Kolkata')->format("H:i:s");
+        // $start_time = Carbon::parse($this->from_time, 'Asia/Kolkata')->format("H:i:s");
+        // $end_time = Carbon::parse($this->to_time, 'Asia/Kolkata')->format("H:i:s");
 
         // dd($start_time);
         return [
             'conference_room_id' => $this->cr_id,
             'meeting_date' => $this->meeting_date,
-            'from_time' => $start_time,
-            'to_time' => $end_time,
+            'from_time' => $this->from_time,
+            'to_time' => $this->to_time,
             'user_id' => $this->user()->id,
         ];
     }

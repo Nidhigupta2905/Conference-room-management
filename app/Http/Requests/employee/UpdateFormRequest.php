@@ -6,6 +6,7 @@ namespace App\Http\Requests\employee;
 use App\Rules\admin\CheckMeetingStartTimeUpdate;
 use App\Rules\admin\CheckMeetingUpdateTimeConflict;
 use App\Rules\employee\CheckValidDate;
+use App\Rules\employee\CheckValidTime;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateFormRequest extends FormRequest
@@ -37,6 +38,8 @@ class UpdateFormRequest extends FormRequest
 
                 'date_format:H:i',
 
+                new CheckValidTime($this->from_time)
+
                 // new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id),
             ],
 
@@ -63,5 +66,15 @@ class UpdateFormRequest extends FormRequest
             'to_time.required' => 'Meeting end time is required',
         ];
 
+    }
+
+    public function getUpdateData()
+    {
+        return[
+            'conference_room_id' => $this->cr_id,
+            'meeting_date' => $this->meeting_date,
+            'from_time' => $this->from_time,
+            'to_time' => $this->to_time,
+        ];
     }
 }

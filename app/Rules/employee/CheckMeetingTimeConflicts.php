@@ -2,8 +2,8 @@
 
 namespace App\Rules\employee;
 
-use Illuminate\Contracts\Validation\Rule;
 use App\Models\Meeting;
+use Illuminate\Contracts\Validation\Rule;
 
 class CheckMeetingTimeConflicts implements Rule
 {
@@ -35,17 +35,24 @@ class CheckMeetingTimeConflicts implements Rule
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $this->meeting_date)
             ->where('conference_room_id', $this->cr_id)
             ->where(function ($query) use ($from_time, $to_time) {
-                $query->where('from_time', $from_time)
+                $query->orWhere('from_time', $from_time)
+                    ->orWhere('to_time', $to_time)
                     ->orWhere(function ($query) use ($from_time, $to_time) {
+
+                        //if meeting start time occurs between an existing meeting
                         $query->where('from_time', '<', $from_time)
                             ->where('to_time', '>', $from_time);
                     })
-                    ->where('to_time', $this->to_time)
+
                     ->orWhere(function ($query) use ($from_time, $to_time) {
+
+                        //if meeting end time occurs between the existing meeting
                         $query->where('from_time', '<', $to_time)
                             ->where('to_time', '>', $to_time);
                     })
                     ->orWhere(function ($query) use ($from_time, $to_time) {
+
+                        //if existing meeting occurs between this meeting time
                         $query->where('from_time', '>', $from_time)
                             ->where('to_time', '<', $to_time);
                     });

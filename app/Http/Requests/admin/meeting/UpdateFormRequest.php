@@ -5,6 +5,7 @@ namespace App\Http\Requests\admin\meeting;
 use App\Rules\admin\CheckMeetingStartTimeUpdate;
 use App\Rules\employee\CheckValidDate;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\employee\CheckValidTime;
 
 class UpdateFormRequest extends FormRequest
 {
@@ -30,7 +31,7 @@ class UpdateFormRequest extends FormRequest
 
             'meeting_date' => ['required', 'date_format:Y-m-d', new CheckValidDate],
 
-            'from_time' => ['required', 'date_format:H:i', new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id)],
+            'from_time' => ['required', 'date_format:H:i', new CheckMeetingStartTimeUpdate($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id), new CheckValidTime($this->from_time)],
 
             'to_time' => ['required', 'date_format:H:i', 'after:from_time'],
         ];
