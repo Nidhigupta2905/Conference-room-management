@@ -1,8 +1,6 @@
 @extends('layouts.employee.app')
 
 @push('css')
-
-
 @endpush
 
 @section('content')
@@ -32,7 +30,7 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card mt-5">
+            <div class="card mt-5" id="card">
                 {{-- <div class="loader">Loading...</div> --}}
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Book CR</h4>
@@ -82,7 +80,7 @@
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="sr-only">Loading...</span>
                             </button>
-                            <button type="submit" class="btn btn-primary mt-2 meeting_btn">Book</button>
+                            <button type="submit" class="btn btn-primary mt-5 meeting_btn">Book</button>
 
                         </div>
                     </form>
@@ -96,7 +94,9 @@
 @push('js')
 
     <script type="text/javascript">
-        $("#meeting_date").flatpickr({});
+        $("#meeting_date").flatpickr({
+            disableMobile: true
+        });
 
         $(document).ready(function() {
 
@@ -104,14 +104,17 @@
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: "H:i",
-                minuteIncrement: 15
+                minuteIncrement: 15,
+                disableMobile: true
             });
 
             $("#to_time").flatpickr({
                 enableTime: true,
                 noCalendar: true,
                 dateFormat: "H:i",
-                minuteIncrement: 15
+                minuteIncrement: 15,
+                disableMobile: true
+
             });
 
             //submitting meetings

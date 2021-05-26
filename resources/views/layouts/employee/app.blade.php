@@ -30,18 +30,7 @@
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
-    <style>
-        #sidebar {
-            border-top-right-radius: 50px;
-        }
-
-        #content-wrapper {
-            min-height: 600px;
-            overflow-x: hidden;
-            background: white;
-        }
-
-    </style>
+    <link rel="stylesheet" href="{{asset('admin/dist/css/style.css')}}">
     @stack('css')
 
 
