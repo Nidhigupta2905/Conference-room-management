@@ -81,9 +81,13 @@ class MeetingController extends Controller
             $meeting->event_id = $event->id;
             $meeting->save();
 
+            //mail details
+            $startTime = Carbon::parse($request->from_time, 'Asia/Kolkata')->format('h:i A');
+            $endTime = Carbon::parse($request->to_time, 'Asia/Kolkata')->format('h:i A');
+
             $meetingDetails = [
                 'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
-                'body' => 'Testing Mail',
+                'body' => 'Timings: ' . $startTime . ' to ' . $endTime . ' on ' . $request->meeting_date,
             ];
 
             // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
@@ -197,7 +201,7 @@ class MeetingController extends Controller
                 //mail
                 $meetingDetails = [
                     'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
-                    'body' => 'Testing Mail',
+                    'body' => 'Timings: ' . $startTime . ' to ' . $endTime . ' on ' . $request->meeting_date,
                 ];
 
                 // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));

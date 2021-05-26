@@ -76,7 +76,7 @@
 
 
                         <div class="form-group">
-                            <button class="btn btn-primary mt-2 loading" style="display: none;" type="button">
+                            <button class="btn btn-primary mt-5 loading" style="display: none;" type="button">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="sr-only">Loading...</span>
                             </button>

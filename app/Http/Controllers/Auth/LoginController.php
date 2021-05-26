@@ -48,7 +48,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
 
-        //TODO: add validation
+        //validation
 
         Validator::make($request->all(), [
             'email' => [
