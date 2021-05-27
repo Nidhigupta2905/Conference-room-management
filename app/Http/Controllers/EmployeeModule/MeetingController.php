@@ -11,7 +11,6 @@ use App\Models\Meeting;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Http\Request;
 use Response;
 use Spatie\GoogleCalendar\Event;
@@ -60,44 +59,33 @@ class MeetingController extends Controller
      */
     public function store(StoreFormRequest $request)
     {
+        $meeting = Meeting::create($request->getData());
 
-        try {
-            DB::beginTransaction();
+        $cr = $meeting->conferenceRoom()->first();
 
-            $meeting = Meeting::create($request->getData());
+        //google calendar events
+        $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
+        $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
-            $cr = $meeting->conferenceRoom()->first();
+        $event = Event::create([
+            'name' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+            'startDateTime' => $meetingStartTime,
+            'endDateTime' => $meetingEndTime,
+        ]);
 
-            //google calendar events
-            $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
-            $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
+        $meeting->event_id = $event->id;
+        $meeting->save();
 
-            $event = Event::create([
-                'name' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
-                'startDateTime' => $meetingStartTime,
-                'endDateTime' => $meetingEndTime,
-            ]);
+        //mail details
+        $startTime = Carbon::parse($request->from_time, 'Asia/Kolkata')->format('h:i A');
+        $endTime = Carbon::parse($request->to_time, 'Asia/Kolkata')->format('h:i A');
 
-            $meeting->event_id = $event->id;
-            $meeting->save();
+        $meetingDetails = [
+            'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
+            'body' => 'Timings: ' . $startTime . ' to ' . $endTime . ' on ' . $request->meeting_date,
+        ];
 
-            //mail details
-            $startTime = Carbon::parse($request->from_time, 'Asia/Kolkata')->format('h:i A');
-            $endTime = Carbon::parse($request->to_time, 'Asia/Kolkata')->format('h:i A');
-
-            $meetingDetails = [
-                'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
-                'body' => 'Timings: ' . $startTime . ' to ' . $endTime . ' on ' . $request->meeting_date,
-            ];
-
-            // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-
-            DB::rollback();
-        }
+        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
         return Response::json(array(
             'success' => true,
