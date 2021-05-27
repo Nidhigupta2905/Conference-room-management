@@ -15,7 +15,7 @@ $('body').on('click', '#delete_button', function (e) {
     }
 
     $('.loading').show();
-    $('.delete_button').hide();
+    $(this).hide();
 
     $.ajax({
         type: "POST",

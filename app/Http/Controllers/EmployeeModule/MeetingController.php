@@ -149,93 +149,88 @@ class MeetingController extends Controller
     public function update(UpdateFormRequest $request, $id)
     {
 
-        try {
-            DB::beginTransaction();
-            $meeting = Meeting::find($id);
+        $meeting = Meeting::find($id);
 
-            $from_time = $request->from_time;
-            $to_time = $request->to_time;
+        $from_time = $request->from_time;
+        $to_time = $request->to_time;
 
-            $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
-                ->where('conference_room_id', $request->cr_id)
-                ->where(function ($query) use ($from_time, $to_time) {
-                    $query->orWhere('from_time', $from_time)
-                        ->orWhere('to_time', $to_time)
-                        ->orWhere(function ($query) use ($from_time, $to_time) {
+        $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
+            ->where('conference_room_id', $request->cr_id)
+            ->where(function ($query) use ($from_time, $to_time) {
+                $query->orWhere('from_time', $from_time)
+                    ->orWhere('to_time', $to_time)
+                    ->orWhere(function ($query) use ($from_time, $to_time) {
 
-                            //if meeting start time occurs between an existing meeting
-                            $query->where('from_time', '<', $from_time)
-                                ->where('to_time', '>', $from_time);
-                        })
+                        //if meeting start time occurs between an existing meeting
+                        $query->where('from_time', '<', $from_time)
+                            ->where('to_time', '>', $from_time);
+                    })
 
-                        ->orWhere(function ($query) use ($from_time, $to_time) {
+                    ->orWhere(function ($query) use ($from_time, $to_time) {
 
-                            //if meeting end time occurs between the existing meeting
-                            $query->where('from_time', '<', $to_time)
-                                ->where('to_time', '>', $to_time);
-                        })
-                        ->orWhere(function ($query) use ($from_time, $to_time) {
+                        //if meeting end time occurs between the existing meeting
+                        $query->where('from_time', '<', $to_time)
+                            ->where('to_time', '>', $to_time);
+                    })
+                    ->orWhere(function ($query) use ($from_time, $to_time) {
 
-                            //if existing meeting occurs between this meeting time
-                            $query->where('from_time', '>', $from_time)
-                                ->where('to_time', '<', $to_time);
-                        });
-                })->where('id', '!=', $id)->exists();
+                        //if existing meeting occurs between this meeting time
+                        $query->where('from_time', '>', $from_time)
+                            ->where('to_time', '<', $to_time);
+                    });
+            })->where('id', '!=', $id)->exists();
 
-            if ($check_start_time_conflict) {
+        if ($check_start_time_conflict) {
 
-                return Response::json([
-                    'success' => false,
-                    'message' => "Choose another meeting start or end time",
-                ], 422);
-            } else {
+            return Response::json([
+                'success' => false,
+                'message' => "Choose another meeting start or end time",
+            ], 422);
+        } else {
 
-                $meeting->conference_room_id = $request->cr_id;
-                $meeting->meeting_date = $request->meeting_date;
-                $meeting->from_time = $request->from_time;
-                $meeting->to_time = $request->to_time;
-                $meeting->save();
+            $meeting->conference_room_id = $request->cr_id;
+            $meeting->meeting_date = $request->meeting_date;
+            $meeting->from_time = $request->from_time;
+            $meeting->to_time = $request->to_time;
+            $meeting->save();
 
-                $cr = $meeting->conferenceRoom()->first();
+            $cr = $meeting->conferenceRoom()->first();
 
-                //mail
-                $meetingDetails = [
-                    'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
-                    'body' => 'Timings: ' . $startTime . ' to ' . $endTime . ' on ' . $request->meeting_date,
-                ];
+            //mail
 
-                // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+            //mail details
+            $startTime = Carbon::parse($request->from_time, 'Asia/Kolkata')->format('h:i A');
+            $endTime = Carbon::parse($request->to_time, 'Asia/Kolkata')->format('h:i A');
 
-                //google calendar events
-                $event = new Event();
+            $meetingDetails = [
+                'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
+                'body' => 'Timings: ' . $startTime . ' to ' . $endTime . ' on ' . $request->meeting_date,
+            ];
 
-                $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
-                $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
+            // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
-                $event = Event::find($meeting->event_id);
-                $event->delete();
+            //google calendar events
+            $event = new Event();
 
-                $events = Event::create([
-                    'name' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
-                    'startDateTime' => $meetingStartTime,
-                    'endDateTime' => $meetingEndTime,
-                ]);
+            $meetingStartTime = Carbon::parse($request->from_time, 'Asia/Kolkata');
+            $meetingEndTime = Carbon::parse($request->to_time, 'Asia/Kolkata');
 
-                $meeting->event_id = $events->id;
-                $meeting->save();
+            $event = Event::find($meeting->event_id);
+            $event->delete();
 
-                DB::commit();
+            $events = Event::create([
+                'name' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
+                'startDateTime' => $meetingStartTime,
+                'endDateTime' => $meetingEndTime,
+            ]);
 
-                return Response::json([
-                    'success' => true,
-                    'message' => 'Meeting booking successfull',
-                ], 200);
-            }
+            $meeting->event_id = $events->id;
+            $meeting->save();
 
-        } catch (\Exception $e) {
-
-            DB::rollback();
-
+            return Response::json([
+                'success' => true,
+                'message' => 'Meeting booking successfull',
+            ], 200);
         }
     }
 

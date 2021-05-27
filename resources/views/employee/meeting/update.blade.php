@@ -30,7 +30,7 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card mt-5">
+            <div class="card mt-5" id="card">
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Book CR</h4>
 
@@ -154,11 +154,11 @@
                     error: function(response) {
                         $('.loading').hide();
                         console.log(response);
-                        let validation_errors = response.responseJSON.errors;
+                        let validation_errors = response.responseJSON.message;
                         let errors = '';
                         for (const key in validation_errors) {
                             errors += validation_errors[key];
-                            errors += '\n';
+                            // errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
                         $('.meeting_btn').show();

@@ -84,17 +84,18 @@
                                                     @php
                                                         $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
                                                     @endphp
-                                                    
+
                                                     @if ($now->lt(Carbon\Carbon::parse($user_meeting->from_time, 'Asia/Kolkata')))
-                                                        <button class="btn btn-danger loading" 
-                                                            type="button" style="display: none;">
+                                                        <button class="btn btn-danger loading" type="button"
+                                                            style="display: none;">
                                                             <span class="spinner-border spinner-border-sm" role="status"
                                                                 aria-hidden="true"></span>
                                                             <span class="sr-only">Loading...</span>
                                                         </button>
+
                                                         <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
-                                                            type="submit" class="btn btn-danger delete_button" id="delete_button"
-                                                            data-id="{{ $user_meeting->id }}"><i
+                                                            type="submit" class="btn btn-danger delete_button"
+                                                            id="delete_button" data-id="{{ $user_meeting->id }}"><i
                                                                 class="far fa-trash-alt"></i></a>
 
                                                         <a href="{{ route('employee.meeting.edit', $user_meeting->id) }}"

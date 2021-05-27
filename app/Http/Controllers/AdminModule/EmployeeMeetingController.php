@@ -110,31 +110,30 @@ class EmployeeMeetingController extends Controller
         $to_time = $request->to_time;
 
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
-    ->where('conference_room_id', $request->cr_id)
-    ->where(function ($query) use ($from_time, $to_time) {
-        $query->orWhere('from_time', $from_time)
-            ->orWhere('to_time', $to_time)
-            ->orWhere(function ($query) use ($from_time, $to_time) {
+            ->where('conference_room_id', $request->cr_id)
+            ->where(function ($query) use ($from_time, $to_time) {
+                $query->orWhere('from_time', $from_time)
+                    ->orWhere('to_time', $to_time)
+                    ->orWhere(function ($query) use ($from_time, $to_time) {
 
-                //if meeting start time occurs between an existing meeting
-                $query->where('from_time', '<', $from_time)
-                    ->where('to_time', '>', $from_time);
-            })
+                        //if meeting start time occurs between an existing meeting
+                        $query->where('from_time', '<', $from_time)
+                            ->where('to_time', '>', $from_time);
+                    })
 
-            ->orWhere(function ($query) use ($from_time, $to_time) {
+                    ->orWhere(function ($query) use ($from_time, $to_time) {
 
-                //if meeting end time occurs between the existing meeting
-                $query->where('from_time', '<', $to_time)
-                    ->where('to_time', '>', $to_time);
-            })
-            ->orWhere(function ($query) use ($from_time, $to_time) {
+                        //if meeting end time occurs between the existing meeting
+                        $query->where('from_time', '<', $to_time)
+                            ->where('to_time', '>', $to_time);
+                    })
+                    ->orWhere(function ($query) use ($from_time, $to_time) {
 
-                //if existing meeting occurs between this meeting time
-                $query->where('from_time', '>', $from_time)
-                    ->where('to_time', '<', $to_time);
-            });
-    })->where('id', '!=', $id)->exists();
-
+                        //if existing meeting occurs between this meeting time
+                        $query->where('from_time', '>', $from_time)
+                            ->where('to_time', '<', $to_time);
+                    });
+            })->where('id', '!=', $id)->exists();
 
         if ($check_start_time_conflict) {
 
@@ -227,7 +226,7 @@ class EmployeeMeetingController extends Controller
         $meetings = Meeting::with(['user', 'conferenceRoom'])
             ->orderBy('meeting_date', 'DESC')
             ->paginate(10);
-            
+
         return view('admin.meeting.meeting-history')->with([
             'page' => 'meetingHistory',
             'meetings' => $meetings,
