@@ -120,11 +120,13 @@
 @endsection
 
 @push('js')
+    <script>
+        $(document).ready(function() {
+           
+
+        });
+
+    </script>
     <script src="{{ asset('js/employee/meeting.js') }}"></script>
 
-    {{-- <script>
-        $(document).ready(function () {
-            $('#meeting_list_table').DataTable();
-        });
-    </script> --}}
 @endpush

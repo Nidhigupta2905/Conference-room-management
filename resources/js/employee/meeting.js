@@ -13,26 +13,22 @@ $('body').on('click', '#delete_button', function (e) {
         "_token": _token,
         "_method": "DELETE",
     }
-
-    $('.loading').show();
-    $(this).hide();
-
     $.ajax({
         type: "POST",
         url: $(this).attr('action'),
         data: data,
         success: function (response) {
-            $('.loading').hide();
+
             console.log(response);
 
             const id = "#meeting_data_" + response.data;
             $(id).remove();
         }
     });
-
+    $('#meeting_list_table').DataTable();
 });
 
 
-$('#meeting_list_table').DataTable();
+
 
 
