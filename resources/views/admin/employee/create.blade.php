@@ -1,5 +1,7 @@
 @extends('layouts.admin.app')
-
+@push('css')
+    
+@endpush
 @section('content')
     <div class="row">
         <div class="col-md-8 offset-2">
@@ -19,7 +21,7 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card">
+            <div class="card mt-5" id="card">
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Add Employee</h4>
 

@@ -1,8 +1,10 @@
 @extends('layouts.admin.app')
+@push('css')
 
+@endpush
 @section('content')
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 offset-2">
 
             @if (session('success'))
                 <div class="alert alert-success ">
@@ -19,7 +21,7 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card">
+            <div class="card mt-5" id="card">
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Add Conference Rooms</h4>
                 </div>
@@ -28,7 +30,7 @@
                         @method('PUT')
                         @csrf
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Conference Room Name</label>
                                     <input type="text" class="form-control" name="conference_room_name"
@@ -36,8 +38,11 @@
                                 </div>
                             </div>
                         </div>
-
-                        <button type="submit" class="btn btn-primary pull-right">Update Name</button>
+                        <button class="btn btn-primary loading" style="display: none;" type="button">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="sr-only">Loading...</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary float-left meeting_btn">Update Name</button>
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -60,32 +65,28 @@
                     'conference_room_name': cr_name
                 }
 
+                $('.loading').show();
+                $('.meeting_btn').hide();
                 $.ajax({
                     type: "PUT",
                     url: $('#cr_form').attr('action'),
                     data: data,
 
                     success: function(response) {
-                        swal("Done", "Name updaed Successfully", "success");
+                        $('.loading').hide();
+                        swal("Done", "Name updated Successfully", "success");
+                        $('.meeting_btn').show();
                     },
                     error: function(response) {
-                        console.log(response);
+                        $('.loading').hide();
                         let validation_errors = response.responseJSON.errors;
-
-                        // let db_messages = response.responseJSON.message;
-                        // console.log(db_messages);
-
-                        // if (!validation_errors){
-                        //     swal("Cancelled", db_messages, 'error');
-                        // } 
-                        // else {
                         let errors = '';
                         for (const key in validation_errors) {
                             errors += validation_errors[key];
                             errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
-                        // }
+                        $('.meeting_btn').show();
                     }
                 });
 

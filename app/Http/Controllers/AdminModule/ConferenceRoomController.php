@@ -91,8 +91,18 @@ class ConferenceRoomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreFormRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'conference_room_name'=>'required|regex:/^[a-zA-z]/u|max:15,min:3|unique:conference_rooms,name'
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'success'=>false,
+                'errors'=>$validator->errors()
+            ], 422);
+        }
         $cr_room = ConferenceRoom::find($id);
         $cr_room->name = $request->conference_room_name;
         $cr_room->save();
@@ -113,7 +123,7 @@ class ConferenceRoomController extends Controller
     public function destroy(Request $request, $id)
     {
         ConferenceRoom::where('id', $id)->delete();
-        $request->session()->flash("success", "Room Deleted Successfully");
+        $request->session()->flash("error", "Room Deleted Successfully");
         return redirect()->back();
     }
 

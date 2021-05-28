@@ -129,7 +129,6 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" id="content-wrapper">
 
-            {{-- <div class="loading" id="full_page_loader" style="display: none">Loading&#8230;</div> --}}
             @yield('content')
 
         </div>

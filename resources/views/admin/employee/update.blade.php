@@ -19,7 +19,7 @@
                     </div>
                 @endforeach
             @endif
-            <div class="card mt-5">
+            <div class="card mt-5" id="card">
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Edit Employee</h4>
                 </div>
@@ -40,9 +40,9 @@
                                     <input type="text" class="form-control" name="employee_email" id="employee_email"
                                         value="{{ $employee->email }}">
                                     @error('email')
-                                        <span class="invalid-feedback" role="alert">
+                                        {{-- <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
-                                        </span>
+                                        </span> --}}
                                     @enderror
                                 </div>
                             </div>

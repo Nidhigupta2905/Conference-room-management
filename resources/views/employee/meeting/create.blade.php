@@ -31,7 +31,6 @@
                 @endforeach
             @endif
             <div class="card mt-5" id="card">
-                {{-- <div class="loader">Loading...</div> --}}
                 <div class="card-header card-header-primary">
                     <h4 class="card-title">Book CR</h4>
 

@@ -90,18 +90,16 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try{
-            $employee = User::find($id);
-            $employee->email = $request->employee_email;
-            $employee->save();
-    
-            $request->session()->flash('success', 'Employee Updated Successfully');
-            return redirect()->back();
-        }catch(\Exception $e){
-            return redirect()->back()->withErrors([
-                'email'=>"Email Cannot be Empty"
-            ]);
-        }
+        Validator::make($request->all(), [
+            'email' => 'required|unique:users,email',
+        ])->validate();
+        $employee = User::find($id);
+        $employee->email = $request->employee_email;
+        $employee->save();
+
+        $request->session()->flash('success', 'Employee Updated Successfully');
+        return redirect()->back();
+
     }
 
     /**
@@ -110,11 +108,16 @@ class EmployeeController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        User::where('id', $id)->delete();
-        $request->session()->flash('success', 'Employee Deleted Successfully');
-        return redirect()->back();
+        try {
+
+            User::where('id', $id)->delete();
+            $request->session()->flash('success', 'Employee Deleted Successfully');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['Unable to delete Employee']);
+        }
     }
 
 }

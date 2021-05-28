@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('content')
-    <div class="row text-danger">
+    <div class="row">
         <div class="col-md-8 offset-2">
 
             @if (session('success'))
@@ -36,7 +36,11 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                        <button class="btn btn-primary loading" style="display: none;" type="button">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="sr-only">Loading...</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary float-left meeting_btn">Submit</button>
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -60,33 +64,32 @@
                     'conference_room_name': cr_name
                 }
 
+                $('.loading').show();
+                $('.meeting_btn').hide();
                 $.ajax({
                     type: "POST",
                     url: "{{ route('admin.conference_room.store') }}",
                     data: data,
                     success: function(response) {
+
+                        $('.loading').hide();
                         swal("Done", "Name Uploaded Successfully", "success");
                         $('#cr_form').trigger('reset');
+                        $('.meeting_btn').show();
                     },
 
                     error: function(response) {
-                        console.log(response);
-                        let validation_errors = response.responseJSON.errors;
 
-                        // let db_messages = response.responseJSON.message;
-                        // console.log(db_messages);
-                        
-                        // if (!validation_errors){
-                        //     swal("Cancelled", db_messages, 'error');
-                        // } 
-                        // else {
-                            let errors = '';
-                            for (const key in validation_errors) {
-                                errors += validation_errors[key];
-                                errors += '\n';
-                            }
-                            swal("Cancelled", errors, 'error');
-                        // }
+                        $('.loading').hide();
+                        let validation_errors = response.responseJSON.errors;
+                        let errors = '';
+                        for (const key in validation_errors) {
+                            errors += validation_errors[key];
+                            errors += '\n';
+                        }
+                        swal("Cancelled", errors, 'error');
+                        $('.meeting_btn').show();
+
                     }
                 });
 
