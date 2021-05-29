@@ -102,7 +102,7 @@
             $("#from_time").flatpickr({
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i",
+                dateFormat: "G:i K",
                 minuteIncrement: 15,
                 disableMobile: true
             });
@@ -110,7 +110,7 @@
             $("#to_time").flatpickr({
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i",
+                dateFormat: "G:i K",
                 minuteIncrement: 15,
                 disableMobile: true
 

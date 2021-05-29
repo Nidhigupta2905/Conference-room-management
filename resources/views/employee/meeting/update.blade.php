@@ -67,14 +67,14 @@
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
                                             autocomplete="off"
-                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('H:i') }}"
+                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('h:i A') }}"
                                             style="background: white">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
                                         <input type="text" name="to_time" id="to_time" class="form-control"
                                             autocomplete="off"
-                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('H:i') }}"
+                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('h:i A') }}"
                                             style="background: white">
                                     </div>
                                 </div>
@@ -100,7 +100,9 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script type="text/javascript">
-        $("#meeting_date").flatpickr({});
+        $("#meeting_date").flatpickr({
+            disableMobile: true
+        });
 
         $(document).ready(function() {
 
@@ -108,15 +110,17 @@
             $("#from_time").flatpickr({
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i",
-                minuteIncrement: 15
+                dateFormat: "G:i K",
+                minuteIncrement: 15,
+                disableMobile: true
             });
 
             $("#to_time").flatpickr({
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i",
-                minuteIncrement: 15
+                dateFormat: "G:i K",
+                minuteIncrement: 15,
+                disableMobile: true
             });
 
             //submitting meetings
@@ -154,7 +158,7 @@
                     error: function(response) {
                         $('.loading').hide();
                         console.log(response);
-                        let validation_errors = response.responseJSON.message;
+                        let validation_errors = response.responseJSON.errors;
                         let errors = '';
                         for (const key in validation_errors) {
                             errors += validation_errors[key];

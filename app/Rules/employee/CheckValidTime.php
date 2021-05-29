@@ -29,8 +29,10 @@ class CheckValidTime implements Rule
     {
         //check if input date is less than current date
         $now = Carbon::now('Asia/Kolkata')->format('H:i');
+        $start_time = Carbon::parse($this->from_time, 'Asia/Kolkata')->format("H:i");
+
         
-        if ($this->from_time < $now) {
+        if ($start_time < $now) {
             return false;
         } else {
             return true;

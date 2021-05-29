@@ -36,7 +36,7 @@ class UpdateFormRequest extends FormRequest
             'from_time' => [
                 'required',
 
-                'date_format:H:i',
+                'date_format:h:i A',
 
                 new CheckValidTime($this->from_time)
 
@@ -46,7 +46,7 @@ class UpdateFormRequest extends FormRequest
             'to_time' => [
                 'required',
 
-                'date_format:H:i',
+                'date_format:h:i A',
 
                 'after:from_time',
 

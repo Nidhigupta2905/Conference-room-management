@@ -9,7 +9,6 @@ use App\Models\Meeting;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
-use DB;
 use Illuminate\Http\Request;
 use Response;
 use Spatie\GoogleCalendar\Event;
@@ -106,32 +105,35 @@ class EmployeeMeetingController extends Controller
 
         $meeting = Meeting::find($id);
 
-        $from_time = $request->from_time;
-        $to_time = $request->to_time;
+        // $from_time = $request->from_time;
+        // $to_time = $request->to_time;
+
+        $start_time = Carbon::parse($request->from_time, 'Asia/Kolkata')->format("H:i");
+        $end_time = Carbon::parse($request->to_time, 'Asia/Kolkata')->format("H:i");
 
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $request->meeting_date)
             ->where('conference_room_id', $request->cr_id)
-            ->where(function ($query) use ($from_time, $to_time) {
-                $query->orWhere('from_time', $from_time)
-                    ->orWhere('to_time', $to_time)
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
+            ->where(function ($query) use ($start_time, $end_time) {
+                $query->orWhere('from_time', $start_time)
+                    ->orWhere('to_time', $end_time)
+                    ->orWhere(function ($query) use ($start_time, $end_time) {
 
                         //if meeting start time occurs between an existing meeting
-                        $query->where('from_time', '<', $from_time)
-                            ->where('to_time', '>', $from_time);
+                        $query->where('from_time', '<', $start_time)
+                            ->where('to_time', '>', $start_time);
                     })
 
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
+                    ->orWhere(function ($query) use ($start_time, $end_time) {
 
                         //if meeting end time occurs between the existing meeting
-                        $query->where('from_time', '<', $to_time)
-                            ->where('to_time', '>', $to_time);
+                        $query->where('from_time', '<', $end_time)
+                            ->where('to_time', '>', $end_time);
                     })
-                    ->orWhere(function ($query) use ($from_time, $to_time) {
+                    ->orWhere(function ($query) use ($start_time, $end_time) {
 
                         //if existing meeting occurs between this meeting time
-                        $query->where('from_time', '>', $from_time)
-                            ->where('to_time', '<', $to_time);
+                        $query->where('from_time', '>', $start_time)
+                            ->where('to_time', '<', $end_time);
                     });
             })->where('id', '!=', $id)->exists();
 
@@ -139,13 +141,13 @@ class EmployeeMeetingController extends Controller
 
             return Response::json([
                 'success' => false,
-                'message' => "Choose another meeting start or end time",
+                'errors' => "Choose another meeting start or end time",
             ], 422);
         } else {
             $meeting->conference_room_id = $request->cr_id;
             $meeting->meeting_date = $request->meeting_date;
-            $meeting->from_time = $request->from_time;
-            $meeting->to_time = $request->to_time;
+            $meeting->from_time = $start_time;
+            $meeting->to_time = $end_time;
             $meeting->save();
 
             $cr = $meeting->conferenceRoom()->first();
@@ -153,9 +155,13 @@ class EmployeeMeetingController extends Controller
             $employee = $meeting->user()->first();
 
             //mail
+
+            $meeting_start_time = Carbon::parse($request->from_time, 'Asia/Kolkata')->format("h:i A");
+            $meeting_end_time = Carbon::parse($request->to_time, 'Asia/Kolkata')->format("h:i A");
+
             $meetingDetails = [
                 'title' => $employee->name . ' rescheduled a meeting in ' . $cr->name . " CR",
-                'body' => 'Testing Mail',
+                'body' => 'Timings: ' . $meeting_start_time . ' to ' . $meeting_end_time . ' on ' . $request->meeting_date,
             ];
 
             // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
@@ -178,7 +184,7 @@ class EmployeeMeetingController extends Controller
             $meeting->event_id = $events->id;
             $meeting->save();
 
-            DB::commit();
+            // DB::commit();
             return Response::json(array(
                 'success' => true,
             ), 200);

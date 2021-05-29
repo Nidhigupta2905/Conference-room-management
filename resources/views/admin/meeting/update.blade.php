@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @push('css')
-    
+
 @endpush
 
 @section('content')
@@ -67,13 +67,15 @@
                                         <label for="from_time">From Time</label>
                                         <input type="text" name="from_time" id="from_time" class="form-control"
                                             autocomplete="off"
-                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('H:i') }}" style="background: white">
+                                            value="{{ Carbon\Carbon::parse($meeting->from_time)->format('h:i A') }}"
+                                            style="background: white">
                                     </div>
                                     <div class="col">
                                         <label for="to_time">To Time</label>
                                         <input type="text" name="to_time" id="to_time" class="form-control"
                                             autocomplete="off"
-                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('H:i') }}" style="background: white">
+                                            value="{{ Carbon\Carbon::parse($meeting->to_time)->format('h:i A') }}"
+                                            style="background: white">
 
                                     </div>
                                 </div>
@@ -84,7 +86,7 @@
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <span class="sr-only">Loading...</span>
                         </button>
-                        <button type="submit" class="btn btn-primary mt-2 meeting_btn">Book</button>
+                        <button type="submit" class="btn btn-primary mt-2" id="meeting_btn">Book</button>
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -99,7 +101,9 @@
 
     <script type="text/javascript">
         $(function() {
-            $("#meeting_date").flatpickr({});
+            $("#meeting_date").flatpickr({
+                disableMobile: true
+            });
         });
 
         $(document).ready(function() {
@@ -108,15 +112,21 @@
             $("#from_time").flatpickr({
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i",
-                minuteIncrement: 15
+                dateFormat: "G:i K",
+                minuteIncrement: 15,
+                disableMobile: true,
+                // minTime: "08:00",
+                // maxTime: "20:30",
             });
 
             $("#to_time").flatpickr({
                 enableTime: true,
                 noCalendar: true,
-                dateFormat: "H:i",
-                minuteIncrement: 15
+                dateFormat: "G:i K",
+                minuteIncrement: 15,
+                disableMobile: true,
+                // minTime: "08:00",
+                // maxTime: "20:30",
             });
 
             //submitting meetings
@@ -138,7 +148,7 @@
                 }
 
                 $('.loading').show();
-                $('.meeting_btn').hide();
+                $('#meeting_btn').hide();
 
                 $.ajax({
                     type: "PUT",
@@ -150,21 +160,19 @@
                         console.log(response);
                         swal("Done", "Successfully Booked", "success");
                         window.location.href = "{{ route('admin.meetings.index') }}"
-                        $('.meeting_btn').show();
+                        $('#meeting_btn').show();
                     },
                     error: function(response) {
-
                         $('.loading').hide();
-                        var errors = response.responseJSON.errors;
-
-                        var error = '';
-                        for (const key in errors) {
-                            error += errors[key].join('\n');
-                            error += '\n';
+                        console.log(response);
+                        let validation_errors = response.responseJSON.errors;
+                        let errors = '';
+                        for (const key in validation_errors) {
+                            errors += validation_errors[key];
+                            // errors += '\n';
                         }
-                        swal("Cancelled", error, 'error');
-                        $('.meeting_btn').show();
-
+                        swal("Cancelled", errors, 'error');
+                        $('#meeting_btn').show();
                     }
                 });
 
