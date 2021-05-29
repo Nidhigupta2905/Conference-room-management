@@ -95,7 +95,8 @@
 
                                                         <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
                                                             type="submit" class="btn btn-danger delete_button"
-                                                            id="delete_button" data-id="{{ $user_meeting->id }}"><i
+                                                            id="delete_button" data-id="{{ $user_meeting->id }}"
+                                                            ><i
                                                                 class="far fa-trash-alt"></i></a>
 
                                                         <a href="{{ route('employee.meeting.edit', $user_meeting->id) }}"
@@ -120,13 +121,7 @@
 @endsection
 
 @push('js')
-    <script>
-        $(document).ready(function() {
-           
 
-        });
-
-    </script>
     <script src="{{ asset('js/employee/meeting.js') }}"></script>
 
 @endpush

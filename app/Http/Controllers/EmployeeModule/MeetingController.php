@@ -139,6 +139,9 @@ class MeetingController extends Controller
 
         $meeting = Meeting::find($id);
 
+        $startTime = Carbon::parse($request->from_time, 'Asia/Kolkata')->format('h:i A');
+        $endTime = Carbon::parse($request->to_time, 'Asia/Kolkata')->format('h:i A');
+
         $from_time = $request->from_time;
         $to_time = $request->to_time;
 
@@ -187,8 +190,6 @@ class MeetingController extends Controller
             //mail
 
             //mail details
-            $startTime = Carbon::parse($request->from_time, 'Asia/Kolkata')->format('h:i A');
-            $endTime = Carbon::parse($request->to_time, 'Asia/Kolkata')->format('h:i A');
 
             $meetingDetails = [
                 'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
