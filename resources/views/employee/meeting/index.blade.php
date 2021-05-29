@@ -86,18 +86,24 @@
                                                     @endphp
 
                                                     @if ($now->lt(Carbon\Carbon::parse($user_meeting->from_time, 'Asia/Kolkata')))
-                                                        <button class="btn btn-danger loading" type="button"
+                                                        <button class="btn btn-danger loading" type="button" id="loading"
                                                             style="display: none;">
                                                             <span class="spinner-border spinner-border-sm" role="status"
                                                                 aria-hidden="true"></span>
                                                             <span class="sr-only">Loading...</span>
                                                         </button>
 
-                                                        <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
+                                                        {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
                                                             type="submit" class="btn btn-danger delete_button"
                                                             id="delete_button" data-id="{{ $user_meeting->id }}"
                                                             ><i
-                                                                class="far fa-trash-alt"></i></a>
+                                                                class="far fa-trash-alt"></i></a> --}}
+
+                                                        <button class="btn btn-danger "
+                                                        id="delete_button"
+                                                            data-id="{{ $user_meeting->id }}"
+                                                            data-token="{{ csrf_token() }}"><i
+                                                                class="far fa-trash-alt"></i></button>
 
                                                         <a href="{{ route('employee.meeting.edit', $user_meeting->id) }}"
                                                             type="submit" class="btn btn-info" id="edit_button"><i
@@ -122,6 +128,44 @@
 
 @push('js')
 
-    <script src="{{ asset('js/employee/meeting.js') }}"></script>
+    {{-- <script src="{{ asset('js/employee/meeting.js') }}"></script> --}}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#delete_button').click(function (e) { 
+                e.preventDefault();
+                console.log("clicked");
+                var id = $(this).data("id");
+                var token = $(this).data("token");
+
+                const payLoad = {
+                    'id': id,
+                    '_method': 'DELETE',
+                    '_token': token
+                }
+
+                $('#loading').show();
+                confirm("Are you sure you wnat to delete!")
+                $('.delete_button').hide();
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "meeting/"+id,
+                    data: payLoad,
+                   
+                    success: function (response) {
+                        console.log(response);
+                        $('#meeting_data_'+id).hide();
+                    },
+                    error: function(response){
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#meeting_list_table').DataTable();
+        });
+
+    </script>
 
 @endpush

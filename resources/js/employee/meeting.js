@@ -13,6 +13,8 @@ $('body').on('click', '#delete_button', function (e) {
         "_token": _token,
         "_method": "DELETE",
     }
+
+    $('.loading').show();
     $.ajax({
         type: "POST",
         url: $(this).attr('action'),

@@ -171,11 +171,7 @@
     {{-- <script src="{{ asset('admin/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script> --}}
     <script src="{{ asset('admin/plugins/moment/moment.min.js') }}"></script>
 
-    {{-- <script src="{{asset('admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script> --}}
-
-    {{-- <script src="{{ asset('admin/dist/js/wickedpicker.min.js') }}"></script> --}}
-
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- flatpickr time picker-->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

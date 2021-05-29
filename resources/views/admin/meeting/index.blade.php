@@ -86,12 +86,26 @@
                                                         $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
                                                     @endphp
                                                     @if ($now->lt(Carbon\Carbon::parse($meeting->from_time, 'Asia/Kolkata')))
-                                                        <a href="{{ route('admin.meetings.destroy', ['meeting' => $meeting->id]) }}"
+
+                                                        <button class="btn btn-danger loading" type="button" id="loading"
+                                                            style="display: none;">
+                                                            <span class="spinner-border spinner-border-sm" role="status"
+                                                                aria-hidden="true"></span>
+                                                            <span class="sr-only">Loading...</span>
+                                                        </button>
+                                                        {{-- <a href="{{ route('admin.meetings.destroy', ['meeting' => $meeting->id]) }}"
                                                             type="submit" class="btn btn-danger" id="delete_button"
-                                                            data-id="{{ $meeting->id }}"><i class="far fa-trash-alt"></i></a>
+                                                            data-id="{{ $meeting->id }}"><i
+                                                                class="far fa-trash-alt"></i></a> --}}
+
+                                                        <button class="btn btn-danger" id="delete_button"
+                                                            data-id="{{ $meeting->id }}"
+                                                            data-token="{{ csrf_token() }}"><i
+                                                                class="far fa-trash-alt"></i></button>
 
                                                         <a href="{{ route('admin.meetings.edit', $meeting->id) }}"
-                                                            type="submit" class="btn btn-info" id="edit_button"><i class="fas fa-edit"></i></a>
+                                                            type="submit" class="btn btn-info" id="edit_button"><i
+                                                                class="fas fa-edit"></i></a>
                                                     @endif
                                                 </td>
                                             </tr>
@@ -110,6 +124,61 @@
 
 @push('js')
 
-    <script src="{{ asset('js/employee/meeting.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#delete_button').click(function(e) {
+                e.preventDefault();
+                console.log("clicked");
+                var id = $(this).data("id");
+                var token = $(this).data("token");
+
+                const payLoad = {
+                    'id': id,
+                    '_method': 'DELETE',
+                    '_token': token
+                }
+
+                $('#loading').show();
+                confirm("Are you sure you want to delete!")
+                $('#delete_button').hide();
+
+                swal({
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this imaginary file!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("Poof! Your imaginary file has been deleted!", {
+                                icon: "success",
+                            });
+                        } else {
+                            swal("Your imaginary file is safe!");
+                        }
+                    });
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "meetings/" + id,
+                    data: payLoad,
+
+                    success: function(response) {
+                        console.log(response);
+                        $('#meeting_data_' + id).hide();
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#meeting_list_table').DataTable();
+        });
+
+    </script>
+
+    {{-- <script src="{{ asset('js/employee/meeting.js') }}"></script> --}}
 
 @endpush
