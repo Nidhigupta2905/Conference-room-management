@@ -356,7 +356,8 @@
         @media (min-width:1024px) {
             .lg\:px-8 {
                 padding-left: 2rem;
-                padding-right: 2rem
+                padding-right: 2rem;
+                margin-bottom: auto;
             }
         }
 
@@ -436,7 +437,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2">
                     <div class="p-6">
                         <div class="flex items-center">
-                            <div class="ml-4 text-lg leading-7 font-semibold">
+                            <div class="ml-4 text-lg leading-7 font-semibold float-left">
                                 <a href="{{ route('auth.google.login') }}" class="btn btn-block " style="font-size: 20px; text-align:left;">
                                     <i class="fab fa-google-plus mr-2"></i> Employee Login
                                 </a>
