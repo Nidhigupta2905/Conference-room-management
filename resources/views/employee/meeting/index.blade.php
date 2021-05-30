@@ -36,7 +36,7 @@
 
                             <a class="btn btn-info float-right" href="{{ route('employee.meeting-history') }}">View All
                                 Meetings</a>
-                            <h4 class="card-title ">Meeting List</h4>
+                            <h4 class="card-title ">Today's Meeting List</h4>
                         </div>
                         <div class="card-body">
 
@@ -142,24 +142,27 @@
                     '_token': token
                 }
 
-                $('#loading').show();
                 // confirm("Are you sure you want to cancel your meeting!")
 
-                $('#delete_button').hide();
 
-                $.ajax({
-                    type: "DELETE",
-                    url: "meeting/" + id,
-                    data: payLoad,
+                if (confirm("Are you sure you want to cancel your meeting!")) {
+                    $('#loading').show();
+                    $('#delete_button').hide();
 
-                    success: function(response) {
-                        console.log(response);
-                        $('#meeting_data_' + id).fadeOut();
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
-                });
+                    $.ajax({
+                        type: "DELETE",
+                        url: "meeting/" + id,
+                        data: payLoad,
+
+                        success: function(response) {
+                            console.log(response);
+                            $('#meeting_data_' + id).fadeOut();
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                }
 
             });
 

@@ -120,12 +120,14 @@
                             </a>
                         </li>
 
-                        {{-- <li class="nav-item ">
-                            <a class="nav-link @if (isset($page) && $page=='cancelled-meetings' ) active @endif" href="{{ route('employee.meeting.getCancelledMeetings') }}">
+                        <li class="nav-item ">
+                            <a class="nav-link @if (isset($page) && $page=='cancelled-meetings'
+                                ) active @endif"
+                                href="{{ route('employee.getCancelledMeetings') }}">
                                 <i class="fas fa-history"></i>
                                 <p>Cancelled Meetings</p>
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

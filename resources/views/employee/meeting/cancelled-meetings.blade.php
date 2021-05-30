@@ -33,10 +33,7 @@
                     <div class="card mt-5">
 
                         <div class="card-header card-header-primary">
-
-                            <a class="btn btn-info float-right" href="{{ route('employee.meeting-history') }}">View All
-                                Meetings</a>
-                            <h4 class="card-title ">Meeting List</h4>
+                            <h4 class="card-title ">Cancelled Meeting List</h4>
                         </div>
                         <div class="card-body">
 
@@ -57,10 +54,6 @@
                                             Start Time
                                         </th>
                                         <th>End Time</th>
-
-                                        <th>
-                                            Actions
-                                        </th>
                                     </thead>
 
                                     <tbody>
@@ -80,7 +73,7 @@
                                                 </td>
                                                 <td>{{ Carbon\Carbon::parse($cancelled_meeting->to_time)->format('h:i a') }}
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     @php
                                                         $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
                                                     @endphp
@@ -93,11 +86,7 @@
                                                             <span class="sr-only">Loading...</span>
                                                         </button>
 
-                                                        {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $cancelled_meeting->id]) }}"
-                                                            type="submit" class="btn btn-danger delete_button"
-                                                            id="delete_button" data-id="{{ $cancelled_meeting->id }}"
-                                                            ><i
-                                                                class="far fa-trash-alt"></i></a> --}}
+                                                        
 
                                                         <button class="btn btn-danger delete_button"
                                                         id="delete_button"
@@ -111,7 +100,7 @@
 
                                                     @endif
 
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     </tbody>

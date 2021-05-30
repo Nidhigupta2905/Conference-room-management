@@ -270,4 +270,23 @@ class MeetingController extends Controller
         ]);
     }
 
+    public function getCancelledMeetings()
+    {
+
+        // return "Hello";
+        $user = Auth::user();
+
+        $today = Carbon::now()->startOfDay();
+
+        $cancelled_meetings = $user->meetings()->onlyTrashed([
+            'conferenceRoom', 'user',
+        ])->orderBy('from_time', 'ASC')->where('meeting_date', $today)->get();
+        return view('employee.meeting.cancelled-meetings')->with([
+            'page' => 'cancelled-meetings',
+            'cancelled_meetings' => $cancelled_meetings,
+        ]);
+
+        
+    }
+
 }
