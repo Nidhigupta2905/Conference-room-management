@@ -99,7 +99,9 @@
 
     <script>
         $(document).ready(function() {
-            $('#table').DataTable();
+            $('#table').DataTable({
+                "bInfo": false
+            });
         });
 
     </script>

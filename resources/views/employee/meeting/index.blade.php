@@ -99,7 +99,7 @@
                                                             ><i
                                                                 class="far fa-trash-alt"></i></a> --}}
 
-                                                        <button class="btn btn-danger "
+                                                        <button class="btn btn-danger delete_button"
                                                         id="delete_button"
                                                             data-id="{{ $user_meeting->id }}"
                                                             data-token="{{ csrf_token() }}"><i
@@ -132,7 +132,7 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#delete_button').click(function (e) { 
+            $('body').on('click', '#delete_button', function (e) { 
                 e.preventDefault();
                 console.log("clicked");
                 var id = $(this).data("id");
@@ -146,7 +146,7 @@
 
                 $('#loading').show();
                 confirm("Are you sure you wnat to delete!")
-                $('.delete_button').hide();
+                $('#delete_button').hide();
 
                 $.ajax({
                     type: "DELETE",
@@ -155,7 +155,7 @@
                    
                     success: function (response) {
                         console.log(response);
-                        $('#meeting_data_'+id).hide();
+                        $('#meeting_data_'+id).fadeOut();
                     },
                     error: function(response){
                         console.log(response);
@@ -163,7 +163,9 @@
                 });
             });
 
-            $('#meeting_list_table').DataTable();
+            $('#meeting_list_table').DataTable({
+                "bInfo": false
+            });
         });
 
     </script>

@@ -174,7 +174,9 @@
                 });
             });
 
-            $('#meeting_list_table').DataTable();
+            $('#meeting_list_table').DataTable({
+                "bInfo": false
+            });
         });
 
     </script>

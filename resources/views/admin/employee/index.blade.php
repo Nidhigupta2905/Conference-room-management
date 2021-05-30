@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @push('css')
-    
+
 @endpush
 
 @section('content')
@@ -61,7 +61,7 @@
                                             $i = 0;
                                         @endphp
                                         @foreach ($employees as $employee)
-                                            <tr>
+                                            <tr id="meeting_data_{{ $employee->id }}">
                                                 <td>
                                                     {{ ++$i }}
                                                 </td>
@@ -70,14 +70,23 @@
                                                 </td>
                                                 <td>{{ $employee->email }}</td>
                                                 <td>
-                                                    <form action="{{ route('admin.employee.destroy', $employee->id) }}"
+                                                    {{-- <form action="{{ route('admin.employee.destroy', $employee->id) }}"
                                                         method="post" class="d-inline">
                                                         @method('DELETE')
-                                                        @csrf
-                                                        <button class="btn btn-danger">
-                                                            <i class="far fa-trash-alt"></i>
-                                                        </button>
-                                                    </form>
+                                                        @csrf --}}
+
+                                                    <button class="btn btn-danger loading" type="button" id="loading"
+                                                        style="display: none;">
+                                                        <span class="spinner-border spinner-border-sm" role="status"
+                                                            aria-hidden="true"></span>
+                                                        <span class="sr-only">Loading...</span>
+                                                    </button>
+
+                                                    <button class="btn btn-danger delete_button" id="delete_button"
+                                                        data-id="{{ $employee->id }}" data-token="{{ csrf_token() }}"><i
+                                                            class="far fa-trash-alt"></i></button>
+
+                                                    {{-- </form> --}}
                                                     <a href="{{ route('admin.employee.edit', $employee->id) }}"
                                                         class="btn btn-info"><i class="fas fa-edit"></i></a>
                                                     <a href="{{ route('admin.employee.show', $employee->id) }}"
@@ -95,3 +104,45 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('body').on('click', '#delete_button', function(e) {
+                e.preventDefault();
+                console.log("clicked");
+                var id = $(this).data("id");
+                var token = $(this).data("token");
+
+                const payLoad = {
+                    'id': id,
+                    '_method': 'DELETE',
+                    '_token': token
+                }
+
+                $('#loading').show();
+                confirm("Are you sure you wnat to delete!")
+                $('#delete_button').hide();
+
+                $.ajax({
+                    type: "POST",
+                    url: "employee/" + id,
+                    data: payLoad,
+
+                    success: function(response) {
+                        console.log(response);
+                        $('#meeting_data_' + id).fadeOut();
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#meeting_list_table').DataTable({
+                "bInfo": false
+            });
+        });
+
+    </script>
+@endpush

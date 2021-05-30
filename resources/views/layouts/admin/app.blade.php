@@ -105,12 +105,12 @@
                                 <p>Dashboard</p>
                             </a>
                         </li>
-                        <li class="nav-item  ">
+                        {{-- <li class="nav-item  ">
                             <a class=" nav-link @if (isset($page) && $page=='employees' ) active @endif" href="{{ route('admin.employee.index') }}">
                                 <i class="fas fa-user"></i>
                                 <p>Employees</p>
                             </a>
-                        </li>
+                        </li> --}}
 
                         <li class="nav-item ">
                             <a class="nav-link @if (isset($page) && $page=='cr_room' ) active @endif"
