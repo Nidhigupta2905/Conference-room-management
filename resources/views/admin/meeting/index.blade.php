@@ -62,7 +62,7 @@
                                         <th>Actions</th>
                                     </thead>
 
-                                    <tbody class="font-weight-bold">
+                                    <tbody>
                                         @php
                                             $i = 0;
                                         @endphp
