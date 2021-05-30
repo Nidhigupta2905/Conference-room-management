@@ -238,4 +238,18 @@ class EmployeeMeetingController extends Controller
             'meetings' => $meetings,
         ]);
     }
+
+    //get cancelled meetings
+    public function getCancelledMeetings()
+    {
+        $cancelled_meetings = Meeting::onlyTrashed(['user', 'conferenceRoom'])
+            ->orderBy('meeting_date', 'DESC')
+            ->get();
+
+        return view('admin.meeting.cancelled-meetings')->with([
+            'page' => 'cancelled-meetings',
+            'cancelled_meetings' => $cancelled_meetings,
+        ]);
+
+    }
 }

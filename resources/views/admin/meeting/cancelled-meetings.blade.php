@@ -1,4 +1,4 @@
-@extends('layouts.employee.app')
+@extends('layouts.admin.app')
 
 @push('css')
 

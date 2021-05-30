@@ -124,7 +124,7 @@
                             <a class="nav-link @if (isset($page) && $page=='cancelled-meetings'
                                 ) active @endif"
                                 href="{{ route('employee.getCancelledMeetings') }}">
-                                <i class="fas fa-history"></i>
+                                <i class="fas fa-window-close"></i>
                                 <p>Cancelled Meetings</p>
                             </a>
                         </li>

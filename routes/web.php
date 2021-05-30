@@ -46,6 +46,8 @@ Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "a
     Route::resource('employee', EmployeeController::class);
 
     Route::resource('meetings', EmployeeMeetingController::class);
+    Route::get('/getCancelledMeeting', [EmployeeMeetingController::class, 'getCancelledMeetings'])->name('getCancelledMeetings');
+
 });
 
 //employee

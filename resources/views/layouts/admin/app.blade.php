@@ -127,6 +127,15 @@
                                 <p>Meeting History</p>
                             </a>
                         </li>
+
+                        <li class="nav-item ">
+                            <a class="nav-link @if (isset($page) && $page=='cancelled-meetings'
+                                ) active @endif"
+                                href="{{ route('admin.getCancelledMeetings') }}">
+                                <i class="fas fa-window-close"></i>
+                                <p>Cancelled Meetings</p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -136,9 +145,6 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" style="min-height: 800px; overflow-x: hidden">
-
-            {{-- <div class="loading" id="full_page_loader" style="display: none;">Loading&#8230;</div> --}}
-
             @yield('content')
 
         </div>
