@@ -67,25 +67,25 @@
                                         @php
                                             $i = 0;
                                         @endphp
-                                        @foreach ($meeting as $user_meeting)
+                                        @foreach ($cancelled_meetings as $cancelled_meeting)
 
-                                            <tr id="meeting_data_{{ $user_meeting->id }}">
+                                            <tr id="meeting_data_{{ $cancelled_meeting->id }}">
                                                 <td>{{ ++$i }}</td>
-                                                <td>{{ $user_meeting->user->name }}</td>
-                                                <td>{{ $user_meeting->conferenceRoom->name }}</td>
+                                                <td>{{ $cancelled_meeting->user->name }}</td>
+                                                <td>{{ $cancelled_meeting->conferenceRoom->name }}</td>
                                                 <td class="start_date">
-                                                    {{ date('d-m-y', strtotime($user_meeting->meeting_date)) }}</td>
+                                                    {{ date('d-m-y', strtotime($cancelled_meeting->meeting_date)) }}</td>
                                                 <td class="start_time">
-                                                    {{ Carbon\Carbon::parse($user_meeting->from_time)->format('h:i a') }}
+                                                    {{ Carbon\Carbon::parse($cancelled_meeting->from_time)->format('h:i a') }}
                                                 </td>
-                                                <td>{{ Carbon\Carbon::parse($user_meeting->to_time)->format('h:i a') }}
+                                                <td>{{ Carbon\Carbon::parse($cancelled_meeting->to_time)->format('h:i a') }}
                                                 </td>
                                                 <td>
                                                     @php
                                                         $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
                                                     @endphp
 
-                                                    @if ($now->lt(Carbon\Carbon::parse($user_meeting->from_time, 'Asia/Kolkata')))
+                                                    @if ($now->lt(Carbon\Carbon::parse($cancelled_meeting->from_time, 'Asia/Kolkata')))
                                                         <button class="btn btn-danger loading" type="button" id="loading"
                                                             style="display: none;">
                                                             <span class="spinner-border spinner-border-sm" role="status"
@@ -93,18 +93,19 @@
                                                             <span class="sr-only">Loading...</span>
                                                         </button>
 
-                                                        {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
+                                                        {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $cancelled_meeting->id]) }}"
                                                             type="submit" class="btn btn-danger delete_button"
-                                                            id="delete_button" data-id="{{ $user_meeting->id }}"
+                                                            id="delete_button" data-id="{{ $cancelled_meeting->id }}"
                                                             ><i
                                                                 class="far fa-trash-alt"></i></a> --}}
 
-                                                        <button class="btn btn-danger delete_button" id="delete_button"
-                                                            data-id="{{ $user_meeting->id }}"
+                                                        <button class="btn btn-danger delete_button"
+                                                        id="delete_button"
+                                                            data-id="{{ $cancelled_meeting->id }}"
                                                             data-token="{{ csrf_token() }}"><i
                                                                 class="far fa-trash-alt"></i></button>
 
-                                                        <a href="{{ route('employee.meeting.edit', $user_meeting->id) }}"
+                                                        <a href="{{ route('employee.meeting.edit', $cancelled_meeting->id) }}"
                                                             type="submit" class="btn btn-info" id="edit_button"><i
                                                                 class="fas fa-edit"></i></a>
 
@@ -124,51 +125,3 @@
         </div>
     </div>
 @endsection
-
-@push('js')
-
-    {{-- <script src="{{ asset('js/employee/meeting.js') }}"></script> --}}
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('body').on('click', '#delete_button', function(e) {
-                e.preventDefault();
-                var id = $(this).data("id");
-                var token = $(this).data("token");
-
-                const payLoad = {
-                    'id': id,
-                    '_method': 'DELETE',
-                    '_token': token
-                }
-
-                $('#loading').show();
-                // confirm("Are you sure you want to cancel your meeting!")
-
-                $('#delete_button').hide();
-
-                $.ajax({
-                    type: "DELETE",
-                    url: "meeting/" + id,
-                    data: payLoad,
-
-                    success: function(response) {
-                        console.log(response);
-                        $('#meeting_data_' + id).fadeOut();
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
-                });
-
-            });
-
-
-            $('#meeting_list_table').DataTable({
-                "bInfo": false
-            });
-        });
-
-    </script>
-
-@endpush

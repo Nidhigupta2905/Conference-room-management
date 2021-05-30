@@ -30,7 +30,7 @@
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
-    <link rel="stylesheet" href="{{asset('admin/dist/css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin/dist/css/style.css') }}">
     @stack('css')
 
 
@@ -119,6 +119,13 @@
                                 <p>Meeting History</p>
                             </a>
                         </li>
+
+                        {{-- <li class="nav-item ">
+                            <a class="nav-link @if (isset($page) && $page=='cancelled-meetings' ) active @endif" href="{{ route('employee.meeting.getCancelledMeetings') }}">
+                                <i class="fas fa-history"></i>
+                                <p>Cancelled Meetings</p>
+                            </a>
+                        </li> --}}
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
