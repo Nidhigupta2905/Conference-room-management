@@ -28,7 +28,7 @@ class MeetingController extends Controller
 
         $today = Carbon::now()->startOfDay();
 
-        $meeting = $user->meetings()->with([
+        $meeting = $user->meetings()->withTrashed([
             'conferenceRoom', 'user',
         ])->orderBy('from_time', 'ASC')->where('meeting_date', $today)->get();
         return view('employee.meeting.index')->with([

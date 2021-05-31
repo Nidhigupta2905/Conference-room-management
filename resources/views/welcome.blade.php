@@ -22,13 +22,13 @@
 
         body {
             margin: 0;
-            background-color: white;
+            background-color: #F0F3F8;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             overflow-y: hidden;
-            
+
             /* background-image: url("{{ asset('admin/dist/images/meeting-room.jpg') }}"); */
         }
 
@@ -63,16 +63,16 @@
             background: -ms-linear-gradient(top, #3e779d, #65a9d7);
             background: -o-linear-gradient(top, #3e779d, #65a9d7);
             padding: 20px 40px;
-            -webkit-border-radius: 40px;
-            -moz-border-radius: 40px;
-            border-radius: 40px;
+            -webkit-border-radius: 0px;
+            -moz-border-radius: 0px;
+            border-radius: 0px;
             -webkit-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
             -moz-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
             box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
             text-shadow: rgba(0, 0, 0, .4) 0 1px 0;
             color: white;
             font-size: 24px;
-            font-family: Georgia, Serif;
+            font-family: Georgia, serif;
             text-decoration: none;
             vertical-align: middle;
         }
@@ -100,7 +100,7 @@
             text-decoration: inherit
         }
 
-        
+
 
         @media (min-width:640px) {
             .sm\:rounded-lg {
@@ -164,14 +164,13 @@
         }
 
         @media (min-width:1024px) {
+
             /* .lg\:px-8 {
                 padding-left: 2rem;
                 padding-right: 2rem;
                 margin-bottom: auto;
             } */
-            #col{
-                    
-            }
+            #col {}
         }
 
         @media (prefers-color-scheme:dark) {
@@ -239,17 +238,18 @@
     @endif
 
     <div class="container">
-        <div class="row" >
+        <div class="row">
             <div class="col-md-6" id="col">
                 {{-- <img src="{{asset('admin/dist/images/google.jpg')}}" alt="" srcset=""> --}}
+                <label for="" class="font-weight-bold" style="font-size: 28px;">CR Management System</label>
                 <a href="{{ route('auth.google.login') }}" class="btn btn-block button" id="button"
                     style="font-size: 20px; text-align:left;">
                     <i class="fab fa-google-plus mr-2"></i> Employee Login
                 </a>
             </div>
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
                 <img src="{{asset('admin/dist/images/google.jpg')}}" alt="" srcset="" height="100px" width="600px">
-            </div>
+            </div> --}}
         </div>
     </div>
     {{-- <div
