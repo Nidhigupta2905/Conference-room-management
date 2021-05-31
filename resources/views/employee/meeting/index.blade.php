@@ -80,12 +80,35 @@
                                                 </td>
                                                 <td>{{ Carbon\Carbon::parse($user_meeting->to_time)->format('h:i a') }}
                                                 </td>
-                                                <td>
-                                                    @php
-                                                        $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
-                                                    @endphp
 
-                                                    @if ($now->lt(Carbon\Carbon::parse($user_meeting->from_time, 'Asia/Kolkata')))
+                                                @if ($user_meeting->deleted_at == null)
+                                                    <td>
+                                                        @php
+                                                            $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+                                                        @endphp
+
+                                                        @if ($now->lt(Carbon\Carbon::parse($user_meeting->from_time, 'Asia/Kolkata')))
+                                                            <button class="btn btn-danger loading" type="button"
+                                                                id="loading" style="display: none;">
+                                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                                    aria-hidden="true"></span>
+                                                                <span class="sr-only">Loading...</span>
+                                                            </button>
+
+                                                            <button class="btn btn-danger delete_button" id="delete_button"
+                                                                data-id="{{ $user_meeting->id }}"
+                                                                data-token="{{ csrf_token() }}"><i
+                                                                    class="far fa-trash-alt"></i></button>
+
+                                                            <a href="{{ route('employee.meeting.edit', $user_meeting->id) }}"
+                                                                type="submit" class="btn btn-info" id="edit_button"><i
+                                                                    class="fas fa-edit"></i></a>
+
+                                                        @endif
+
+                                                    </td>
+                                                @else
+                                                    <td>
                                                         <button class="btn btn-danger loading" type="button" id="loading"
                                                             style="display: none;">
                                                             <span class="spinner-border spinner-border-sm" role="status"
@@ -93,24 +116,17 @@
                                                             <span class="sr-only">Loading...</span>
                                                         </button>
 
-                                                        {{-- <a href="{{ route('employee.meeting.destroy', ['meeting' => $user_meeting->id]) }}"
-                                                            type="submit" class="btn btn-danger delete_button"
-                                                            id="delete_button" data-id="{{ $user_meeting->id }}"
-                                                            ><i
-                                                                class="far fa-trash-alt"></i></a> --}}
-
                                                         <button class="btn btn-danger delete_button" id="delete_button"
                                                             data-id="{{ $user_meeting->id }}"
-                                                            data-token="{{ csrf_token() }}"><i
+                                                            data-token="{{ csrf_token() }}" disabled><i
                                                                 class="far fa-trash-alt"></i></button>
 
-                                                        <a href="{{ route('employee.meeting.edit', $user_meeting->id) }}"
-                                                            type="submit" class="btn btn-info" id="edit_button"><i
-                                                                class="fas fa-edit"></i></a>
+                                                        <a href="javascript:void(0)" type="submit" class="btn btn-info"
+                                                            id="edit_button" style="pointer-events: none"><i
+                                                                class="fas fa-edit" aria-disabled="true"></i></a>
+                                                    </td>
+                                                @endif
 
-                                                    @endif
-
-                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -133,6 +149,8 @@
         $(document).ready(function() {
             $('body').on('click', '#delete_button', function(e) {
                 e.preventDefault();
+
+                console.log($('#delete_button').parent('td').children().first());
                 var id = $(this).data("id");
                 var token = $(this).data("token");
 
@@ -146,8 +164,11 @@
 
 
                 if (confirm("Are you sure you want to cancel your meeting!")) {
-                    $('#loading').show();
-                    $('#delete_button').hide();
+                    // $('#c').hide();
+
+                    $('#delete_button').parent('td').children().first().show()
+
+                    $(this).hide();
 
                     $.ajax({
                         type: "DELETE",
@@ -155,8 +176,18 @@
                         data: payLoad,
 
                         success: function(response) {
-                            console.log(response);
+                            // console.log(response);
                             $('#meeting_data_' + id).fadeOut();
+
+                            setInterval(() => {
+                                $('#delete_button').show();
+                                $('#loading').hide();
+                                $('#meeting_data_' + id).show();
+
+                            }, 2000);
+
+                            // $('#delete_button').hide();
+                            // document.getElementById("delete_button").disabled = true;
                         },
                         error: function(response) {
                             console.log(response);

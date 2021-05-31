@@ -86,7 +86,7 @@
                                     </tbody>
 
                                 </table>
-                                {{ $meetings->links() }}
+                                
                             </div>
 
                         </div>
@@ -101,7 +101,9 @@
     <script>
         $(document).ready(function() {
             $(document).ready(function() {
-                $('#meeting_list_table').DataTable();
+                $('#meeting_list_table').DataTable({
+                    'bInfo': false
+                });
             });
         });
 

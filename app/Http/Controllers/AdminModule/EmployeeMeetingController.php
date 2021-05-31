@@ -26,7 +26,7 @@ class EmployeeMeetingController extends Controller
 
         $meetings = Meeting::where('meeting_date', $today)
             ->orderBy('meeting_date', 'ASC')
-            ->with('user', 'conferenceRoom')
+            ->withTrashed('user', 'conferenceRoom')
             ->get();
 
         return view('admin.meeting.index')->with([
@@ -229,7 +229,7 @@ class EmployeeMeetingController extends Controller
             $delete_meeting->delete();
         }
 
-        $meetings = Meeting::with(['user', 'conferenceRoom'])
+        $meetings = Meeting::withTrashed(['user', 'conferenceRoom'])
             ->orderBy('meeting_date', 'DESC')
             ->paginate(10);
 
@@ -239,17 +239,4 @@ class EmployeeMeetingController extends Controller
         ]);
     }
 
-    //get cancelled meetings
-    public function getCancelledMeetings()
-    {
-        $cancelled_meetings = Meeting::onlyTrashed(['user', 'conferenceRoom'])
-            ->orderBy('meeting_date', 'DESC')
-            ->get();
-
-        return view('admin.meeting.cancelled-meetings')->with([
-            'page' => 'cancelled-meetings',
-            'cancelled_meetings' => $cancelled_meetings,
-        ]);
-
-    }
 }

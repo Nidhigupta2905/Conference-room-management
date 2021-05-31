@@ -30,7 +30,7 @@
                             </div>
                         @endforeach
                     @endif
-                    <div class="card">
+                    <div class="card mt-5" id="card">
 
                         <div class="card-header card-header-primary">
 
@@ -81,6 +81,33 @@
                                                 <td>{{ Carbon\Carbon::parse($meeting->to_time)->format('h:i a') }}
                                                 </td>
 
+                                                @if ($meeting->deleted_at == null)
+                                                    <td>
+                                                        @php
+                                                            $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+                                                        @endphp
+                                                        @if ($now->lt(Carbon\Carbon::parse($meeting->from_time, 'Asia/Kolkata')))
+
+                                                            <button class="btn btn-danger loading" type="button"
+                                                                id="loading" style="display: none;">
+                                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                                    aria-hidden="true"></span>
+                                                                <span class="sr-only">Loading...</span>
+                                                            </button>
+
+                                                            <button class="btn btn-danger" id="delete_button"
+                                                                data-id="{{ $meeting->id }}"
+                                                                data-token="{{ csrf_token() }}"><i
+                                                                    class="far fa-trash-alt"></i></button>
+
+                                                            <a href="{{ route('admin.meetings.edit', $meeting->id) }}"
+                                                                type="submit" class="btn btn-info" id="edit_button"><i
+                                                                    class="fas fa-edit"></i></a>
+                                                        @endif
+                                                    </td>
+                                                @else
+
+                                                @endif
                                                 <td>
                                                     @php
                                                         $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
@@ -93,18 +120,14 @@
                                                                 aria-hidden="true"></span>
                                                             <span class="sr-only">Loading...</span>
                                                         </button>
-                                                        {{-- <a href="{{ route('admin.meetings.destroy', ['meeting' => $meeting->id]) }}"
-                                                            type="submit" class="btn btn-danger" id="delete_button"
-                                                            data-id="{{ $meeting->id }}"><i
-                                                                class="far fa-trash-alt"></i></a> --}}
 
                                                         <button class="btn btn-danger" id="delete_button"
                                                             data-id="{{ $meeting->id }}"
-                                                            data-token="{{ csrf_token() }}"><i
+                                                            data-token="{{ csrf_token() }}" disabled><i
                                                                 class="far fa-trash-alt"></i></button>
 
-                                                        <a href="{{ route('admin.meetings.edit', $meeting->id) }}"
-                                                            type="submit" class="btn btn-info" id="edit_button"><i
+                                                        <a href="javascript:void(0)" type="submit" class="btn btn-info"
+                                                            id="edit_button" style="pointer-events: none;"><i
                                                                 class="fas fa-edit"></i></a>
                                                     @endif
                                                 </td>
@@ -138,27 +161,9 @@
                     '_token': token
                 }
 
-                $('#loading').show();
                 confirm("Are you sure you want to delete!")
+                $('#loading').show();
                 $('#delete_button').hide();
-
-                swal({
-                        title: "Are you sure?",
-                        text: "Once deleted, you will not be able to recover this imaginary file!",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            swal("Poof! Your imaginary file has been deleted!", {
-                                icon: "success",
-                            });
-                        } else {
-                            swal("Your imaginary file is safe!");
-                        }
-                    });
-
                 $.ajax({
                     type: "DELETE",
                     url: "meetings/" + id,

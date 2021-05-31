@@ -127,15 +127,6 @@
                                 <p>Meeting History</p>
                             </a>
                         </li>
-
-                        <li class="nav-item ">
-                            <a class="nav-link @if (isset($page) && $page=='cancelled-meetings'
-                                ) active @endif"
-                                href="{{ route('admin.getCancelledMeetings') }}">
-                                <i class="fas fa-window-close"></i>
-                                <p>Cancelled Meetings</p>
-                            </a>
-                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
