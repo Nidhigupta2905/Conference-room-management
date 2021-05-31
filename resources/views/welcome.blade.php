@@ -45,14 +45,6 @@
             line-height: 1.5
         }
 
-        /* #button {
-            padding: 1em 1.5em;
-            text-decoration: none;
-            background-color: gray;
-            position: relative;
-            box-shadow: 0 5px 0 darkred;
-        } */
-
 
         .button {
             border-top: 1px solid #96d1f8;
@@ -238,81 +230,23 @@
     @endif
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-6" id="col">
+        <div class="row ">
+            <div class="col-lg-5 mt-5" id="col" style="margin-left: -10px">
                 {{-- <img src="{{asset('admin/dist/images/google.jpg')}}" alt="" srcset=""> --}}
-                <label for="" class="font-weight-bold" style="font-size: 28px;">CR Management System</label>
+                <label for="" class="font-weight-bold mb-5" style="font-size: 28px;">CR Management System</label>
                 <a href="{{ route('auth.google.login') }}" class="btn btn-block button" id="button"
                     style="font-size: 20px; text-align:left;">
                     <i class="fab fa-google-plus mr-2"></i> Employee Login
                 </a>
             </div>
-            {{-- <div class="col-md-3">
-                <img src="{{asset('admin/dist/images/google.jpg')}}" alt="" srcset="" height="100px" width="600px">
-            </div> --}}
-        </div>
-    </div>
-    {{-- <div
-        class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-            <label for="" class="font-weight-bold" style="font-size: 28px;">CR Management System</label>
-            <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
-                <div class="grid grid-cols-1 md:grid-cols-2">
-                    <div class="p-6">
-                        <div class="flex items-center">
-                            <div class="ml-4 text-lg leading-7 font-semibold float-left">
-
-                                <a href="{{ route('auth.google.login') }}" class="btn btn-block " style="font-size: 20px; text-align:left;">
-                                    <i class="fab fa-google-plus mr-2"></i> Employee Login
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-sm-1"></div>
+            <div class="col-lg-5 ">
+                <img src="{{ asset('admin/dist/images/meeting-room_1.jpg') }}" alt="" srcset=""
+                    class="img-responsive rounded img-circle" height="650px" width="640px">
             </div>
-        </div> --}}
+        </div>
 
-    {{-- <div class="social-auth-links text-center mb-3"> --}}
-
-
-
-    {{-- <a href="{{ route('login') }}" class="btn btn-block btn-primary">
-                <i class="fab mr-2"></i> Admin Login
-
-            </a> --}}
-    {{-- </div> --}}
     </div>
 </body>
-
-
-<script src="https://apis.google.com/js/api:client.js"></script>
-<script>
-    var googleUser = {};
-    var startApp = function() {
-        gapi.load('auth2', function() {
-            // Retrieve the singleton for the GoogleAuth library and set up the client.
-            auth2 = gapi.auth2.init({
-                client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
-                cookiepolicy: 'single_host_origin',
-                // Request scopes in addition to 'profile' and 'email'
-                //scope: 'additional_scope'
-            });
-            attachSignin(document.getElementById('customBtn'));
-        });
-    };
-
-    function attachSignin(element) {
-        console.log(element.id);
-        auth2.attachClickHandler(element, {},
-            function(googleUser) {
-                document.getElementById('name').innerText = "Signed in: " +
-                    googleUser.getBasicProfile().getName();
-            },
-            function(error) {
-                alert(JSON.stringify(error, undefined, 2));
-            });
-    }
-
-</script>
 
 </html>
