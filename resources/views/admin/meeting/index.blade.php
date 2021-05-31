@@ -88,6 +88,31 @@
                                                         @endphp
                                                         @if ($now->lt(Carbon\Carbon::parse($meeting->from_time, 'Asia/Kolkata')))
 
+                                                            <button class="btn btn-danger loading_{{ $meeting->id }}"
+                                                                type="button" id="loading" style="display: none;">
+                                                                <span class="spinner-border spinner-border-sm" role="status"
+                                                                    aria-hidden="true"></span>
+                                                                <span class="sr-only">Loading...</span>
+                                                            </button>
+
+                                                            <button
+                                                                class="btn btn-danger delete_button_{{ $meeting->id }}"
+                                                                id="delete_button" data-id="{{ $meeting->id }}"
+                                                                data-token="{{ csrf_token() }}"><i
+                                                                    class="far fa-window-close"></i></button>
+
+                                                            <a href="{{ route('admin.meetings.edit', $meeting->id) }}"
+                                                                type="submit" class="btn btn-info edit_button_{{$meeting->id}}" id="edit_button"><i
+                                                                    class="fas fa-edit"></i></a>
+                                                        @endif
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        @php
+                                                            $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+                                                        @endphp
+                                                        @if ($now->lt(Carbon\Carbon::parse($meeting->from_time, 'Asia/Kolkata')))
+
                                                             <button class="btn btn-danger loading" type="button"
                                                                 id="loading" style="display: none;">
                                                                 <span class="spinner-border spinner-border-sm" role="status"
@@ -95,42 +120,14 @@
                                                                 <span class="sr-only">Loading...</span>
                                                             </button>
 
-                                                            <button class="btn btn-danger" id="delete_button"
+                                                            <button class="btn btn-danger delete_button_{{$meeting->id}}" id="delete_button"
                                                                 data-id="{{ $meeting->id }}"
-                                                                data-token="{{ csrf_token() }}"><i
-                                                                    class="far fa-trash-alt"></i></button>
-
-                                                            <a href="{{ route('admin.meetings.edit', $meeting->id) }}"
-                                                                type="submit" class="btn btn-info" id="edit_button"><i
-                                                                    class="fas fa-edit"></i></a>
+                                                                data-token="{{ csrf_token() }}" disabled><i
+                                                                    class="far fa-window-close"></i></button>
                                                         @endif
                                                     </td>
-                                                @else
 
                                                 @endif
-                                                <td>
-                                                    @php
-                                                        $now = Carbon\Carbon::now(new \DateTimeZone('Asia/Kolkata'));
-                                                    @endphp
-                                                    @if ($now->lt(Carbon\Carbon::parse($meeting->from_time, 'Asia/Kolkata')))
-
-                                                        <button class="btn btn-danger loading" type="button" id="loading"
-                                                            style="display: none;">
-                                                            <span class="spinner-border spinner-border-sm" role="status"
-                                                                aria-hidden="true"></span>
-                                                            <span class="sr-only">Loading...</span>
-                                                        </button>
-
-                                                        <button class="btn btn-danger" id="delete_button"
-                                                            data-id="{{ $meeting->id }}"
-                                                            data-token="{{ csrf_token() }}" disabled><i
-                                                                class="far fa-trash-alt"></i></button>
-
-                                                        <a href="javascript:void(0)" type="submit" class="btn btn-info"
-                                                            id="edit_button" style="pointer-events: none;"><i
-                                                                class="fas fa-edit"></i></a>
-                                                    @endif
-                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -149,7 +146,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#delete_button').click(function(e) {
+            $('body').on('click', '#delete_button', function(e) {
                 e.preventDefault();
                 console.log("clicked");
                 var id = $(this).data("id");
@@ -161,22 +158,33 @@
                     '_token': token
                 }
 
-                confirm("Are you sure you want to delete!")
-                $('#loading').show();
-                $('#delete_button').hide();
-                $.ajax({
-                    type: "DELETE",
-                    url: "meetings/" + id,
-                    data: payLoad,
+                if (confirm("Are you sure you want to delete!")) {
+                    $('.loading_' + id).show();
+                    $('.delete_button_' + id).hide();
+                    $.ajax({
+                        type: "DELETE",
+                        url: "meetings/" + id,
+                        data: payLoad,
 
-                    success: function(response) {
-                        console.log(response);
-                        $('#meeting_data_' + id).hide();
-                    },
-                    error: function(response) {
-                        console.log(response);
-                    }
-                });
+                        success: function(response) {
+                            console.log(response);
+                            $('#meeting_data_' + id).hide();
+                            setInterval(() => {
+                                 $('.loading_' + id).hide();
+                                $('.edit_button_'+id).hide();
+
+                                $('.delete_button_'+id).show();
+                                $('.delete_button_'+id).prop('disabled', true);
+
+                                $('#meeting_data_' + id).show();
+
+                            }, 2000);
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                }
             });
 
             $('#meeting_list_table').DataTable({

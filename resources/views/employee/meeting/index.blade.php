@@ -88,20 +88,22 @@
                                                         @endphp
 
                                                         @if ($now->lt(Carbon\Carbon::parse($user_meeting->from_time, 'Asia/Kolkata')))
-                                                            <button class="btn btn-danger loading" type="button"
-                                                                id="loading" style="display: none;">
+                                                            <button
+                                                                class="btn btn-danger loading_{{ $user_meeting->id }}"
+                                                                type="button" id="loading" style="display: none;">
                                                                 <span class="spinner-border spinner-border-sm" role="status"
                                                                     aria-hidden="true"></span>
                                                                 <span class="sr-only">Loading...</span>
                                                             </button>
 
-                                                            <button class="btn btn-danger delete_button" id="delete_button"
-                                                                data-id="{{ $user_meeting->id }}"
+                                                            <button
+                                                                class="btn btn-danger delete_button_{{ $user_meeting->id }}"
+                                                                id="delete_button" data-id="{{ $user_meeting->id }}"
                                                                 data-token="{{ csrf_token() }}"><i
-                                                                    class="far fa-trash-alt"></i></button>
+                                                                    class="far fa-window-close"></i></button>
 
                                                             <a href="{{ route('employee.meeting.edit', $user_meeting->id) }}"
-                                                                type="submit" class="btn btn-info" id="edit_button"><i
+                                                                type="submit" class="btn btn-info edit_button_{{$user_meeting->id}}" id="edit_button"><i
                                                                     class="fas fa-edit"></i></a>
 
                                                         @endif
@@ -119,11 +121,7 @@
                                                         <button class="btn btn-danger delete_button" id="delete_button"
                                                             data-id="{{ $user_meeting->id }}"
                                                             data-token="{{ csrf_token() }}" disabled><i
-                                                                class="far fa-trash-alt"></i></button>
-
-                                                        <a href="javascript:void(0)" type="submit" class="btn btn-info"
-                                                            id="edit_button" style="pointer-events: none"><i
-                                                                class="fas fa-edit" aria-disabled="true"></i></a>
+                                                                class="far fa-window-close"></i></button>
                                                     </td>
                                                 @endif
 
@@ -150,9 +148,9 @@
             $('body').on('click', '#delete_button', function(e) {
                 e.preventDefault();
 
-                console.log($('#delete_button').parent('td').children().first());
                 var id = $(this).data("id");
                 var token = $(this).data("token");
+
 
                 const payLoad = {
                     'id': id,
@@ -166,9 +164,9 @@
                 if (confirm("Are you sure you want to cancel your meeting!")) {
                     // $('#c').hide();
 
-                    $('#delete_button').parent('td').children().first().show()
+                    $('.loading_' + id).show();
 
-                    $(this).hide();
+                    $('.delete_button_' + id).hide();
 
                     $.ajax({
                         type: "DELETE",
@@ -180,8 +178,12 @@
                             $('#meeting_data_' + id).fadeOut();
 
                             setInterval(() => {
-                                $('#delete_button').show();
-                                $('#loading').hide();
+                                $('.loading_' + id).hide();
+                                $('.edit_button_' + id).hide();
+
+
+                                $('.delete_button_' + id).show();
+                                $('.delete_button_' + id).prop('disabled', true);
                                 $('#meeting_data_' + id).show();
 
                             }, 2000);
