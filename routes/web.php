@@ -52,6 +52,8 @@ Route::group(["middleware" => ["auth", "admin"], "prefix" => "admin", "as" => "a
 Route::group(["middleware" => ["auth", "employee"], "prefix" => "employee", "as" => "employee."], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('/getChartData', [DashboardController::class, 'getChartData'])->name('meeting_data');
+
     Route::get('/meeting-history', [MeetingController::class, 'meetingHistory'])->name('meeting-history');
 
     Route::resource('meeting', MeetingController::class);
