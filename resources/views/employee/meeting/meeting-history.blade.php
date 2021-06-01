@@ -30,7 +30,7 @@
                             </div>
                         @endforeach
                     @endif
-                    <div class="card">
+                    <div class="card mt-5" id="card">
 
                         <div class="card-header card-header-primary">
 
@@ -66,7 +66,7 @@
                                         @foreach ($meeting as $user_meeting)
 
                                             <tr class="highlight_tr">
-                                                <td>{{ $i + ($meeting->currentPage() - 1) * $meeting->perPage() }}</td>
+                                                <td>{{ $i }}</td>
                                                 <td>{{ $user_meeting->user->name }}</td>
                                                 <td>{{ $user_meeting->conferenceRoom->name }}</td>
                                                 <td class="start_date">
@@ -86,7 +86,7 @@
 
                                 </table>
 
-                                {{ $meeting->links() }}
+                                {{-- {{ $meeting->links() }} --}}
                             </div>
 
                         </div>
@@ -102,7 +102,9 @@
     <script>
         $(document).ready(function() {
             $(document).ready(function() {
-                $('#meeting_list_table').DataTable();
+                $('#meeting_list_table').DataTable({
+                    "bInfo": false
+                });
             });
 
         });

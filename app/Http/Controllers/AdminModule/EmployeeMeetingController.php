@@ -231,7 +231,7 @@ class EmployeeMeetingController extends Controller
 
         $meetings = Meeting::withTrashed(['user', 'conferenceRoom'])
             ->orderBy('meeting_date', 'DESC')
-            ->paginate(10);
+            ->get();
 
         return view('admin.meeting.meeting-history')->with([
             'page' => 'meetingHistory',

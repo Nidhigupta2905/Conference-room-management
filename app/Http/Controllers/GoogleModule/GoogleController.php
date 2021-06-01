@@ -18,8 +18,6 @@ class GoogleController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
-
-        //TODO: email domain name check validation
         try {
 
             $google_obj = Socialite::driver('google')->stateless()->user();

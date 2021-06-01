@@ -141,8 +141,6 @@
 
 @push('js')
 
-    {{-- <script src="{{ asset('js/employee/meeting.js') }}"></script> --}}
-
     <script type="text/javascript">
         $(document).ready(function() {
             $('body').on('click', '#delete_button', function(e) {
@@ -158,11 +156,7 @@
                     '_token': token
                 }
 
-                // confirm("Are you sure you want to cancel your meeting!")
-
-
                 if (confirm("Are you sure you want to cancel your meeting!")) {
-                    // $('#c').hide();
 
                     $('.loading_' + id).show();
 
@@ -174,7 +168,6 @@
                         data: payLoad,
 
                         success: function(response) {
-                            // console.log(response);
                             $('#meeting_data_' + id).fadeOut();
 
                             setInterval(() => {
@@ -188,8 +181,6 @@
 
                             }, 2000);
 
-                            // $('#delete_button').hide();
-                            // document.getElementById("delete_button").disabled = true;
                         },
                         error: function(response) {
                             console.log(response);

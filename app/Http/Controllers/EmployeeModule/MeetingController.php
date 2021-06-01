@@ -262,7 +262,7 @@ class MeetingController extends Controller
         $user = Auth::user();
         $meeting = $user->meetings()->withTrashed([
             'conferenceRoom', 'user',
-        ])->orderBy('meeting_date', 'DESC')->paginate(10);
+        ])->orderBy('meeting_date', 'DESC')->get();
 
         return view('employee.meeting.meeting-history')->with([
             'page' => 'meeting-history',

@@ -66,7 +66,7 @@
                                         @foreach ($meetings as $user_meeting)
 
                                             <tr class="highlight_tr">
-                                                <td>{{ $i + ($meetings->currentPage() - 1) * $meetings->perPage() }}</td>
+                                                <td>{{ $i }}</td>
                                                 <td>{{ $user_meeting->user->name }}</td>
                                                 <td>{{ $user_meeting->conferenceRoom->name }}</td>
                                                 <td class="start_date">
