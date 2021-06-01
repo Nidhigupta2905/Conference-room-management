@@ -7,7 +7,6 @@ use App\Http\Requests\admin\conferenceRoom\StoreFormRequest;
 use App\Models\ConferenceRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class ConferenceRoomController extends Controller
 {
@@ -46,7 +45,7 @@ class ConferenceRoomController extends Controller
      */
     public function store(StoreFormRequest $request)
     {
-    
+
         $conference_room = ConferenceRoom::create($request->getData());
         return response()->json([
             'success' => true,
@@ -94,19 +93,19 @@ class ConferenceRoomController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'conference_room_name'=>'required|regex:/^[a-zA-z]/u|max:15,min:3|unique:conference_rooms,name'
+            'conference_room_name' => 'required|regex:/^[a-zA-z]/u|max:15,min:3|unique:conference_rooms,name',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'success'=>false,
-                'errors'=>$validator->errors()
+                'success' => false,
+                'errors' => $validator->errors(),
             ], 422);
         }
         $cr_room = ConferenceRoom::find($id);
         $cr_room->name = $request->conference_room_name;
         $cr_room->save();
-        
+
         return response()->json([
             'success' => true,
             'message' => "CR Name Updated Successfully",
@@ -122,9 +121,14 @@ class ConferenceRoomController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        ConferenceRoom::where('id', $id)->delete();
-        $request->session()->flash("error", "Room Deleted Successfully");
-        return redirect()->back();
+        $conference_room = ConferenceRoom::find($id);
+        $conference_room->delete();
+        return response()->json(array(
+            'success' => true,
+            'message' => "deleted",
+            "data" => $id,
+        ), 200);
+
     }
 
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\admin\meeting\UpdateFormRequest;
+use App\Http\Requests\employee\UpdateFormRequest;
 use App\Models\ConferenceRoom;
 use App\Models\Meeting;
 use App\Models\User;
@@ -35,37 +35,7 @@ class EmployeeMeetingController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -100,13 +70,7 @@ class EmployeeMeetingController extends Controller
     public function update(UpdateFormRequest $request, $id)
     {
 
-        // try {
-        //     DB::beginTransaction();
-
         $meeting = Meeting::find($id);
-
-        // $from_time = $request->from_time;
-        // $to_time = $request->to_time;
 
         $start_time = Carbon::parse($request->from_time, 'Asia/Kolkata')->format("H:i");
         $end_time = Carbon::parse($request->to_time, 'Asia/Kolkata')->format("H:i");
@@ -144,11 +108,8 @@ class EmployeeMeetingController extends Controller
                 'errors' => "Choose another meeting start or end time",
             ], 422);
         } else {
-            $meeting->conference_room_id = $request->cr_id;
-            $meeting->meeting_date = $request->meeting_date;
-            $meeting->from_time = $start_time;
-            $meeting->to_time = $end_time;
-            $meeting->save();
+
+            $meeting->update($request->getUpdateData());
 
             $cr = $meeting->conferenceRoom()->first();
 
@@ -184,16 +145,10 @@ class EmployeeMeetingController extends Controller
             $meeting->event_id = $events->id;
             $meeting->save();
 
-            // DB::commit();
             return Response::json(array(
                 'success' => true,
             ), 200);
         }
-        // } catch (\Exception $e) {
-
-        //     DB::rollback();
-
-        // }
     }
 
     /**

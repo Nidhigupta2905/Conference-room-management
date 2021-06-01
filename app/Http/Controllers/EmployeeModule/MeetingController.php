@@ -92,18 +92,6 @@ class MeetingController extends Controller
         ), 200);
 
     }
-    // }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Employee  $employee
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Employee $employee)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -179,15 +167,9 @@ class MeetingController extends Controller
             ], 422);
         } else {
 
-            $meeting->conference_room_id = $request->cr_id;
-            $meeting->meeting_date = $request->meeting_date;
-            $meeting->from_time = $start_time;
-            $meeting->to_time = $end_time;
-            $meeting->save();
+            $meeting->update($request->getUpdateData());
 
             $cr = $meeting->conferenceRoom()->first();
-
-            //mail
 
             //mail details
 
