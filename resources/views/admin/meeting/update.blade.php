@@ -159,7 +159,7 @@
                         $('.loading').hide();
                         console.log(response);
                         swal("Done", "Successfully Booked", "success");
-                        window.location.href = "{{ route('admin.meetings.index') }}"
+                        // window.location.href = "{{ route('admin.meetings.index') }}"
                         $('#meeting_btn').show();
                     },
                     error: function(response) {

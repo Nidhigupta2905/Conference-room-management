@@ -2,16 +2,21 @@
 
 namespace App\Rules\admin;
 
-use Illuminate\Contracts\Validation\Rule;
 use App\Models\Meeting;
+use Illuminate\Contracts\Validation\Rule;
+use Carbon\Carbon;
 
 class CheckMeetingUpdateTimeConflict implements Rule
 {
+    
+    private $from_time, $to_time, $meeting_date, $cr_id, $meeting_id;
+    
     /**
      * Create a new rule instance.
      *
      * @return void
      */
+
     public function __construct($from_time, $to_time, $meeting_date, $cr_id, $meeting_id)
     {
         $this->from_time = $from_time;
@@ -30,40 +35,34 @@ class CheckMeetingUpdateTimeConflict implements Rule
      */
     public function passes($attribute, $value)
     {
-        $from_time = $this->from_time;
-        $to_time = $this->to_time;
-        $meeting_id = $this->meeting_id;
-        // dd($meeting_id);
+        $start_time = Carbon::parse($this->from_time, 'Asia/Kolkata')->format("H:i");
+        $end_time = Carbon::parse($this->to_time, 'Asia/Kolkata')->format("H:i");
 
         $check_start_time_conflict = Meeting::whereDate('meeting_date', $this->meeting_date)
             ->where('conference_room_id', $this->cr_id)
-            ->where(function ($query) use ($from_time, $to_time) {
-                $query->where('from_time', $from_time)
-                    ->where(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '<', $from_time)
-                            ->where('to_time', '>', $from_time);
-                    })
-                    ->where('to_time', $this->to_time)
-                    ->where(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '<', $to_time)
-                            ->where('to_time', '>', $to_time);
+            ->where(function ($query) use ($start_time, $end_time) {
+                $query->orWhere('from_time', $start_time)
+                    ->orWhere('to_time', $end_time)
+                    ->orWhere(function ($query) use ($start_time, $end_time) {
+
+                        //if meeting start time occurs between an existing meeting
+                        $query->where('from_time', '<', $start_time)
+                            ->where('to_time', '>', $start_time);
                     })
 
-                    ->where(function ($query) use ($from_time, $to_time) {
-                        $query->orWhere('to_time', $from_time);
+                    ->orWhere(function ($query) use ($start_time, $end_time) {
+
+                        //if meeting end time occurs between the existing meeting
+                        $query->where('from_time', '<', $end_time)
+                            ->where('to_time', '>', $end_time);
                     })
-                    
-                    ->where(function ($query) use ($from_time, $to_time) {
-                        $query->where('from_time', '>', $from_time)
-                            ->where('to_time', '<', $to_time);
+                    ->orWhere(function ($query) use ($start_time, $end_time) {
+
+                        //if existing meeting occurs between this meeting time
+                        $query->where('from_time', '>', $start_time)
+                            ->where('to_time', '<', $end_time);
                     });
-            })
-            ->where(function ($query) use ($meeting_id) {
-                $query->where('id', '!=', $meeting_id);
-            })
-            ->exists();
-
-            // dd($check_start_time_conflict);
+            })->where('id', '!=', $this->meeting_id)->exists();
 
         if ($check_start_time_conflict) {
             return false;

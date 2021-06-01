@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\employee;
 
-// use App\Rules\admin\CheckMeetingEndTimeUpdate;
+use App\Rules\admin\CheckMeetingUpdateTimeConflict;
 use App\Rules\employee\CheckValidDate;
 use App\Rules\employee\CheckValidTime;
 use Illuminate\Foundation\Http\FormRequest;
@@ -15,6 +15,7 @@ class UpdateFormRequest extends FormRequest
      *
      * @return bool
      */
+
     public function authorize()
     {
         return true;
@@ -48,7 +49,7 @@ class UpdateFormRequest extends FormRequest
 
                 'after:from_time',
 
-                // new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->meeting_id),
+                new CheckMeetingUpdateTimeConflict($this->from_time, $this->to_time, $this->meeting_date, $this->cr_id, $this->route('meeting')),
             ],
         ];
     }
@@ -76,4 +77,9 @@ class UpdateFormRequest extends FormRequest
             'to_time' => $end_time,
         ];
     }
+
+    // public function printId()
+    // {
+    //     echo $this->route('meeting');
+    // }
 }
