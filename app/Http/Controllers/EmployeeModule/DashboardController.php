@@ -10,6 +10,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+
         return view('employee.home')->with([
             "page" => "dashboard",
         ]);
@@ -18,7 +19,7 @@ class DashboardController extends Controller
     public function getChartData()
     {
         $date = Carbon::now()->subDays(2);
-        $chartData = Meeting::whereDate('meeting_date', $date)
+        $chartData = Meeting::whereDate('meeting_date', '>=', $date)
             ->orderBy('meeting_date', 'ASC')
             ->get();
 
