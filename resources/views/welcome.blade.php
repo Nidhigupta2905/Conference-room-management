@@ -142,27 +142,23 @@
         }
 
         @media (min-width:768px) {
-            .md\:border-t-0 {
-                border-top-width: 0
-            }
 
-            .md\:border-l {
-                border-left-width: 1px
-            }
-
-            .md\:grid-cols-2 {
-                grid-template-columns: repeat(2, minmax(0, 1fr))
+            #image {
+                margin-left: 12px;
+                margin-top: 50px;
+                width: 638px;
+                height: 400px;
             }
         }
 
         @media (min-width:1024px) {
 
-            /* .lg\:px-8 {
-                padding-left: 2rem;
-                padding-right: 2rem;
-                margin-bottom: auto;
-            } */
-            #col {}
+            #image {
+                margin-left: 12px;
+                margin-top: 50px;
+                width: 638px;
+                height: 400px;
+            }
         }
 
         @media (prefers-color-scheme:dark) {
@@ -239,8 +235,7 @@
                     <i class="fab fa-google-plus mr-2"></i> Employee Login
                 </a>
             </div>
-            <div class="col-sm-1"></div>
-            <div class="col-lg-5 ">
+            <div class="col-md-5 offset-1" id="image">
                 <img src="{{ asset('admin/dist/images/meeting-room_1.jpg') }}" alt="" srcset=""
                     class="img-responsive rounded img-circle" height="650px" width="640px">
             </div>
