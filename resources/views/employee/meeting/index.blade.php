@@ -174,7 +174,6 @@
                                 $('.loading_' + id).hide();
                                 $('.edit_button_' + id).hide();
 
-
                                 $('.delete_button_' + id).show();
                                 $('.delete_button_' + id).prop('disabled', true);
                                 $('#meeting_data_' + id).show();
@@ -183,7 +182,7 @@
 
                         },
                         error: function(response) {
-                            // console.log(response);
+                            
                         }
                     });
                 }

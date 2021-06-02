@@ -86,7 +86,7 @@
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <span class="sr-only">Loading...</span>
                         </button>
-                        <button type="submit" class="btn btn-primary mt-2" id="meeting_btn">Book</button>
+                        <button type="submit" class="btn btn-primary mt-2" id="meeting_btn">Update Meeting</button>
                         <div class="clearfix"></div>
                     </form>
                 </div>
