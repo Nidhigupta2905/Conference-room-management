@@ -159,7 +159,6 @@
                     },
                     error: function(response) {
                         $('.loading').hide();
-                        console.log(response);
                         let validation_errors = response.responseJSON.errors;
                         let errors = '';
                         for (const key in validation_errors) {

@@ -141,17 +141,7 @@
             }
         }
 
-        @media (min-width:768px) {
-
-            #image {
-                margin-left: 12px;
-                margin-top: 50px;
-                width: 638px;
-                height: 400px;
-            }
-        }
-
-        @media (min-width:1024px) {
+        @media (min-width:768px and max-width: 1024px) {
 
             #image {
                 margin-left: 12px;
@@ -235,7 +225,7 @@
                     <i class="fab fa-google-plus mr-2"></i> Employee Login
                 </a>
             </div>
-            <div class="col-md-5 offset-1" id="image">
+            <div class="col-lg-5 offset-1" id="image">
                 <img src="{{ asset('admin/dist/images/meeting-room_1.jpg') }}" alt="" srcset=""
                     class="img-responsive rounded img-circle" height="650px" width="640px">
             </div>
