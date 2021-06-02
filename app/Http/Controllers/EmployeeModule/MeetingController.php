@@ -5,6 +5,7 @@ namespace App\Http\Controllers\EmployeeModule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\employee\StoreFormRequest;
 use App\Http\Requests\employee\UpdateFormRequest;
+use App\Mail\MeetingBookingMail;
 use App\Models\ConferenceRoom;
 use App\Models\Employee;
 use App\Models\Meeting;
@@ -81,11 +82,13 @@ class MeetingController extends Controller
         $endTime = Carbon::parse($request->to_time, 'Asia/Kolkata')->format('h:i A');
 
         $meetingDetails = [
+            'header' => "CR Management System",
             'title' => Auth::user()->name . ' booked a meeting in ' . $cr->name . " CR",
             'body' => 'Timings: ' . $startTime . ' to ' . $endTime . ' on ' . $request->meeting_date,
+            'footer' => 'If you have any concerns with this meeting, please talk to the Admin. Thank you.',
         ];
 
-        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+        \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
         return Response::json(array(
             'success' => true,
@@ -137,11 +140,13 @@ class MeetingController extends Controller
         $meeting_end_time = Carbon::parse($request->to_time, 'Asia/Kolkata')->format("h:i A");
 
         $meetingDetails = [
+            'header' => "CR Management System",
             'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
-            'body' => 'Timings: ' . $meeting_start_time . ' to ' . $meeting_end_time . ' on ' . $request->meeting_date,
+            'body' => 'Timings: ' . $meeting_start_time . ' to ' . $meeting_end_time . ' on ' . $request->meeting_date ,
+            'footer' => 'If you have any concerns with this leave, please talk to Admin. Thank you.',
         ];
 
-        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+        \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
         //google calendar events
         $event = new Event();

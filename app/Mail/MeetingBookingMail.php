@@ -2,10 +2,10 @@
 
 namespace App\Mail;
 
+use Auth;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Auth;
 
 class MeetingBookingMail extends Mailable
 {
@@ -31,6 +31,6 @@ class MeetingBookingMail extends Mailable
     public function build()
     {
         return $this->subject(Auth::user()->name . ' booked a meeting')
-            ->view('employee.mail.email');
+            ->markdown('employee.mail.email');
     }
 }

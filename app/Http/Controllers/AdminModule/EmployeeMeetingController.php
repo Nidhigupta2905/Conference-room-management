@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminModule;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\employee\UpdateFormRequest;
+use App\Mail\MeetingBookingMail;
 use App\Models\ConferenceRoom;
 use App\Models\Meeting;
 use App\Models\User;
@@ -82,11 +83,13 @@ class EmployeeMeetingController extends Controller
         $meeting_end_time = Carbon::parse($request->to_time, 'Asia/Kolkata')->format("h:i A");
 
         $meetingDetails = [
-            'title' => $employee->name . ' rescheduled a meeting in ' . $cr->name . " CR",
+            'header' => "CR Management System",
+            'title' => Auth::user()->name . ' rescheduled a meeting for ' . $employee->name . ' in ' . $cr->name . " CR",
             'body' => 'Timings: ' . $meeting_start_time . ' to ' . $meeting_end_time . ' on ' . $request->meeting_date,
+            'footer' => 'If you have any concerns with this leave, please talk to Admin. Thank you.',
         ];
 
-        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+        \Mail::to($employee->email)->send(new MeetingBookingMail($meetingDetails));
 
         //google calendar events
         $event = new Event();
