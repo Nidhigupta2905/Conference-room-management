@@ -88,7 +88,7 @@ class MeetingController extends Controller
             'footer' => 'If you have any concerns with this meeting, please talk to the Admin. Thank you.',
         ];
 
-        \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
         return Response::json(array(
             'success' => true,
@@ -146,7 +146,7 @@ class MeetingController extends Controller
             'footer' => 'If you have any concerns with this leave, please talk to Admin. Thank you.',
         ];
 
-        \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
         //google calendar events
         $event = new Event();
@@ -200,10 +200,10 @@ class MeetingController extends Controller
     {
 
         //auto delete meetings for previous 2 days
-        // $delete_meetings = Meeting::where('meeting_date', '<', Carbon::now()->subDays(2))->get();
-        // foreach ($delete_meetings as $delete_meeting) {
-        //     $delete_meeting->delete();
-        // }
+        $delete_meetings = Meeting::where('meeting_date', '<', Carbon::now()->subDays(2))->get();
+        foreach ($delete_meetings as $delete_meeting) {
+            $delete_meeting->delete();
+        }
 
         $user = Auth::user();
         $meeting = $user->meetings()->withTrashed([

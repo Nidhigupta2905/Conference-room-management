@@ -74,12 +74,12 @@
                         </div>
 
 
-                        <div class="form-group">
-                            <button class="btn btn-primary mt-5 loading" style="display: none;" type="button">
+                        <div class="form-group text-center mt-5">
+                            <button class="btn btn-primary  loading" style="display: none;" type="button">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="sr-only">Loading...</span>
                             </button>
-                            <button type="submit" class="btn btn-primary mt-5 meeting_btn">Book</button>
+                            <button type="submit" class="btn btn-primary meeting_btn">Book Meeting</button>
 
                         </div>
                     </form>

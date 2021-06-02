@@ -37,7 +37,6 @@
                 </div>
                 <div class="card-body">
 
-                    <div id="loader"></div>
                     <form method="POST" action="{{ route('employee.meeting.update', ['meeting' => $meeting->id]) }}"
                         id="update_meeting_form">
                         @method('PUT')
@@ -81,11 +80,13 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-primary mt-2 loading" style="display: none;" type="button">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span class="sr-only">Loading...</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary mt-2 meeting_btn">Book</button>
+                        <div class="form-group mt-5 text-center">
+                            <button class="btn btn-primary loading" style="display: none;" type="button">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="sr-only">Loading...</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary meeting_btn">Book Meeting</button>
+                        </div>
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -150,9 +151,10 @@
 
                     success: function(response) {
                         $('.loading').hide();
-                        console.log(response);
+
                         swal("Done", "Successfully Booked", "success");
-                        // $('#update_meeting_form').trigger('reset');
+                        window.location.href = "{{ route('employee.meeting.index') }}"
+
                         $('.meeting_btn').show();
                     },
                     error: function(response) {
