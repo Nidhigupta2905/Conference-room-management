@@ -36,7 +36,7 @@
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
-    <link rel="stylesheet" href="{{asset('admin/dist/css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin/dist/css/style.css') }}">
 
     @stack('css')
 
@@ -88,9 +88,11 @@
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="info">
+                    <div class="image">
                         <img src="{{ asset('admin/dist/images/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                             class="brand-image img-circle elevation-3" style="opacity: .8">
+                    </div>
+                    <div class="info">
                         <a href="" class="d-block">{{ auth()->user()->name }}</a>
                     </div>
                 </div>
@@ -106,7 +108,7 @@
                             </a>
                         </li>
                         {{-- <li class="nav-item  ">
-                            <a class=" nav-link @if (isset($page) && $page=='employees' ) active @endif" href="{{ route('admin.employee.index') }}">
+                            <a class=" nav-link @if (isset($page) && $page == 'employees') active @endif" href="{{ route('admin.employee.index') }}">
                                 <i class="fas fa-user"></i>
                                 <p>Employees</p>
                             </a>
@@ -168,7 +170,7 @@
     {{-- <script src="{{ asset('admin/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script> --}}
     <script src="{{ asset('admin/plugins/moment/moment.min.js') }}"></script>
 
-   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- flatpickr time picker-->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

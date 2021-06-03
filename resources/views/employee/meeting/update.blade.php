@@ -112,7 +112,8 @@
                 noCalendar: true,
                 dateFormat: "G:i K",
                 minuteIncrement: 15,
-                disableMobile: true
+                disableMobile: true,
+                minTime: "8:30",
             });
 
             $("#to_time").flatpickr({
@@ -120,7 +121,9 @@
                 noCalendar: true,
                 dateFormat: "G:i K",
                 minuteIncrement: 15,
-                disableMobile: true
+                disableMobile: true,
+                minTime: "8:30",
+
             });
 
             //submitting meetings

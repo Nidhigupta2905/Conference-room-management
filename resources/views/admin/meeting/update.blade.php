@@ -117,7 +117,7 @@
                 dateFormat: "G:i K",
                 minuteIncrement: 15,
                 disableMobile: true,
-                minTime: "08:00",
+                minTime: "8:30",
                 // maxTime: "20:30",
             });
 
@@ -127,7 +127,7 @@
                 dateFormat: "G:i K",
                 minuteIncrement: 15,
                 disableMobile: true,
-                minTime: "08:00",
+                minTime: "8:30",
                 // maxTime: "20:30",
             });
 
