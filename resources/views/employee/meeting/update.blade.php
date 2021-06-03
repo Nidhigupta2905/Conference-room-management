@@ -87,7 +87,6 @@
                             </button>
                             <button type="submit" class="btn btn-primary meeting_btn">Update Meeting</button>
                         </div>
-                        <div class="clearfix"></div>
                     </form>
                 </div>
             </div>

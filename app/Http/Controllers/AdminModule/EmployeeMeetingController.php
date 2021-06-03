@@ -86,7 +86,7 @@ class EmployeeMeetingController extends Controller
             'header' => "CR Management System",
             'title' => Auth::user()->name . ' rescheduled a meeting for ' . $employee->name . ' in ' . $cr->name . " CR",
             'body' => 'Timings: ' . $meeting_start_time . ' to ' . $meeting_end_time . ' on ' . $request->meeting_date,
-            'footer' => 'If you have any concerns with this leave, please talk to Admin. Thank you.',
+            'footer' => 'If you have any concerns with this rescheduling, please talk to Admin. Thank you.',
         ];
 
         // \Mail::to($employee->email)->send(new MeetingBookingMail($meetingDetails));
@@ -125,10 +125,28 @@ class EmployeeMeetingController extends Controller
 
         $meeting = Meeting::find($id);
 
+        $cr = $meeting->conferenceRoom()->first();
+
+        $employee = $meeting->user()->first();
+
         $event = Event::find($meeting->event_id);
 
         $event->delete();
         $meeting->delete();
+
+        //mail
+
+        $meeting_start_time = Carbon::parse($meeting->from_time, 'Asia/Kolkata')->format("h:i A");
+        $meeting_end_time = Carbon::parse($meeting->to_time, 'Asia/Kolkata')->format("h:i A");
+
+        $meetingDetails = [
+            'header' => "CR Management System",
+            'title' => Auth::user()->name . ' cancelled your meeting in ' . $cr->name . " CR",
+            'body' => 'For the time: ' . $meeting_start_time . ' to ' . $meeting_end_time . ' on ' . $meeting->meeting_date,
+            'footer' => 'If you have any concerns with this cancellation, please talk to Admin. Thank you.',
+        ];
+
+        // \Mail::to($employee->email)->send(new MeetingBookingMail($meetingDetails));
 
         return Response::json(array(
             'success' => true,

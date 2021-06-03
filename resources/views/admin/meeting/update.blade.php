@@ -82,11 +82,13 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-primary mt-2 loading" style="display: none;" type="button">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span class="sr-only">Loading...</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary mt-2" id="meeting_btn">Update Meeting</button>
+                        <div class="form-group mt-5 text-center">
+                            <button class="btn btn-primary mt-2 loading" style="display: none;" type="button">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="sr-only">Loading...</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary mt-2" id="meeting_btn">Update Meeting</button>
+                        </div>
                         <div class="clearfix"></div>
                     </form>
                 </div>
@@ -157,7 +159,7 @@
 
                     success: function(response) {
                         $('.loading').hide();
-                 
+
                         swal("Done", "Successfully Booked", "success");
                         window.location.href = "{{ route('admin.meetings.index') }}"
                         $('#meeting_btn').show();
@@ -169,7 +171,7 @@
                         let errors = '';
                         for (const key in validation_errors) {
                             errors += validation_errors[key];
-                            // errors += '\n';
+                            errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
                         $('#meeting_btn').show();
