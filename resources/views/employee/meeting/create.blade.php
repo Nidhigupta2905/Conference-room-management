@@ -75,9 +75,14 @@
 
 
                         <div class="form-group text-center mt-5">
-                            <button class="btn btn-primary  loading" style="display: none;" type="button">
+                            {{-- <button class="btn btn-primary  loading" style="display: none;" type="button">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="sr-only">Loading...</span>
+                            </button> --}}
+
+                            <button class="btn btn-primary loading" type="button" style="display: none;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
                             </button>
                             <button type="submit" class="btn btn-primary meeting_btn">Book Meeting</button>
 

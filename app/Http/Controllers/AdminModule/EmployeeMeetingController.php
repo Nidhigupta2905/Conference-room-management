@@ -160,10 +160,7 @@ class EmployeeMeetingController extends Controller
     public function meetingHistory(Request $request)
     {
         //auto delete meetings for previous 2 days
-        $delete_meetings = Meeting::where('meeting_date', '<', Carbon::now()->subDays(2))->get();
-        foreach ($delete_meetings as $delete_meeting) {
-            $delete_meeting->delete();
-        }
+        $delete_meetings = Meeting::where('meeting_date', '<', Carbon::now()->subDays(2))->forceDelete();
 
         $meetings = Meeting::withTrashed(['user', 'conferenceRoom'])
             ->orderBy('meeting_date', 'DESC')

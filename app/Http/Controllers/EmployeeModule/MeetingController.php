@@ -200,10 +200,7 @@ class MeetingController extends Controller
     {
 
         //auto delete meetings for previous 2 days
-        $delete_meetings = Meeting::where('meeting_date', '<', Carbon::now()->subDays(2))->get();
-        foreach ($delete_meetings as $delete_meeting) {
-            $delete_meeting->delete();
-        }
+        $delete_meetings = Meeting::where('meeting_date', '<', Carbon::now()->subDays(2))->forceDelete();
 
         $user = Auth::user();
         $meeting = $user->meetings()->withTrashed([

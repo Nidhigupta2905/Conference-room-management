@@ -36,10 +36,10 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-primary loading" style="display: none;" type="button">
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span class="sr-only">Loading...</span>
-                        </button>
+                         <button class="btn btn-primary loading" type="button" style="display: none;">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Loading...
+                            </button>
                         <button type="submit" class="btn btn-primary float-left meeting_btn">Submit</button>
                         <div class="clearfix"></div>
                     </form>

@@ -12,6 +12,7 @@ class Meeting extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+    protected $dates = ['deleted_at'];
 
     /**
      * Get the user that owns the Meeting

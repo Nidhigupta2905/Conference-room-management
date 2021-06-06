@@ -81,9 +81,10 @@
                         </div>
 
                         <div class="form-group mt-5 text-center">
-                            <button class="btn btn-primary loading" style="display: none;" type="button">
+                        
+                            <button class="btn btn-primary loading" type="button" style="display: none;">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                <span class="sr-only">Loading...</span>
+                                Loading...
                             </button>
                             <button type="submit" class="btn btn-primary meeting_btn">Update Meeting</button>
                         </div>
