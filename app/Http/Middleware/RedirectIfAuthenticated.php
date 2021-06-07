@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class RedirectIfAuthenticated
 {
@@ -25,10 +24,13 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
 
-                if(Auth::user()->role_id == User::ROLES['ADMIN']){
+                if (Auth::user()->role_id == User::ROLES['ADMIN']) {
                     return redirect()->route('admin.home');
-                }else if(Auth::user()->role_id == User::ROLES['EMPLOYEE']){
+                } else if (Auth::user()->role_id == User::ROLES['EMPLOYEE']) {
                     return redirect()->route('employee.dashboard');
+                } else {
+                    Auth::logout();
+                    return redirect()->back()->withErrors(["email" => "These credentials do not match our record"]);
                 }
             }
         }

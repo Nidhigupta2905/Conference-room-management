@@ -84,7 +84,7 @@
                         
                             <button class="btn btn-primary loading" type="button" style="display: none;">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Loading...
+                                Updating...
                             </button>
                             <button type="submit" class="btn btn-primary meeting_btn">Update Meeting</button>
                         </div>

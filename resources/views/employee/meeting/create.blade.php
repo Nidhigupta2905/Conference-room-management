@@ -82,7 +82,7 @@
 
                             <button class="btn btn-primary loading" type="button" style="display: none;">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                Loading...
+                                Booking...
                             </button>
                             <button type="submit" class="btn btn-primary meeting_btn">Book Meeting</button>
 

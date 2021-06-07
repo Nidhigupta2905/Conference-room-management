@@ -40,7 +40,7 @@
                         </div>
                         <button class="btn btn-primary loading" type="button" style="display: none;">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Loading...
+                            Updating...
                         </button>
                         <button type="submit" class="btn btn-primary float-left meeting_btn">Update Name</button>
                         <div class="clearfix"></div>
