@@ -7,6 +7,7 @@ use App\Http\Requests\admin\conferenceRoom\StoreFormRequest;
 use App\Models\ConferenceRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Meeting;
 
 class ConferenceRoomController extends Controller
 {
@@ -61,9 +62,15 @@ class ConferenceRoomController extends Controller
      */
     public function show($id)
     {
+        $meetings = Meeting::where('conference_room_id', $id)
+            ->orderBy('meeting_date', 'ASC')
+            ->withTrashed('user', 'conferenceRoom')
+            ->get();
+
         $cr_room = ConferenceRoom::find($id);
         return view('admin.conference_room.show')->with([
             'cr_room' => $cr_room,
+            'meetings' => $meetings,
             'page' => 'cr_room',
         ]);
     }
