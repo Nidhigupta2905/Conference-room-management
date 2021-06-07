@@ -39,7 +39,6 @@
 
                             <a class="btn btn-info float-right" href="{{ route('admin.conference_room.create') }}"><i
                                     class="fas fa-folder-plus"></i>Add</a>
-                            <h4 class="card-title ">Simple Table</h4>
                         </div>
                         <div class="card-body">
 

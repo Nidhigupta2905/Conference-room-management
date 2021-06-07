@@ -5,9 +5,10 @@ namespace App\Http\Controllers\AdminModule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\admin\conferenceRoom\StoreFormRequest;
 use App\Models\ConferenceRoom;
+use App\Models\Meeting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Meeting;
+use Carbon\Carbon;
 
 class ConferenceRoomController extends Controller
 {
@@ -136,6 +137,25 @@ class ConferenceRoomController extends Controller
             "data" => $id,
         ), 200);
 
+    }
+
+    public function activeMeetings($id)
+    {
+        $today = Carbon::now()->startOfDay();
+
+        $meetings = Meeting::where('conference_room_id', $id)
+            ->where('deleted_at', null)
+            ->where('meeting_date', $today)
+            ->orderBy('meeting_date', 'ASC')
+            ->with('user', 'conferenceRoom')
+            ->get();
+
+        $cr_room = ConferenceRoom::find($id);
+        return view('admin.conference_room.active-meetings')->with([
+            'cr_room' => $cr_room,
+            'meetings' => $meetings,
+            'page' => 'cr_room',
+        ]);
     }
 
 }

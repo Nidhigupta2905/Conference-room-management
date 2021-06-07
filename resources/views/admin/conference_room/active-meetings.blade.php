@@ -6,10 +6,8 @@
 @section('content')
 
     <div class="card mt-5" id="card">
-        <div class="card-header card-header-primary">
 
-            <a class="btn btn-info float-right" href="{{ route('admin.cr.active-meetings', ['id'=> $cr_room->id]) }}">Today's Active Meeting</a>
-        </div>
+        
 
         <div class="card-body">
             <h1 class="text-danger">{{ $cr_room->name }}</h1>
