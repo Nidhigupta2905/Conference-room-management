@@ -166,7 +166,7 @@
                         let errors = '';
                         for (const key in validation_errors) {
                             errors += validation_errors[key];
-                            // errors += '\n';
+                            errors += '\n';
                         }
                         swal("Cancelled", errors, 'error');
                         $('.meeting_btn').show();
