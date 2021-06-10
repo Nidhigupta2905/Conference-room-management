@@ -138,7 +138,8 @@ This command will publish a file called google-calendar.php in your config-direc
 
     ];
 
-##Folder Structure.
+## Folder Structure.
+
 +-- app
 +-- bootstrap
 +-- config
