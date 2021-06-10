@@ -146,7 +146,7 @@ class MeetingController extends Controller
             'footer' => 'If you have any concerns with this leave, please talk to Admin. Thank you.',
         ];
 
-        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+        \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
         //google calendar events
         $event = new Event();
