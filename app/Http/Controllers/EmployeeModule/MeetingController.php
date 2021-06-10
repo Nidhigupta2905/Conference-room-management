@@ -88,7 +88,7 @@ class MeetingController extends Controller
             'footer' => 'If you have any concerns with this meeting, please talk to the Admin. Thank you.',
         ];
 
-        // \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
+        \Mail::to(Auth::user()->email)->send(new MeetingBookingMail($meetingDetails));
 
         return Response::json(array(
             'success' => true,
