@@ -55,6 +55,7 @@ php artisan storage:link
 ## install Socialite
 
 1. To get started with Socialite, use the Composer package manager to add the package to your project's dependencies:
+
    shell
    composer require laravel/socialite
 
@@ -92,9 +93,11 @@ then add the following to config/app.php
     composer require spatie/laravel-google-calendar
 
 2.  then publish the configuration with this command:
+    
     php artisan vendor:publish --provider="Spatie\GoogleCalendar\GoogleCalendarServiceProvider"
 
-        This command will publish a file called google-calendar.php in your config-directory with these contents:
+This command will publish a file called google-calendar.php in your config-directory with these contents:
+
         return [
 
         'default_auth_profile' => env('GOOGLE_CALENDAR_AUTH_PROFILE', 'service_account'),
