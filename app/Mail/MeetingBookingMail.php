@@ -30,7 +30,7 @@ class MeetingBookingMail extends Mailable
      */
     public function build()
     {
-        return $this->subject(Auth::user()->name . ' booked a meeting')
+        return $this->subject("CR Management System")
             ->markdown('employee.mail.email');
     }
 }

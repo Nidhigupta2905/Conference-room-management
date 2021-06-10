@@ -89,7 +89,7 @@ class EmployeeMeetingController extends Controller
             'footer' => 'If you have any concerns with this rescheduling, please talk to Admin. Thank you.',
         ];
 
-        // \Mail::to($employee->email)->send(new MeetingBookingMail($meetingDetails));
+        \Mail::to($employee->email)->send(new MeetingBookingMail($meetingDetails));
 
         //google calendar events
         $event = new Event();

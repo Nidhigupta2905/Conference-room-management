@@ -142,7 +142,7 @@ class MeetingController extends Controller
         $meetingDetails = [
             'header' => "CR Management System",
             'title' => Auth::user()->name . ' rescheduled a meeting in ' . $cr->name . " CR",
-            'body' => 'Timings: ' . $meeting_start_time . ' to ' . $meeting_end_time . ' on ' . $request->meeting_date ,
+            'body' => 'Timings: ' . $meeting_start_time . ' to ' . $meeting_end_time . ' on ' . $request->meeting_date,
             'footer' => 'If you have any concerns with this leave, please talk to Admin. Thank you.',
         ];
 
