@@ -1,62 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# CR Management System
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## System Requirements
 
-## About Laravel
+1. PHP (Version 7.0.0+)
+2. Composer
+3. Git
+4. NPM
+5. Mysql (Version 5.6.35)
+6. 1 GB Ram(at least)
+7. Apache Web Server(Version 2.4)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Framework Used
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Laravel 8.0 for PHP
+2. Jquery and ajax for front end,
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Packages Used
 
-## Learning Laravel
+1. Socialite for Google Login
+2. Spatie for Google Calendar access
+3. Mailtrap for sending mails
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Project Setup
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Git clone the repository.
+2. Run composer install to load PHP dependencies to root of project folder.
 
-## Laravel Sponsors
+    shell
+    composer install
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+3. Run npm install to load Node dependencies to root of project folder.
 
-### Premium Partners
+    shell
+    npm install
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+4. Create a .env file to the root of the project folder if not created by copying the .env.example file.
 
-## Contributing
+5. Setup the configuration of app environment as local, database connection and other settings in .env file.
+6. Setup virtual host and point the document location to public folder.
+7. Turn on mod_rewrite engine for apache.
+8. Setup database by running migration command
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    shell
+    php artisan migrate 9. Set some default users by running seed command
 
-## Code of Conduct
+    shell
+    php artisan db:seed
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+9. Create the symbolic link for storage
 
-## Security Vulnerabilities
+shell
+php artisan storage:link
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## install Socialite
 
-## License
+1. To get started with Socialite, use the Composer package manager to add the package to your project's dependencies:
+   shell
+   composer require laravel/socialite
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+then add the following to config/app.php
+
+    'providers' => [
+
+        ....
+
+        Laravel\Socialite\SocialiteServiceProvider::class,
+
+    ],
+
+    'aliases' => [
+
+        ....
+
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
+    ],
+
+2. then set the app id, secret and call back url in config file so open config/services.php and set id and secret this way:
+   return [
+   ....
+   'google' => [
+   'client_id' => 'app id',
+   'client_secret' => 'add secret',
+   'redirect' => 'http://localhost:8000/auth/google/callback',
+   ],
+   ]
+
+## install Spatie
+
+1.  Install the package via composer
+    composer require spatie/laravel-google-calendar
+
+2.  then publish the configuration with this command:
+    php artisan vendor:publish --provider="Spatie\GoogleCalendar\GoogleCalendarServiceProvider"
+
+        This command will publish a file called google-calendar.php in your config-directory with these contents:
+        return [
+
+        'default_auth_profile' => env('GOOGLE_CALENDAR_AUTH_PROFILE', 'service_account'),
+
+        'auth_profiles' => [
+
+            /*
+             * Authenticate using a service account.
+             */
+            'service_account' => [
+                /*
+                 * Path to the json file containing the credentials.
+                 */
+                'credentials_json' => storage_path('app/google-calendar/service-account-credentials.json'),
+            ],
+
+            /*
+             * Authenticate with actual google user account.
+             */
+            'oauth' => [
+                /*
+                 * Path to the json file containing the oauth2 credentials.
+                 */
+                'credentials_json' => storage_path('app/google-calendar/oauth-credentials.json'),
+
+                /*
+                 * Path to the json file containing the oauth2 token.
+                 */
+                'token_json' => storage_path('app/google-calendar/oauth-token.json'),
+            ],
+        ],
+
+        /*
+         *  The id of the Google Calendar that will be used by default.
+         */
+        'calendar_id' => env('GOOGLE_CALENDAR_ID'),
+
+    ];
+
+##Folder Structure.
++-- app
++-- bootstrap
++-- config
++-- database
++-- public
+| +-- admin
+| +-- dist
+| +-- plugins
+| +-- css
+| +-- js
++-- resources
+| +-- css
+| +-- js
+| +-- lang
+| +-- sass
+| +-- views
++-- routes
+| +-- routes
++-- storage
++-- tests
++-- vendor
