@@ -78,13 +78,14 @@ then add the following to config/app.php
     ],
 
 2. then set the app id, secret and call back url in config file so open config/services.php and set id and secret this way:
+
    return [
-   ....
-   'google' => [
-   'client_id' => 'app id',
-   'client_secret' => 'add secret',
-   'redirect' => 'http://localhost:8000/auth/google/callback',
-   ],
+        ....
+        'google' => [
+        'client_id' => 'app id',
+        'client_secret' => 'add secret',
+        'redirect' => 'http://localhost:8000/auth/google/callback',
+        ],
    ]
 
 ## install Spatie
