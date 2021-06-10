@@ -31,7 +31,6 @@
 
 3. Run npm install to load Node dependencies to root of project folder.
 
-    shell
     npm install
 
 4. Create a .env file to the root of the project folder if not created by copying the .env.example file.
@@ -41,23 +40,21 @@
 7. Turn on mod_rewrite engine for apache.
 8. Setup database by running migration command
 
-    shell
-    php artisan migrate 9. Set some default users by running seed command
+    php artisan migrate 
 
-    shell
+9. Set some default users by running seed command
+
     php artisan db:seed
 
-9. Create the symbolic link for storage
+10. Create the symbolic link for storage
 
-shell
-php artisan storage:link
+    php artisan storage:link
 
 ## install Socialite
 
 1. To get started with Socialite, use the Composer package manager to add the package to your project's dependencies:
 
-   shell
-   composer require laravel/socialite
+    composer require laravel/socialite
 
 then add the following to config/app.php
 
@@ -91,11 +88,12 @@ then add the following to config/app.php
 ## install Spatie
 
 1.  Install the package via composer
-    composer require spatie/laravel-google-calendar
+
+        composer require spatie/laravel-google-calendar
 
 2.  then publish the configuration with this command:
     
-    php artisan vendor:publish --provider="Spatie\GoogleCalendar\GoogleCalendarServiceProvider"
+        php artisan vendor:publish --provider="Spatie\GoogleCalendar\GoogleCalendarServiceProvider"
 
 This command will publish a file called google-calendar.php in your config-directory with these contents:
 
