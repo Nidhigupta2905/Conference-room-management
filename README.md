@@ -140,24 +140,24 @@ This command will publish a file called google-calendar.php in your config-direc
 
 ## Folder Structure.
 
-+-- app
-+-- bootstrap
-+-- config
-+-- database
-+-- public
-| +-- admin
-| +-- dist
-| +-- plugins
-| +-- css
-| +-- js
-+-- resources
-| +-- css
-| +-- js
-| +-- lang
-| +-- sass
-| +-- views
-+-- routes
-| +-- routes
-+-- storage
-+-- tests
-+-- vendor
+    +-- app
+    +-- bootstrap
+    +-- config
+    +-- database
+    +-- public
+    | +-- admin
+    | +-- dist
+    | +-- plugins
+    | +-- css
+    | +-- js
+    +-- resources
+    | +-- css
+    | +-- js
+    | +-- lang
+    | +-- sass
+    | +-- views
+    +-- routes
+    | +-- routes
+    +-- storage
+    +-- tests
+    +-- vendor
