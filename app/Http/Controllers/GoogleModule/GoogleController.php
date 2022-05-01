@@ -30,9 +30,9 @@ class GoogleController extends Controller
             } else {
 
                 //new user
-                $match_email = preg_match('/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(ithands)\.com|\.biz$/i', $google_obj->user['email']);
+                
 
-                if ($match_email) {
+                
 
                     $new_employee = User::create([
                         'name' => $google_obj->user['name'],
@@ -44,11 +44,9 @@ class GoogleController extends Controller
 
                     Auth::login($new_employee, true);
                     return redirect()->route('employee.meeting.index');
-                } else {
-                    $request->session()->flash("error", "Mail should be @ithands.com | @ithands.biz");
-                    return redirect()->back();
+                
 
-                }
+                
 
             }
         } catch (Exception $e) {

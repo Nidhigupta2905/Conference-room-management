@@ -29,25 +29,7 @@ class UserSeeder extends Seeder
             'role_id' => User::ROLES['ADMIN'],
         ]);
 
-        DB::table('users')->insert([
-            'name' => 'superuser',
-            'email' => 'superuser@ithands.com',
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'created_at' => now(),
-            'updated_at' => now(),
-            'role_id' => User::ROLES['ADMIN'],
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'master',
-            'email' => 'master@ithands.biz',
-            'password' => Hash::make('password'),
-            'remember_token' => Str::random(10),
-            'created_at' => now(),
-            'updated_at' => now(),
-            'role_id' => User::ROLES['ADMIN'],
-        ]);
+        
 
     }
 }

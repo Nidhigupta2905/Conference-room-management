@@ -53,7 +53,7 @@ class LoginController extends Controller
         Validator::make($request->all(), [
             'email' => [
                 'required',
-                'regex:/^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(ithands)\.com|\.biz$/i',
+                'email:rfc,dns'
             ],
         ])->validate();
         
